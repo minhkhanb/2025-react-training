@@ -1,5 +1,6 @@
 import { FormField } from '@src/components/FormField';
 import { Task, useTask } from '@src/components/Providers/TaskProvider';
+import Button from '@src/components/ui/Button';
 import Form from '@src/components/ui/Form';
 import Input from '@src/components/ui/Input';
 import { toast } from '@src/modules/toast';
@@ -45,12 +46,7 @@ const AddTaskForm = () => {
           <FormField name="subtitle" component={Input} placeholder="Subtitle" />
         </div>
       </div>
-      <button
-        type="submit"
-        className="text-sm text-white bg-blue-300 px-4 py-2 rounded-md cursor-pointer"
-      >
-        Add Task
-      </button>
+      <Button>Add Task</Button>
     </Form>
   );
 };

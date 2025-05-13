@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "lint:fix": "eslint --fix \"**/*.{js,jsx,ts,tsx}\" && prettier --write \"**/*.{js,jsx,ts,tsx,json,md,css}\"",
-    "prepare": "husky"
+    "prepare": "husky",
+    "test": "echo \"No tests yet\" && exit 0"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",

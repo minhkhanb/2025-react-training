@@ -1,0 +1,27 @@
+@media print {
+  @page {
+    size: A3 landscape;
+  }
+
+  body,
+  html {
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+    display: block;
+    height: initial !important;
+    overflow: initial !important;
+  }
+
+  body {
+    zoom: 70%;
+  }
+
+  .hide-on-print {
+    display: none !important;
+  }
+
+  .main-layout {
+    display: block;
+    padding-top: 0 !important;
+  }
+}

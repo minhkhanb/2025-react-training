@@ -1,10 +1,9 @@
 import React, { cloneElement } from 'react';
 import { FormFieldProps } from '../../types/IForm';
-import { Controller } from 'react-hook-form';
-import { useFormContextSafe } from '../../hooks/useFormContextSave';
+import { Controller, useFormContext } from 'react-hook-form';
 
 export default function FormField({ name, child }: FormFieldProps) {
-  const { control } = useFormContextSafe();
+  const { control } = useFormContext();
 
   return (
     <Controller

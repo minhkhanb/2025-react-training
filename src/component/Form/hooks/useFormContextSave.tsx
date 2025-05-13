@@ -1,16 +1,14 @@
 import { createContext, useContext } from 'react';
-import { Control, FieldValues } from 'react-hook-form';
+import { FormOptions } from '../types/IForm';
 
-interface FormContextProps {
-  control: Control<FieldValues>;
-}
-
-export const FormContext = createContext<FormContextProps | undefined>(undefined);
+export const FormOptionsContext = createContext<FormOptions>({} as FormOptions);
 
 export function useFormContextSafe() {
-  const context = useContext(FormContext);
+  const context = useContext(FormOptionsContext);
+
   if (!context) {
     throw new Error('FormField must be used within a Form');
   }
+
   return context;
 }

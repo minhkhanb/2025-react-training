@@ -64,7 +64,19 @@ export default function Test() {
           error={country === '' ? 'Bạn phải chọn quốc gia' : undefined}
         />
       </div>
+
       <TestForm />
+
+      <div onClick={() => console.log('div clicked')}>
+        <button
+          onClick={e => {
+            e.stopPropagation();
+            console.log('button clicked');
+          }}
+        >
+          Click me
+        </button>
+      </div>
     </div>
   );
 }

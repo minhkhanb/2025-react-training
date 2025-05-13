@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { SubmitHandler } from 'react-hook-form';
+import { FormState } from 'react-hook-form';
 // import { IFormInput } from '../../types/IFormInput';
 import { ToastType } from '@/component/Toast/types/IToast';
 import { useToast } from '@/component/Toast/hooks/useToast';
@@ -14,8 +14,15 @@ import Dropdown from '@/component/ui/Dropdown';
 export default function TestForm() {
   const { showToast } = useToast();
 
-  const onSubmit: SubmitHandler<Record<string, unknown>> = data => {
-    console.log(data);
+  const onSubmit:
+    | ((
+        values: Record<string, unknown>,
+        defaultValues?: Record<string, unknown>,
+        formState?: FormState<Record<string, unknown>>,
+        formHandlers?: unknown
+      ) => unknown)
+    | undefined = (values, defaultValues, formState, formHandlers) => {
+    console.log(values, defaultValues, formState, formHandlers);
   };
 
   const schema = yup
@@ -40,6 +47,7 @@ export default function TestForm() {
         },
       }}
       validationSchema={schema}
+      // mode="onChange"
     >
       <Form.FormField
         name={'firstName'}

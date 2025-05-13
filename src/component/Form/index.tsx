@@ -1,24 +1,65 @@
 'use client';
 
-import React from 'react';
+import React, { useId, useRef } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { DefaultValues, Resolver, useForm } from 'react-hook-form';
-import { FormProps } from './types/IForm';
+import { FormProvider, useForm } from 'react-hook-form';
+import { FormProps, SubmitMode } from './types/IForm';
 import FormField from './components/FormField';
 import { withProperties } from '@/utils/types';
-import { FormContext } from './hooks/useFormContextSave';
-function Form({ defaultValues, validationSchema, onSubmit, children }: FormProps) {
-  const { control, handleSubmit } = useForm({
-    defaultValues: defaultValues as DefaultValues<Record<string, unknown>>,
-    resolver: yupResolver(validationSchema) as Resolver,
+import { FormOptionsContext } from './hooks/useFormContextSave';
+function Form({
+  mode,
+  validationSchema,
+  submitMode = SubmitMode.onSubmitButton,
+  defaultValues = {},
+  showUnsavedChangesDialog: _,
+  children,
+  ...props
+}: FormProps) {
+  const formHandlers = useForm({
+    mode,
+    resolver: validationSchema && yupResolver(validationSchema),
+    defaultValues,
   });
+
+  console.log(_ ? 'true' : 'false');
+
+  const formRef = useRef<HTMLFormElement>(null);
+  const [formId] = useId();
+
+  const onSubmit = async (evt: React.FormEvent<HTMLFormElement>) => {
+    if (evt) {
+      if (typeof evt.preventDefault === 'function') {
+        evt.preventDefault();
+      }
+
+      if (typeof evt.stopPropagation === 'function') {
+        // Prevent any outer forms from receiving the submit event
+        evt.stopPropagation();
+      }
+    }
+
+    return formHandlers.handleSubmit(async values => {
+      try {
+        if (props.onSubmit) {
+          await props.onSubmit(values, defaultValues, formHandlers.formState, formHandlers);
+        }
+      } catch (err) {
+        console.log('PDebug err debug: ', err);
+      }
+    })(evt);
+  };
 
   //   console.log(getValues('firstName'));
 
   return (
-    <FormContext.Provider value={{ control }}>
-      <form onSubmit={handleSubmit(onSubmit)}>{children}</form>
-    </FormContext.Provider>
+    <FormOptionsContext.Provider value={{ submitMode, onSubmit, formId }}>
+      <FormProvider {...formHandlers}>
+        <form {...props} id={formId} ref={formRef} onSubmit={onSubmit}>
+          {children}
+        </form>
+      </FormProvider>
+    </FormOptionsContext.Provider>
   );
 }
 

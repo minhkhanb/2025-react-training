@@ -12,6 +12,7 @@ function Form({
   validationSchema,
   submitMode = SubmitMode.onSubmitButton,
   defaultValues = {},
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   showUnsavedChangesDialog: _,
   children,
   ...props
@@ -22,10 +23,10 @@ function Form({
     defaultValues,
   });
 
-  console.log(_ ? 'true' : 'false');
-
   const formRef = useRef<HTMLFormElement>(null);
-  const [formId] = useId();
+  const formId = useId();
+
+  // console.log(formId);
 
   const onSubmit = async (evt: React.FormEvent<HTMLFormElement>) => {
     if (evt) {

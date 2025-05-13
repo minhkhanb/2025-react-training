@@ -1,4 +1,4 @@
-import { FormState } from 'react-hook-form';
+import { FormState, UseFormReturn } from 'react-hook-form';
 import * as yup from 'yup';
 
 export enum SubmitMode {
@@ -14,7 +14,13 @@ export interface FormProps {
     values: Record<string, unknown>,
     defaultValues?: Record<string, unknown>,
     formState?: FormState<Record<string, unknown>>,
-    formHandlers?: unknown
+    formHandlers?: UseFormReturn<
+      Record<string, unknown>,
+      unknown,
+      {
+        [x: string]: unknown;
+      }
+    >
   ) => unknown;
   validationSchema?: yup.Lazy<never> | yup.ObjectSchema<Record<string, unknown>>;
   defaultValues?: Record<string, unknown>;
@@ -28,7 +34,13 @@ export interface FormOptions {
     values: React.FormEvent<HTMLFormElement>,
     defaultValues?: Record<string, unknown>,
     formState?: FormState<Record<string, unknown>>,
-    formHandlers?: unknown
+    formHandlers?: UseFormReturn<
+      Record<string, unknown>,
+      unknown,
+      {
+        [x: string]: unknown;
+      }
+    >
   ) => unknown;
   formId: string;
 }

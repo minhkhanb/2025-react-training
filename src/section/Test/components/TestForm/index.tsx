@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { FormState } from 'react-hook-form';
+import { FormState, UseFormReturn } from 'react-hook-form';
 // import { IFormInput } from '../../types/IFormInput';
 import { ToastType } from '@/component/Toast/types/IToast';
 import { useToast } from '@/component/Toast/hooks/useToast';
@@ -19,7 +19,13 @@ export default function TestForm() {
         values: Record<string, unknown>,
         defaultValues?: Record<string, unknown>,
         formState?: FormState<Record<string, unknown>>,
-        formHandlers?: unknown
+        formHandlers?: UseFormReturn<
+          Record<string, unknown>,
+          unknown,
+          {
+            [x: string]: unknown;
+          }
+        >
       ) => unknown)
     | undefined = (values, defaultValues, formState, formHandlers) => {
     console.log(values, defaultValues, formState, formHandlers);

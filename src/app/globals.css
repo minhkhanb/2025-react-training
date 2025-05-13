@@ -1,26 +1,57 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 @import 'tailwindcss';
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+body {
+  font-family: 'Poppins', sans-serif;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@keyframes fadeInOverlay {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@keyframes fadeOutOverlay {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    scale: 0.9;
+  }
+  to {
+    opacity: 1;
+    scale: 1;
+  }
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+    scale: 0.9;
+  }
+}
+
+@layer utilities {
+  .animate-fade-out-overlay {
+    animation: fadeOutOverlay 0.5s forwards;
+  }
+
+  .animate-fade-in-overlay {
+    animation: fadeInOverlay 0.5s forwards;
+  }
+
+  .animate-fade-out {
+    animation: fadeOut 0.5s forwards;
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.5s forwards;
+  }
 }

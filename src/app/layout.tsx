@@ -1,18 +1,7 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
-
 import './globals.css';
-import ToastProvider from '@src/components/providers/Toast/Toast';
-
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
-});
-
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
-});
+import Layout from '@src/components/Layout';
+import ToastProvider from '@src/components/Providers/ToastProvider';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -26,9 +15,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <head>
+        <link
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+          rel="stylesheet"
+        />
+      </head>
+      <body>
         <ToastProvider />
-        {children}
+        <Layout>{children}</Layout>
       </body>
     </html>
   );

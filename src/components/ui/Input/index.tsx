@@ -5,7 +5,6 @@ interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
 }
 
 const Input = forwardRef<HTMLInputElement, Props>(({ placeholder, ...rest }, ref) => {
-  console.log(rest);
   return (
     <input
       ref={ref}

@@ -10,7 +10,7 @@ interface Props {
   children: React.ReactNode;
 }
 
-const Modal = ({ title, visible, onClose, children }: Props) => {
+const Modal = ({ title, visible, onClose, children, className }: Props) => {
   const [shouldRender, setShouldRender] = useState(visible);
   const [animate, setAnimate] = useState<string>('');
 
@@ -45,7 +45,8 @@ const Modal = ({ title, visible, onClose, children }: Props) => {
         ref={ref}
         className={cn(
           'rounded-sm p-5 gap-2 flex flex-col bg-white w-lg shadow ',
-          `animate-${animate}`
+          `animate-${animate}`,
+          className
         )}
       >
         <button

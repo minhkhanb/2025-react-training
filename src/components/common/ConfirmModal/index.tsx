@@ -9,7 +9,7 @@ interface Props {
 
 const ConfirmModal = ({ title, visible, onClose, children }: Props) => {
   return (
-    <Modal className="w-sm" title={title} visible={visible} onClose={onClose}>
+    <Modal className="w-xs" title={title} visible={visible} onClose={onClose}>
       {children}
     </Modal>
   );

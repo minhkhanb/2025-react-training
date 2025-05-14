@@ -34,8 +34,6 @@ export default function TestForm() {
     })
     .required();
 
-  // console.log(Form.FormField);
-
   return (
     <Form<IFormInput>
       onSubmit={onSubmit}

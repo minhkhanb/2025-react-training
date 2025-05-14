@@ -1,10 +1,10 @@
 'use client';
 
+import { useMemo, useState } from 'react';
 import { TodoItem } from '../TodoItem';
 import { EmptyState } from '../EmptyState';
 import { TodoListProps, TodoValue } from '../../types/ITodoList';
 import { Summary } from '../Summary';
-import { useMemo, useState } from 'react';
 import Pagination from '@/component/Pagination';
 
 export const TodoList = ({

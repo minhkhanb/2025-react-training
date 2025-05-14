@@ -1,32 +1,32 @@
 'use client';
 
-import React, { useId, useRef } from 'react';
+import React, { useEffect, useId, useRef } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { FormProvider, useForm } from 'react-hook-form';
+import { DefaultValues, FieldValues, FormProvider, useForm, UseFormReturn } from 'react-hook-form';
 import { FormProps, SubmitMode } from './types/IForm';
 import FormField from './components/FormField';
 import { withProperties } from '@/utils/types';
 import { FormOptionsContext } from './hooks/useFormContextSave';
-function Form({
+import * as yup from 'yup';
+
+function Form<T extends FieldValues>({
   mode,
   validationSchema,
   submitMode = SubmitMode.onSubmitButton,
-  defaultValues = {},
+  defaultValues = {} as T,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   showUnsavedChangesDialog: _,
   children,
   ...props
-}: FormProps) {
+}: FormProps<T>) {
   const formHandlers = useForm({
     mode,
-    resolver: validationSchema && yupResolver(validationSchema),
-    defaultValues,
+    resolver: validationSchema ? yupResolver(validationSchema as yup.ObjectSchema<T>) : undefined,
+    defaultValues: defaultValues as DefaultValues<T> | undefined,
   });
 
   const formRef = useRef<HTMLFormElement>(null);
   const formId = useId();
-
-  // console.log(formId);
 
   const onSubmit = async (evt: React.FormEvent<HTMLFormElement>) => {
     if (evt) {
@@ -43,7 +43,12 @@ function Form({
     return formHandlers.handleSubmit(async values => {
       try {
         if (props.onSubmit) {
-          await props.onSubmit(values, defaultValues, formHandlers.formState, formHandlers);
+          await props.onSubmit(
+            values as T,
+            defaultValues,
+            formHandlers.formState,
+            formHandlers as UseFormReturn<T, unknown, T>
+          );
         }
       } catch (err) {
         console.log('PDebug err debug: ', err);
@@ -51,12 +56,14 @@ function Form({
     })(evt);
   };
 
-  //   console.log(getValues('firstName'));
+  useEffect(() => {
+    formHandlers.reset(defaultValues);
+  }, [defaultValues, formHandlers]);
 
   return (
     <FormOptionsContext.Provider value={{ submitMode, onSubmit, formId }}>
       <FormProvider {...formHandlers}>
-        <form {...props} id={formId} ref={formRef} onSubmit={onSubmit}>
+        <form {...props} id={formId} ref={formRef} onSubmit={onSubmit} className={props.className}>
           {children}
         </form>
       </FormProvider>

@@ -9,12 +9,12 @@ interface Props {
 }
 
 const ConfirmDeleteTaskModal = ({ visible, onClose, task }: Props) => {
-  const { removeTask } = useTask();
+  const { handleRemoveTask } = useTask();
 
   if (!task) return;
 
   const handleDeleteTask = () => {
-    removeTask(task.id);
+    handleRemoveTask(task.id);
     toast({
       title: 'Success',
       message: 'Delete Task Successfully',

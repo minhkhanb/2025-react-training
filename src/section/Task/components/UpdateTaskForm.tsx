@@ -7,7 +7,7 @@ import Form from '@src/components/ui/Form';
 import SubmitButton from '@src/components/ui/SubmitButton';
 
 const UpdateTaskForm = ({ task }: { task: Task | undefined }) => {
-  const { updateTask } = useTask();
+  const { handleUpdateTask } = useTask();
 
   if (!task) return null;
 
@@ -18,7 +18,7 @@ const UpdateTaskForm = ({ task }: { task: Task | undefined }) => {
       title: data.title,
       subtitle: data.subtitle,
     };
-    updateTask(newTask);
+    handleUpdateTask(newTask);
     toast({
       title: 'Success',
       message: 'Update Task Successfully',

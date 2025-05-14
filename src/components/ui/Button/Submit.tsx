@@ -37,6 +37,8 @@ const Submit: FunctionComponent<ButtonProps> = ({
   }
   const Btn = button;
 
+  console.log('PDebug hideOnClean: ', cleanTxt, dirtyTxt, holdSpace);
+
   return (
     <Btn
       {...props}

@@ -3,14 +3,15 @@ import { FormValues, taskSchema } from '@src/validattions/TaskSchema';
 import { toast } from '@src/modules/toast';
 import { FormField } from '@src/components/FormField';
 import Input from '@src/components/ui/Input';
-import Button from '@src/components/ui/Button';
 import Form from '@src/components/ui/Form';
+import SubmitButton from '@src/components/ui/SubmitButton';
 
 const UpdateTaskForm = ({ task }: { task: Task | undefined }) => {
   const { updateTask } = useTask();
 
+  if (!task) return null;
+
   const onSubmit = (data: FormValues) => {
-    if (!task) return;
     const newTask: Task = {
       id: task.id,
       isCompleted: task.isCompleted,
@@ -32,7 +33,7 @@ const UpdateTaskForm = ({ task }: { task: Task | undefined }) => {
       onSubmit={onSubmit}
       validationSchema={taskSchema}
       mode="onChange"
-      defaultValues={{ title: task?.title, subtitle: task?.subtitle }}
+      defaultValues={{ title: task.title, subtitle: task.subtitle }}
     >
       <div>
         <label htmlFor="email" className="block text-sm/6 font-medium text-gray-900">
@@ -50,7 +51,7 @@ const UpdateTaskForm = ({ task }: { task: Task | undefined }) => {
           <FormField name="subtitle" component={Input} placeholder="Subtitle" />
         </div>
       </div>
-      <Button>Update Task</Button>
+      <SubmitButton>Update Task</SubmitButton>
     </Form>
   );
 };

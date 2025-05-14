@@ -1,8 +1,8 @@
 import { FormField } from '@src/components/FormField';
 import { Task, useTask } from '@src/components/Providers/TaskProvider';
-import Button from '@src/components/ui/Button';
 import Form from '@src/components/ui/Form';
 import Input from '@src/components/ui/Input';
+import SubmitButton from '@src/components/ui/SubmitButton';
 import { toast } from '@src/modules/toast';
 import { FormValues, taskSchema } from '@src/validattions/TaskSchema';
 import { UseFormReturn } from 'react-hook-form';
@@ -46,7 +46,7 @@ const AddTaskForm = () => {
           <FormField name="subtitle" component={Input} placeholder="Subtitle" />
         </div>
       </div>
-      <Button>Add Task</Button>
+      <SubmitButton>Add Task</SubmitButton>
     </Form>
   );
 };

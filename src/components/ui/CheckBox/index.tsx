@@ -1,41 +1,25 @@
-import React, { useState } from 'react';
-import { Option } from '../Select';
+import React from 'react';
 
 interface Props {
-  options: Option[];
+  label: string;
+  value: string;
   className?: string;
-  onChange?: (values: string[]) => void;
+  onChange?: (values: string) => void;
+  checked?: boolean;
 }
 
-const CheckBox = ({ onChange, options }: Props) => {
-  const [values, setValues] = useState<string[]>([]);
-
-  const handleChange = (value: string) => {
-    const updated = values.includes(value)
-      ? values.filter(item => item !== value)
-      : [...values, value];
-
-    setValues(updated);
-    onChange?.(updated);
-  };
-
+const CheckBox = ({ onChange, label, value, checked = false }: Props) => {
   return (
-    <fieldset>
-      <div className="flex items-center gap-6">
-        {options.map((option, index) => (
-          <label className="text-sm flex items-center gap-2" key={option.value + index}>
-            <input
-              type="checkbox"
-              name="gender"
-              value={option.value}
-              checked={values.includes(option.value)}
-              onChange={() => handleChange(option.value)}
-            />
-            {option.label}
-          </label>
-        ))}
-      </div>
-    </fieldset>
+    <label className="text-sm flex items-center gap-2">
+      <input
+        type="checkbox"
+        name="gender"
+        value={value}
+        checked={checked}
+        onChange={() => onChange?.(value)}
+      />
+      {label}
+    </label>
   );
 };
 

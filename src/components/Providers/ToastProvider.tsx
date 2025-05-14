@@ -19,8 +19,6 @@ function ToastProvider() {
     setToasts(prevState => prevState.filter(toast => toast.id !== id));
   };
 
-  console.log('Toats: ', toasts);
-
   return (
     <div id="toast">
       {/* Toast Success */}

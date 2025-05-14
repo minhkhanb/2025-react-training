@@ -8,10 +8,13 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 
 const Input = ({ inputRef, value, ...props }: InputProps) => {
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
   console.log('PDebug Input: ', inputRef, value, props);
 
 >>>>>>> 96ca764 (form with generic)
+=======
+>>>>>>> f648f87 (Remove extra code)
   return (
     <div>
       <input

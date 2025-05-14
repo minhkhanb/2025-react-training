@@ -64,6 +64,7 @@ export const ToDoForm = ({
         }}
         validationSchema={schema}
         // mode="onChange"
+        className="flex w-full"
       >
         <Form.FormField
           name={'message'}

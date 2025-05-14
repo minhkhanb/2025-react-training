@@ -56,7 +56,7 @@ function Form({
   return (
     <FormOptionsContext.Provider value={{ submitMode, onSubmit, formId }}>
       <FormProvider {...formHandlers}>
-        <form {...props} id={formId} ref={formRef} onSubmit={onSubmit}>
+        <form {...props} id={formId} ref={formRef} onSubmit={onSubmit} className={props.className}>
           {children}
         </form>
       </FormProvider>

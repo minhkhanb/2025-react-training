@@ -277,7 +277,7 @@ const SubmitButton: React.FunctionComponent<SubmitButtonProps> = ({
 
   const disabled = props.disabled || isSubmitting || (!isDirty && !isValid && isSubmitted);
   const children = (
-    <Button.Submit dirty={isDirty} submitting={isSubmitting || !submitting} disabled={disabled} />
+    <Button.Submit dirty={isDirty} submitting={isSubmitting || !!submitting} disabled={disabled} />
   );
 
   if (containerId) {

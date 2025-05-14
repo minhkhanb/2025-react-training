@@ -3,8 +3,7 @@
 import { toast } from '@src/modules/toast';
 import MainForm from '@src/components/common/MainForm';
 import React, { useRef } from 'react';
-import { Form, Input } from '@src/components/ui';
-import { cn } from '@src/utils/cn';
+import { Button, Form, Input } from '@src/components/ui';
 import * as yup from 'yup';
 
 const validationSchema = yup.object().shape({
@@ -77,15 +76,9 @@ export default function HelloWorld() {
             </div>
           </div>
         </div>
-        <button
-          type="submit"
-          className={cn(
-            'rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500',
-            'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 cursor-pointer'
-          )}
-        >
-          Sumit
-        </button>
+        <Button.Submit>Save Changes</Button.Submit>
+        <Form.SubmitButton />
+        <Button.BlueRounded inverted>Test Button</Button.BlueRounded>
       </MainForm>
       <div>
         <button className="btn btn--success" onClick={onSuccess}>

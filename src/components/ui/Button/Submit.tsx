@@ -30,23 +30,28 @@ const Submit: FunctionComponent<ButtonProps> = ({
   const cleanTxt = cleanText || props.children || 'Close';
   const dirtyTxt = dirtyText || props.children || 'Save';
 
-  console.log('PDebug hideOnClean: ', hideOnClean);
-
-  let holdSpace = dirtyText;
+  let holdSpace = dirtyTxt;
 
   if (cleanText?.length ?? 0 > (dirtyText?.length ?? 0)) {
-    holdSpace = cleanText;
+    holdSpace = cleanTxt;
   }
-
   const Btn = button;
+
+  console.log('PDebug hideOnClean: ', cleanTxt, dirtyTxt, holdSpace);
 
   return (
     <Btn
       {...props}
-      className={cn('duration-200 transition-all flex-col relative', props.className)}
+      className={cn(
+        'duration-200 transition-all flex-col relative',
+        props.className,
+        'min-w-[8rem] whitespace-nowrap px-4',
+        hideOnClean && !dirty && !submitting ? 'invisible' : 'visible'
+      )}
       type="submit"
       form={formId}
       disabled={disabled || submitting}
+      data-txt={`${submitting}-${dirty}-${holdSpace}`}
     >
       <>
         <div
@@ -61,7 +66,9 @@ const Submit: FunctionComponent<ButtonProps> = ({
           {dirtyTxt}
         </div>
 
-        <div>Spinner</div>
+        <div className={cn('absolute h-1/2 m-auto', submitting ? 'visible' : 'invisible h-0')}>
+          Spinner
+        </div>
 
         <div className="inline-flex invisible">{holdSpace}</div>
       </>

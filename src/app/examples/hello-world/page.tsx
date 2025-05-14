@@ -2,9 +2,18 @@
 
 import { toast } from '@src/modules/toast';
 import MainForm from '@src/components/common/MainForm';
-import React from 'react';
+import React, { useRef } from 'react';
+import { Form, Input } from '@src/components/ui';
+import { cn } from '@src/utils/cn';
+import * as yup from 'yup';
+
+const validationSchema = yup.object().shape({
+  firstName: yup.string().trim().required(),
+});
 
 export default function HelloWorld() {
+  const firstNameRef = useRef<HTMLInputElement>(null);
+
   const onSuccess = () => {
     toast({
       title: 'Success',
@@ -23,14 +32,61 @@ export default function HelloWorld() {
     });
   };
 
+  const defaultValues = {
+    firstName: '',
+    lastName: '',
+  };
+
+  console.log('PDebug firstNameRef: ', firstNameRef.current?.value);
+
   return (
-    <div>
-      <MainForm onSubmit={async values => console.log('PDebug submit with values: ', values)}>
-        <div>Implement Form</div>
-        <input type="submit" className="border" />
+    <div className="mx-auto max-w-2xl">
+      <MainForm
+        defaultValues={defaultValues}
+        validationSchema={validationSchema}
+        onSubmit={async values => console.log('PDebug submit with values: ', values)}
+      >
+        <div className="pb-12">
+          <h2 className="text-base/7 font-semibold text-gray-900">Personal Information</h2>
+          <p className="mt-1 text-sm/6 leading-6 text-gray-600">
+            Use a permanent address where you can receive mail.
+          </p>
+
+          <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+            <div className="sm:col-span-3">
+              <Form.FieldLabel title="First name" />
+              <Form.Field
+                inputRef={firstNameRef}
+                name="firstName"
+                component={Input}
+                onChange={evt =>
+                  console.log('PDebug onchange firstname: ', evt, firstNameRef.current)
+                }
+              />
+            </div>
+            <div className="sm:col-span-3">
+              <Form.FieldLabel title="Last name" />
+              <Form.Field
+                name="lastName"
+                placeholder="Last name"
+                component={Input}
+                onChange={evt =>
+                  console.log('PDebug onchange lastname: ', evt, firstNameRef.current)
+                }
+              />
+            </div>
+          </div>
+        </div>
+        <button
+          type="submit"
+          className={cn(
+            'rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500',
+            'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 cursor-pointer'
+          )}
+        >
+          Sumit
+        </button>
       </MainForm>
-      <h1>Hello World</h1>
-      <p>This is a simple example of a Next.js page.</p>
       <div>
         <button className="btn btn--success" onClick={onSuccess}>
           Show Success

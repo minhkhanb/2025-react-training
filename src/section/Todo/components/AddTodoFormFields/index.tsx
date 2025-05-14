@@ -28,7 +28,9 @@ export default function AddTodoFormFields({
         <Button
           onClick={() => {
             setTodoToUpdateAction(null);
+
             form.reset();
+
             setTodoSelectedValue('');
           }}
           label="Cancel"

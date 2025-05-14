@@ -77,13 +77,16 @@ export default function Todo() {
 
   const [confirmVisible, setConfirmVisible] = useState(false);
 
-  const onSubmit = (data: TodoValue) => {
-    if (todoToUpdate) {
-      handleUpdateTodoItem(data.message);
-    } else {
-      handleAddTodoItem(data);
-    }
-  };
+  const onSubmit = useCallback(
+    (data: TodoValue) => {
+      if (todoToUpdate) {
+        handleUpdateTodoItem(data.message);
+      } else {
+        handleAddTodoItem(data);
+      }
+    },
+    [handleAddTodoItem, handleUpdateTodoItem, todoToUpdate]
+  );
 
   const askUpdate = useCallback(
     (todo: TodoValue) => {

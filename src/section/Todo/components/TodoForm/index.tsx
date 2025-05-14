@@ -7,14 +7,15 @@ import Form from '@/component/Form';
 import * as yup from 'yup';
 import Input from '@/component/ui/Input';
 import AddTodoFormFields from '../AddTodoFormFields';
+import { memo } from 'react';
 
-export const ToDoForm = ({
+export const ToDoForm = memo(function TodoForm({
   todoSelectedValue,
   onSubmitAction,
   todoToUpdate,
   setTodoToUpdateAction,
   setTodoSelectedValue,
-}: TodoFormProps) => {
+}: TodoFormProps) {
   const onSubmit:
     | ((
         values: Record<string, unknown>,
@@ -88,4 +89,4 @@ export const ToDoForm = ({
       </Form>
     </div>
   );
-};
+});

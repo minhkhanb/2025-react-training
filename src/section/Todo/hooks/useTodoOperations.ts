@@ -13,11 +13,14 @@ export function useTodoOperations(initialTodos: TodoValue[] = []) {
 
   const { showToast } = useToast();
 
-  const handleAddTodoItem = (todoItem: TodoValue) => {
-    setTodoListData((pre: TodoValue[]) => [...pre, todoItem]);
+  const handleAddTodoItem = useCallback(
+    (todoItem: TodoValue) => {
+      setTodoListData((pre: TodoValue[]) => [...pre, todoItem]);
 
-    showToast(`Task ${todoItem.message} added successfully!`, ToastType.SUCCESS);
-  };
+      showToast(`Task ${todoItem.message} added successfully!`, ToastType.SUCCESS);
+    },
+    [showToast]
+  );
 
   const handleDeleteTodoItem = useCallback(
     (id: string, message: string) => {

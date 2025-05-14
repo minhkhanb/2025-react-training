@@ -54,10 +54,10 @@ const Pagination = ({
                 handleClick(1);
               }
             }}
-            className="px-1 text-gray-500 transition-all hover:text-blue-500 sm:px-2"
+            className="px-1 text-gray-500 transition-all sm:px-2"
             title="Go back 5 pages"
           >
-            <span className="group relative">
+            <span className="group relative cursor-pointer hover:text-blue-500">
               <span className="text-xs tracking-wide group-hover:opacity-0 sm:text-sm">•••</span>
 
               <span className="absolute inset-0 flex items-center justify-center opacity-0 transition group-hover:opacity-100">
@@ -75,10 +75,10 @@ const Pagination = ({
                 handleClick(totalPages);
               }
             }}
-            className="px-1 text-gray-500 transition-all hover:text-blue-500 sm:px-2"
+            className="px-1 text-gray-500 transition-all sm:px-2"
             title="Go forward 5 pages"
           >
-            <span className="group relative">
+            <span className="group relative cursor-pointer hover:text-blue-500">
               <span className="text-xs tracking-wide group-hover:opacity-0 sm:text-sm">•••</span>
 
               <span className="absolute inset-0 flex items-center justify-center opacity-0 transition group-hover:opacity-100">

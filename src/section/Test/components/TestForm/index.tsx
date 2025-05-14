@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { FormState, UseFormReturn } from 'react-hook-form';
-// import { IFormInput } from '../../types/IFormInput';
+import { IFormInput } from '../../types/IFormInput';
 import { ToastType } from '@/component/Toast/types/IToast';
 import { useToast } from '@/component/Toast/hooks/useToast';
 import Button from '@/component/ui/Button';
@@ -16,16 +16,10 @@ export default function TestForm() {
 
   const onSubmit:
     | ((
-        values: Record<string, unknown>,
-        defaultValues?: Record<string, unknown>,
-        formState?: FormState<Record<string, unknown>>,
-        formHandlers?: UseFormReturn<
-          Record<string, unknown>,
-          unknown,
-          {
-            [x: string]: unknown;
-          }
-        >
+        values: IFormInput,
+        defaultValues?: IFormInput,
+        formState?: FormState<IFormInput>,
+        formHandlers?: UseFormReturn<IFormInput, unknown, IFormInput>
       ) => unknown)
     | undefined = (values, defaultValues, formState, formHandlers) => {
     console.log(values, defaultValues, formState, formHandlers);
@@ -43,16 +37,14 @@ export default function TestForm() {
   // console.log(Form.FormField);
 
   return (
-    <Form
+    <Form<IFormInput>
       onSubmit={onSubmit}
       defaultValues={{
         firstName: '',
         lastName: '',
-        iceCreamType: {
-          value: '',
-        },
+        iceCreamType: '',
       }}
-      validationSchema={schema}
+      validationSchema={schema as yup.ObjectSchema<IFormInput>}
       // mode="onChange"
     >
       <Form.FormField

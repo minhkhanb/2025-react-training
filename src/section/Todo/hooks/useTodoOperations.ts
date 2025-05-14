@@ -67,6 +67,8 @@ export function useTodoOperations(initialTodos: TodoValue[] = []) {
       showToast(`Task ${message} updated successfully!`, ToastType.SUCCESS);
 
       setTodoSelectedValue('');
+
+      setTodoToUpdate(null);
     },
     [showToast, todoToUpdate?.id]
   );

@@ -36,8 +36,6 @@ export default function HelloWorld() {
     lastName: '',
   };
 
-  console.log('PDebug firstNameRef: ', firstNameRef.current?.value);
-
   return (
     <div className="mx-auto max-w-2xl">
       <MainForm
@@ -54,25 +52,11 @@ export default function HelloWorld() {
           <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
             <div className="sm:col-span-3">
               <Form.FieldLabel title="First name" />
-              <Form.Field
-                inputRef={firstNameRef}
-                name="firstName"
-                component={Input}
-                onChange={evt =>
-                  console.log('PDebug onchange firstname: ', evt, firstNameRef.current)
-                }
-              />
+              <Form.Field inputRef={firstNameRef} name="firstName" component={Input} />
             </div>
             <div className="sm:col-span-3">
               <Form.FieldLabel title="Last name" />
-              <Form.Field
-                name="lastName"
-                placeholder="Last name"
-                component={Input}
-                onChange={evt =>
-                  console.log('PDebug onchange lastname: ', evt, firstNameRef.current)
-                }
-              />
+              <Form.Field name="lastName" placeholder="Last name" component={Input} />
             </div>
           </div>
         </div>

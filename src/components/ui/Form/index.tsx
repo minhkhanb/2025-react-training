@@ -190,7 +190,6 @@ const FieldInput = <T extends React.ElementType>({
       if (evt === undefined) return null;
       value = evt.target ? evt.target.value : evt;
     }
-    console.log('PDebug onChange: ', args, evt, data, value);
 
     onSubmitDebounced();
 
@@ -234,7 +233,6 @@ const FormErrorMessage: React.FunctionComponent = ({
   let errorMessage = '';
 
   if (Object.entries(errors).length > 0) {
-    console.log('PDebug FormErrorMessage: ', errors, errorMessage);
     errorMessage = errors.root?.message || message;
   }
 

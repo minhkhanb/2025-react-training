@@ -7,8 +7,6 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 }
 
 const Input = ({ inputRef, value, ...props }: InputProps) => {
-  console.log('PDebug Input: ', inputRef, value, props);
-
   return (
     <div>
       <input

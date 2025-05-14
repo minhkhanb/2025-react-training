@@ -12,7 +12,12 @@ export default function Todo() {
     { id: (Date.now() + 1).toString(), message: 'Learn ReactJS', isFinish: false },
     { id: (Date.now() + 2).toString(), message: 'Learn NextJS', isFinish: false },
     { id: (Date.now() + 3).toString(), message: 'Implement Todo List', isFinish: true },
-    { id: (Date.now() + 4).toString(), message: 'Implement Todo List', isFinish: false },
+    {
+      id: (Date.now() + 4).toString(),
+      message:
+        'Implement Todo Listâdssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss',
+      isFinish: false,
+    },
     { id: (Date.now() + 5).toString(), message: 'Implement Todo List', isFinish: false },
     { id: (Date.now() + 6).toString(), message: 'Implement Todo List', isFinish: false },
     { id: (Date.now() + 7).toString(), message: 'Implement Todo List', isFinish: false },

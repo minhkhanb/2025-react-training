@@ -15,7 +15,7 @@ export const TodoItem = memo(function TodoItem({
 
   return (
     <div className="group flex items-center justify-between p-4 transition-all duration-200 hover:bg-gray-50">
-      <div className="flex flex-1 items-center">
+      <div className="flex flex-1 items-center overflow-hidden">
         <div className="relative">
           <input
             type="checkbox"
@@ -24,7 +24,12 @@ export const TodoItem = memo(function TodoItem({
             className="h-5 w-5 cursor-pointer rounded-md border-gray-300 text-indigo-600 focus:ring-indigo-500"
           />
         </div>
-        <h2 className={cn('ml-3 text-gray-800', todoItem.isFinish && 'text-gray-400 line-through')}>
+        <h2
+          className={cn(
+            'ml-3 truncate whitespace-nowrap text-gray-800',
+            todoItem.isFinish && 'text-gray-400 line-through'
+          )}
+        >
           {todoItem.message}
         </h2>
       </div>

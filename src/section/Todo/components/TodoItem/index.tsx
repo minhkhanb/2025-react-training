@@ -1,47 +1,17 @@
 'use client';
 
-import { useState } from 'react';
+import { memo } from 'react';
 import { CloseOutlined, EditOutlined } from '@ant-design/icons';
-import { ConfirmModal } from '@/component/ConfirmModal';
 import { cn } from '@/utils/cn';
+import { TodoItemProps } from '../../types/ITodoList';
 
-export interface TodoValue {
-  id: string;
-  message: string;
-  isFinish: boolean;
-}
-
-export interface Props {
-  todoItem: TodoValue;
-  handleDeleteTodoItemAction: (id: string, message: string) => void;
-  handleChangeStatusTodoItemAction: (id: string) => void;
-  askUpdateAction: (todo: TodoValue) => void;
-}
-
-export const TodoItem = ({
+export const TodoItem = memo(function TodoItem({
   todoItem,
-  handleDeleteTodoItemAction,
   handleChangeStatusTodoItemAction,
   askUpdateAction,
-}: Props) => {
-  const [confirmVisible, setConfirmVisible] = useState(false);
-  const [todoToDelete, setTodoToDelete] = useState<TodoValue | null>(null);
-
-  const askDelete = (todo: TodoValue) => {
-    setTodoToDelete(todo);
-
-    setConfirmVisible(true);
-  };
-
-  const confirmDelete = () => {
-    if (todoToDelete) {
-      handleDeleteTodoItemAction(todoToDelete.id, todoToDelete.message);
-    }
-
-    setConfirmVisible(false);
-
-    setTodoToDelete(null);
-  };
+  askDelete,
+}: TodoItemProps) {
+  // useEffect(() => console.log('render'));
 
   return (
     <div className="group flex items-center justify-between p-4 transition-all duration-200 hover:bg-gray-50">
@@ -72,14 +42,6 @@ export const TodoItem = ({
       >
         <CloseOutlined className="flex h-5 w-5 justify-center rounded-b-full text-xs" />
       </button>
-
-      <ConfirmModal
-        visible={confirmVisible}
-        title={`Delete "${todoToDelete?.message}"?`}
-        onConfirm={confirmDelete}
-        onCancel={() => setConfirmVisible(false)}
-        message="Are you sure you want to delete this task?"
-      />
     </div>
   );
-};
+});

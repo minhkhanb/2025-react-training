@@ -1,7 +1,8 @@
 import React from 'react';
 import Form, { FormProps } from '@src/components/ui/Form';
+import { FieldValues } from 'react-hook-form';
 
-const MainForm = ({ children, ...props }: FormProps) => {
+const MainForm = <T extends FieldValues>({ children, ...props }: FormProps<T>) => {
   return (
     <Form
       {...props}

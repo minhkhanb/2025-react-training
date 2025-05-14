@@ -28,6 +28,7 @@ const eslintConfig = [
       ],
       'arrow-body-style': 'off',
       'prefer-arrow-callback': 'off',
+      'react/display-name': 'off',
     },
   },
 ];

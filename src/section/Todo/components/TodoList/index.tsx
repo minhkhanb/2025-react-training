@@ -14,7 +14,7 @@ export const TodoList = ({
   askDelete,
 }: TodoListProps) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 2;
+  const itemsPerPage = 5;
 
   const currentTodos = useMemo(
     () => todoListData.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage),

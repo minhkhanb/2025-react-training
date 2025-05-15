@@ -24,6 +24,7 @@ export const TodoItem = memo(function TodoItem({
             className="h-5 w-5 cursor-pointer rounded-md border-gray-300 text-indigo-600 focus:ring-indigo-500"
           />
         </div>
+
         <h2
           className={cn(
             'ml-3 truncate whitespace-nowrap text-gray-800',

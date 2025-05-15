@@ -121,6 +121,8 @@ export default function Todo() {
   }, [handleDeleteTodoItem, setTodoToDelete, todoToDelete]);
   // Simulate fetching data from an API
 
+  const handleCancelDelete = useCallback(() => setConfirmVisible(false), []);
+
   return (
     <div className="flex min-h-screen justify-center bg-gradient-to-br from-indigo-100 to-purple-100 p-6">
       <div className="w-full max-w-2xl">
@@ -145,7 +147,7 @@ export default function Todo() {
           visible={confirmVisible}
           title={`Delete "${todoToDelete?.message}"?`}
           onConfirm={confirmDelete}
-          onCancel={() => setConfirmVisible(false)}
+          onCancel={handleCancelDelete}
           message="Are you sure you want to delete this task?"
         />
       </div>

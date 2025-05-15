@@ -1,14 +1,15 @@
 'use client';
 
+import { memo } from 'react';
 import { ConfirmModalProps } from './types/IConfirm';
 
-export const ConfirmModal = ({
+export const ConfirmModal = memo(function ConfirmModal({
   visible,
   title,
   onConfirm,
   onCancel,
   message = '',
-}: ConfirmModalProps) => {
+}: ConfirmModalProps) {
   // if (!visible) return null;
 
   return (
@@ -34,7 +35,7 @@ export const ConfirmModal = ({
         } relative`}
       >
         <div className="border-b border-gray-200 px-6 py-4">
-          <h3 className="text-lg font-medium text-gray-900">{title}</h3>
+          <h3 className="truncate text-lg font-medium text-gray-900">{title}</h3>
         </div>
 
         {message && (
@@ -50,6 +51,7 @@ export const ConfirmModal = ({
           >
             No
           </button>
+
           <button
             className="rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-colors duration-200 hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none"
             onClick={onConfirm}
@@ -60,4 +62,4 @@ export const ConfirmModal = ({
       </div>
     </div>
   );
-};
+});

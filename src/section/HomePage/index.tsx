@@ -23,11 +23,9 @@ export default function HomePage() {
   const listAchievements = getListAchievements();
   const listCustomers = getListCustomers();
   const listCommunitiesUpdate = getListCommunitiesUpdate();
-
   return (
     <div className="min-h-screen font-[family-name:var(--font-geist-sans)]">
       <HeroSection />
-
       <Suspense fallback={<Loading className="h-80" />}>
         <ClientSection listClientIcons={listClientIcons} />
       </Suspense>

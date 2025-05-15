@@ -63,6 +63,7 @@ export const Header = function Header({
             >
               login
             </button>
+
             <button
               type="button"
               className="h-10 w-24 cursor-pointer rounded-md bg-[#4CAF4F] font-medium text-white transition-all hover:bg-[#2c862f]"
@@ -81,6 +82,7 @@ export const Header = function Header({
             </button>
           </div>
         </div>
+
         {isMenuOpen && (
           <div className="lg:hidden">
             <div className="space-y-1 px-2 pt-2 pb-3 sm:px-3">

@@ -3,9 +3,9 @@ import { cn } from '@src/utils/cn';
 import React from 'react';
 
 const Pagination = () => {
-  const { pagination, setCurrentPage, currentPage } = useTask();
+  const { pagination, setCurrentPage, currentPage, isLoading } = useTask();
 
-  if (!pagination) return;
+  if (!pagination || isLoading) return;
 
   return (
     <div className="w-full flex items-center justify-end gap-4">

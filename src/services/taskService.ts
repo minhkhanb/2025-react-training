@@ -32,7 +32,7 @@ export const fetchTasks = async (
 };
 
 // Add a new task
-export const addTask = async (task: Omit<Task, 'id' | 'isComplete'>) => {
+export const addTask = async (task: Omit<Task, 'id' | 'isComplete' | 'slug'>) => {
   return await callApi<Task>({ endpoint: `tasks`, method: 'POST', data: task });
 };
 
@@ -51,5 +51,13 @@ export const deleteTask = async (id: string) => {
   return await callApi<{ message: string }>({
     endpoint: `tasks/${id}`,
     method: 'DELETE',
+  });
+};
+
+// Get Task by slug
+export const getTaskBySlug = async (slug: string) => {
+  return await callApi<Task>({
+    endpoint: `tasks/get-by-slug/${slug}`,
+    method: 'GET',
   });
 };

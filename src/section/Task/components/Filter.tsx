@@ -25,7 +25,7 @@ const Filter = ({ onAddTask }: Props) => {
             style={{ backgroundColor: currentFilter === 'all-tasks' ? 'blue' : '#999' }}
             className="text-[12px] transition-all duration-500 flex items-center justify-center aspect-square rounded-full bg-blue-500 text-white w-5"
           >
-            {pagination?.total}
+            {pagination?.total || 0}
           </p>
         </button>
         <button

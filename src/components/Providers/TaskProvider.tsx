@@ -7,6 +7,7 @@ export interface Task {
   title: string;
   subtitle: string;
   isComplete: boolean;
+  slug: string;
 }
 
 export interface TaskContextTypes {

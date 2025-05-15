@@ -4,7 +4,7 @@ import Form from '@src/components/ui/Form';
 import Input from '@src/components/ui/Input';
 import SubmitButton from '@src/components/ui/SubmitButton';
 import { toast } from '@src/modules/toast';
-import { FormValues, taskSchema } from '@src/validations/TaskSchema';
+import { FormValues, taskSchema } from '@src/validattions/TaskSchema';
 import { UseFormReturn } from 'react-hook-form';
 
 const AddTaskForm = () => {

@@ -1,5 +1,5 @@
 import { Task, useTask } from '@src/components/Providers/TaskProvider';
-import { FormValues, taskSchema } from '@src/validations/TaskSchema';
+import { FormValues, taskSchema } from '@src/validattions/TaskSchema';
 import { toast } from '@src/modules/toast';
 import { FormField } from '@src/components/FormField';
 import Input from '@src/components/ui/Input';

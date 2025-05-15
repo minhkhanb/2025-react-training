@@ -13,7 +13,12 @@ export interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
   children?: React.ReactNode;
 }
 
-const Button: FunctionComponent<ButtonProps> = ({ as = 'button', children, ...props }) => {
+const Button: FunctionComponent<ButtonProps> = ({
+  as = 'button',
+  inverted,
+  children,
+  ...props
+}) => {
   const Btn = as as any;
 
   return (
@@ -26,9 +31,7 @@ const Button: FunctionComponent<ButtonProps> = ({ as = 'button', children, ...pr
         'ring ring-inset',
         'inline-flex flex-row items-center cursor-pointer appearance-none outline-0 whitespace-nowrap',
         props.className,
-        props.inverted
-          ? 'bg-white text-gray-900 ring-gray-300'
-          : 'bg-sky-600 text-white ring-transparent'
+        inverted ? 'bg-white text-gray-900 ring-gray-300' : 'bg-sky-600 text-white ring-transparent'
       )}
     >
       {children}

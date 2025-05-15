@@ -4,16 +4,12 @@ import React, { useState } from 'react';
 import Filter from './components/Filter';
 import Tasks from './components/Tasks';
 import UpdateTaskModal from './components/UpdateTaskModal';
-import TaskProvider, {
-  TaskFilter,
-  Task as TaskInterface,
-} from '@src/components/Providers/TaskProvider';
+import TaskProvider, { Task as TaskInterface } from '@src/components/Providers/TaskProvider';
 import AddTaskModal from './components/AddTaskModal';
 import ConfirmDeleteTaskModal from './components/ConfirmDeleteTaskModal';
+import Pagination from './components/Pagination';
 
 const Task = () => {
-  const [currentFilter, setCurrentFilter] = useState<TaskFilter>('all-tasks');
-
   const [currentTask, setCurrentTask] = useState<TaskInterface>();
 
   const [addTaskVisible, setAddTaskVisible] = useState(false);
@@ -38,14 +34,9 @@ const Task = () => {
         task={currentTask}
       />
 
-      <div className="w-full h-screen p-6 gap-4 flex flex-col">
-        <Filter
-          currentFilter={currentFilter}
-          setCurrentFilter={setCurrentFilter}
-          onAddTask={() => setAddTaskVisible(true)}
-        />
+      <div className="w-full min-h-screen p-6 gap-2 flex flex-col">
+        <Filter onAddTask={() => setAddTaskVisible(true)} />
         <Tasks
-          currentFilter={currentFilter}
           onDeleteTask={task => {
             setDeleteTaskVisible(true);
             setCurrentTask(task);
@@ -55,6 +46,7 @@ const Task = () => {
             setUpdateTaskVisible(true);
           }}
         />
+        <Pagination />
       </div>
     </TaskProvider>
   );

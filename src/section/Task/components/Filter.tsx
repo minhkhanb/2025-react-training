@@ -2,13 +2,11 @@ import { useTask } from '@src/components/Providers/TaskProvider';
 import React from 'react';
 
 interface Props {
-  currentFilter: 'all-tasks' | 'completed-tasks';
-  setCurrentFilter: React.Dispatch<React.SetStateAction<'all-tasks' | 'completed-tasks'>>;
   onAddTask: () => void;
 }
 
-const Filter = ({ currentFilter, setCurrentFilter, onAddTask }: Props) => {
-  const { tasks } = useTask();
+const Filter = ({ onAddTask }: Props) => {
+  const { pagination, numberOfCompleted, currentFilter, setCurrentFilter } = useTask();
 
   return (
     <div className="w-full flex items-center justify-between">
@@ -27,7 +25,7 @@ const Filter = ({ currentFilter, setCurrentFilter, onAddTask }: Props) => {
             style={{ backgroundColor: currentFilter === 'all-tasks' ? 'blue' : '#999' }}
             className="text-[12px] transition-all duration-500 flex items-center justify-center aspect-square rounded-full bg-blue-500 text-white w-5"
           >
-            {tasks.length}
+            {pagination?.total || 0}
           </p>
         </button>
         <button
@@ -44,7 +42,7 @@ const Filter = ({ currentFilter, setCurrentFilter, onAddTask }: Props) => {
             style={{ backgroundColor: currentFilter === 'completed-tasks' ? 'blue' : '#999' }}
             className="text-[12px] transition-all duration-500 flex items-center justify-center aspect-square rounded-full bg-blue-500 text-white w-5"
           >
-            {tasks.filter(item => item.isCompleted).length}
+            {numberOfCompleted}
           </p>
         </button>
       </div>

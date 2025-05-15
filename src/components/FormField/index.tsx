@@ -1,6 +1,6 @@
 import { Controller, useFormContext } from 'react-hook-form';
 import React from 'react';
-import { FormValues } from '@src/validattions/TaskSchema';
+import { FormValues } from '@src/validations/TaskSchema';
 import { ErrorMessage } from '@hookform/error-message';
 
 interface Props {

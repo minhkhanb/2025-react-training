@@ -1,27 +1,46 @@
-Git Workflow cơ bản
+# Quy trình làm việc với Git cơ bản
 
-git clone <link repo>: Clone 1 repo về local
+## 1. Khởi tạo và clone repository
 
-git pull: kéo code từ repo về local
+```bash
+# Clone repository
+git clone <url>
 
-git add (<file name> hoặc . "Tất cả các file"): Lưu những thay đổi vào staging
+# Di chuyển vào thư mục dự án
+cd <project-name>
+```
 
-git commit -m 'Tên commit': Commit các thay đổi
+## 2. Tạo branch và làm việc
 
-git push: Đẩy code lên repo
+```bash
+# Tạo branch mới
+git checkout -b <branch-name>
 
+# Thêm thay đổi
+git add .
 
-***** Làm việc với nhánh
+# Commit thay đổi
+git commit -m "Mô tả thay đổi"
 
-git branch: xem nhánh
+# Push branch lên GitHub
+git push origin <branch-name>
+```
 
-git branch <branch name>: tạo nhánh mới
+## 3. Tạo pull request
 
-git checkout <branch name>: di chuyển đến nhánh <branch name>
+- Vào GitHub, tạo pull request từ branch của bạn vào branch `main`.
+- Đồng nghiệp review code và phê duyệt.
 
-git checkout -b <branch name>: di chuyển đến nhánh <branch name>, nếu nhánh đó ko tồn tại => sẽ tạo 1 nhánh mới
+## 4. Cập nhật code từ main
 
-git merge <branch name>: merge nhánh <branch name> và nhánh hiện tại (chỉ lưu lại commit mới nhất của <branch name> vào nhánh hiện tại)
+```bash
+# Chuyển về branch main
+git checkout main
 
-git rebase <branch name>: merge nhánh <branch name> và nhánh hiện tại (lưu lại tất cả commit <branch name> vào nhánh hiện tại)
+# Pull code mới nhất
+git pull origin main
 
+# Merge main vào branch của bạn
+git checkout <branch-name>
+git merge main
+```

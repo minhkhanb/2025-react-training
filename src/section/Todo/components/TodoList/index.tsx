@@ -1,18 +1,18 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { memo, useMemo, useState } from 'react';
 import { TodoItem } from '../TodoItem';
 import { EmptyState } from '../EmptyState';
 import { TodoListProps, TodoValue } from '../../types/ITodoList';
 import { Summary } from '../Summary';
 import Pagination from '@/component/Pagination';
 
-export const TodoList = ({
+export const TodoList = memo(function TodoList({
   todoListData,
   handleChangeStatusTodoItem,
   askUpdate,
   askDelete,
-}: TodoListProps) => {
+}: TodoListProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 
@@ -48,4 +48,4 @@ export const TodoList = ({
       <Summary todos={todoListData} />
     </div>
   );
-};
+});

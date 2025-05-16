@@ -10,7 +10,7 @@ export default function UnlockSection() {
       <div className="hidden lg:flex">
         <UnlockIcon />
       </div>
-      <main className="row-start-2 flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
+      <main className="row-start-2 flex flex-grow flex-col items-center gap-6 text-center sm:items-start sm:text-left">
         <h2 className="text-3xl font-semibold text-[#4D4D4D] md:text-4xl">
           The unseen of spending three years at Pixelgrade
         </h2>

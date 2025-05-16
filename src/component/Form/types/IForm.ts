@@ -1,4 +1,4 @@
-import { FieldValues, FormState, UseFormReturn } from 'react-hook-form';
+import { DefaultValues, FieldValues, FormState, UseFormReturn } from 'react-hook-form';
 import * as yup from 'yup';
 
 export enum SubmitMode {
@@ -6,29 +6,30 @@ export enum SubmitMode {
   onChangeDebounced = 'onChangeDebounced',
 }
 
-export interface FormProps<TValues extends FieldValues = FieldValues> {
+export interface FormProps<TValues extends FieldValues> {
   className?: string;
   children: React.ReactNode;
   submitMode?: SubmitMode;
   onSubmit?: (
     values: TValues,
-    defaultValues?: TValues,
+    defaultValues?: DefaultValues<TValues>,
     formState?: FormState<TValues>,
-    formHandlers?: UseFormReturn<TValues, unknown, TValues>
+    formHandlers?: UseFormReturn<TValues>
   ) => unknown;
-  validationSchema?: yup.Lazy<unknown> | yup.ObjectSchema<TValues>;
-  defaultValues?: TValues;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  validationSchema?: yup.Lazy<any> | yup.ObjectSchema<any>;
+  defaultValues?: DefaultValues<TValues>;
   mode?: 'onBlur' | 'onSubmit' | 'onChange';
   showUnsavedChangesDialog?: boolean;
 }
 
-export interface FormOptions<TValues extends FieldValues = FieldValues> {
+export interface FormOptions<TValues extends FieldValues> {
   submitMode?: SubmitMode;
   onSubmit?: (
-    values: React.FormEvent<HTMLFormElement>,
-    defaultValues?: TValues,
+    values: TValues,
+    defaultValues?: DefaultValues<TValues>,
     formState?: FormState<TValues>,
-    formHandlers?: UseFormReturn<TValues, unknown, TValues>
+    formHandlers?: UseFormReturn<TValues>
   ) => unknown;
   formId: string;
 }

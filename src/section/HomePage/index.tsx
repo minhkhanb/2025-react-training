@@ -2,12 +2,16 @@
 
 import React from 'react';
 import HeroSection from './components/HeroSection';
-import PricingSection from './components/PricingSection';
-import StartupPlan from './components/StartupPlan';
+// import PricingSection from './components/PricingSection';
+// import StartupPlan from './components/StartupPlan';
 import ClientSection from './components/ClientSection';
 import CommunitySection from './components/CommunitySection';
 import UnlockSection from './components/UnlockSection';
 import Achievements from './components/AchievementsSection';
+import CalenderSection from './components/CalenderSection';
+import CustomerSection from './components/CustomerSection';
+import CommunityUpdateSection from './components/CommunityUpdateSection';
+import GetDemoSection from './components/GetDemoSection';
 
 export default function HomePage() {
   return (
@@ -22,9 +26,17 @@ export default function HomePage() {
 
       <Achievements />
 
-      <PricingSection />
+      <CalenderSection />
 
-      <StartupPlan />
+      <CustomerSection />
+
+      <CommunityUpdateSection />
+
+      <GetDemoSection />
+
+      {/* <PricingSection />
+
+      <StartupPlan /> */}
     </div>
   );
 }

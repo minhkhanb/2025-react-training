@@ -17,9 +17,15 @@ export default function TestForm() {
   const onSubmit:
     | ((
         values: IFormInput,
-        defaultValues?: IFormInput,
-        formState?: FormState<IFormInput>,
-        formHandlers?: UseFormReturn<IFormInput, unknown, IFormInput>
+        defaultValues?:
+          | {
+              firstName?: string | undefined;
+              lastName?: string | undefined;
+              iceCreamType?: string | undefined;
+            }
+          | undefined,
+        formState?: FormState<IFormInput> | undefined,
+        formHandlers?: UseFormReturn<IFormInput> | undefined
       ) => unknown)
     | undefined = (values, defaultValues, formState, formHandlers) => {
     console.log(values, defaultValues, formState, formHandlers);
@@ -35,14 +41,14 @@ export default function TestForm() {
     .required();
 
   return (
-    <Form<IFormInput>
+    <Form
       onSubmit={onSubmit}
       defaultValues={{
         firstName: '',
         lastName: '',
         iceCreamType: '',
       }}
-      validationSchema={schema as yup.ObjectSchema<IFormInput>}
+      validationSchema={schema}
       // mode="onChange"
     >
       <Form.FormField

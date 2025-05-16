@@ -1,10 +1,29 @@
 'use client';
 
 import Link from 'next/link';
-import React from 'react';
+import React, { useState } from 'react';
 import HeroIcon from '../../icons/HeroIcon';
 
+const Dot = function Dot({
+  page,
+  isSelected,
+  setSelected,
+}: {
+  page: number;
+  isSelected: boolean;
+  setSelected: React.Dispatch<React.SetStateAction<number>>;
+}) {
+  return (
+    <div
+      onClick={() => setSelected(page)}
+      className={`h-2.5 w-2.5 cursor-pointer rounded-full bg-[#4CAF4F] ${!isSelected && 'opacity-30'}`}
+    ></div>
+  );
+};
+
 export default function HeroSection() {
+  const [selectedPage, setSelectedPage] = useState(1);
+
   return (
     <div className="flex min-h-[70vh] flex-wrap items-center justify-between gap-8 bg-[#F5F7FA] p-6 pb-2 sm:p-12 sm:pb-2 md:p-20 md:pb-2 lg:px-32 lg:pb-2">
       <main className="row-start-2 flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
@@ -25,9 +44,14 @@ export default function HeroSection() {
         <HeroIcon />
       </div>
       <div className="flex h-4 w-full items-center justify-center gap-2">
-        <div className="h-2.5 w-2.5 rounded-full bg-[#4CAF4F]"></div>
-        <div className="h-2.5 w-2.5 rounded-full bg-[#4CAF4F] opacity-30"></div>
-        <div className="h-2.5 w-2.5 rounded-full bg-[#4CAF4F] opacity-30"></div>
+        {Array.from({ length: 3 }, (_, i) => i + 1).map(item => (
+          <Dot
+            isSelected={selectedPage === item}
+            page={item}
+            setSelected={setSelectedPage}
+            key={item}
+          />
+        ))}
       </div>
     </div>
   );

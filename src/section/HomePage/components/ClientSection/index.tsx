@@ -10,6 +10,16 @@ import Client6 from '../../icons/ClientIcon/client6';
 import Client7 from '../../icons/ClientIcon/client7';
 
 export default function ClientSection() {
+  const listClient = [
+    { client: Client1 },
+    { client: Client2 },
+    { client: Client3 },
+    { client: Client4 },
+    { client: Client5 },
+    { client: Client6 },
+    { client: Client7 },
+  ];
+
   return (
     <div className="my-10 flex flex-wrap justify-center gap-4 px-5 md:px-36">
       <div className="w-full">
@@ -18,14 +28,10 @@ export default function ClientSection() {
           We have been working with some Fortune 500+ clients
         </p>
       </div>
-      <div className="flex w-full items-center justify-between">
-        <Client1 />
-        <Client2 />
-        <Client3 />
-        <Client4 />
-        <Client5 />
-        <Client6 />
-        <Client7 />
+      <div className="flex w-full flex-wrap items-center justify-between">
+        {listClient.map((item, index) => (
+          <item.client key={index} />
+        ))}
       </div>
     </div>
   );

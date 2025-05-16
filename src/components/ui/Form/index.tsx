@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+'use client';
 
 import React, { useId, useRef } from 'react';
 import { withProperties } from '@src/utils/types';

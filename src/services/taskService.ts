@@ -23,10 +23,11 @@ interface TaskData {
 // Fetch all tasks
 export const fetchTasks = async (
   currentPage: number,
-  currentFilter: TaskFilter
+  currentFilter: TaskFilter,
+  limit: number
 ): Promise<PaginatedData<TaskData> | undefined> => {
   return await callApi<PaginatedData<TaskData>>({
-    endpoint: `tasks?page=${currentPage}&filter=${currentFilter}`,
+    endpoint: `tasks?page=${currentPage}&filter=${currentFilter}&limit=${limit}`,
     method: 'GET',
   });
 };

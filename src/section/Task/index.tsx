@@ -25,7 +25,9 @@ const Task = () => {
       <UpdateTaskModal
         visible={updateTaskVisible}
         onClose={() => {
-          setCurrentTask(undefined);
+          setTimeout(() => {
+            setCurrentTask(undefined);
+          }, 500);
           setUpdateTaskVisible(false);
         }}
         currentTask={currentTask}
@@ -35,7 +37,9 @@ const Task = () => {
         visible={deleteTaskVisible}
         onClose={() => {
           setDeleteTaskVisible(false);
-          setCurrentTask(undefined);
+          setTimeout(() => {
+            setCurrentTask(undefined);
+          }, 500);
         }}
         task={currentTask}
       />

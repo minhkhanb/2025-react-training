@@ -6,7 +6,7 @@ export interface Option {
   value: string;
 }
 
-interface Props extends React.ButtonHTMLAttributes<HTMLSelectElement> {
+interface Props extends React.SelectHTMLAttributes<HTMLSelectElement> {
   options: Option[];
   className?: string;
 }
@@ -14,11 +14,11 @@ interface Props extends React.ButtonHTMLAttributes<HTMLSelectElement> {
 const Select = ({ options, className = '', ...props }: Props) => {
   return (
     <select
-      {...props}
       className={cn(
         'w-full focus:outline-0 h-10 rounded-md border-[1px] border-[#dfdfdf] px-2 text-sm',
         className
       )}
+      {...props}
     >
       {options.map((item, index) => (
         <option key={item.value + index} value={item.value}>

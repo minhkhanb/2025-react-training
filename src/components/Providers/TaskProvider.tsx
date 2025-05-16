@@ -1,6 +1,7 @@
 'use client';
+import { itemsPerPageOptions } from '@src/section/Task/components/Pagination';
 import { addTask, deleteTask, fetchTasks, Pagination, updateTask } from '@src/services/taskService';
-import React, { createContext, useCallback, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 
 export interface Task {
   id: string;
@@ -14,13 +15,18 @@ export interface TaskContextTypes {
   tasks: Task[];
   isLoading: boolean;
   currentPage: number;
+  currentLimit: number;
   numberOfCompleted: number;
   currentFilter: TaskFilter;
   isCreateLoading: boolean;
   isUpdateLoading: boolean;
   isDeleteLoading: boolean;
-  setCurrentFilter: React.Dispatch<React.SetStateAction<TaskFilter>>;
-  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
+  getPaginationTask: (
+    hasChanged: boolean,
+    currentPage: number,
+    currentFilter: TaskFilter,
+    currentLimit: number
+  ) => void;
   handleAddTask: ({ title, subtitle }: { title: string; subtitle: string }) => void;
   handleUpdateTask: (task: Task) => void;
   handleRemoveTask: (id: string) => void;
@@ -34,6 +40,8 @@ const TaskProvider = ({ children }: { children: React.ReactNode }) => {
   const [pagination, setPagination] = useState<Pagination>();
 
   const [currentPage, setCurrentPage] = useState(1);
+
+  const [currentLimit, setCurrentLimit] = useState<number>(Number(itemsPerPageOptions[0].value));
 
   const [cache, setCache] = useState<Record<string, Task[]>>({});
 
@@ -51,39 +59,44 @@ const TaskProvider = ({ children }: { children: React.ReactNode }) => {
 
   const [currentFilter, setCurrentFilter] = useState<TaskFilter>('all-tasks');
 
-  const getPaginationTask = useCallback(
-    async (hasChanged: boolean = false) => {
-      const cacheKey = currentPage.toString();
+  const getPaginationTask = async (
+    hasChanged: boolean = false,
+    page: number,
+    filter: TaskFilter,
+    limit: number
+  ) => {
+    const cacheKey = currentPage.toString();
 
-      if (cache[cacheKey] && !hasChanged) {
-        setTasks(cache[cacheKey]);
-      } else {
-        const paginatedTasks = await fetchTasks(currentPage, currentFilter);
-        if (!paginatedTasks) return;
-        setTasks(paginatedTasks.data.tasks);
-        setPagination(paginatedTasks.pagination);
-        setCurrentPage(paginatedTasks.pagination.page);
-        setNumberOfCompleted(paginatedTasks.data.numberOfCompleted);
-        setCache(prev => ({ ...prev, [currentPage.toString()]: paginatedTasks.data.tasks }));
-      }
-    },
-    [currentPage, currentFilter]
-  );
+    setCurrentFilter(filter);
+    setCurrentLimit(limit);
+
+    if (cache[cacheKey] && !hasChanged) {
+      setTasks(cache[cacheKey]);
+    } else {
+      const paginatedTasks = await fetchTasks(page, filter, limit);
+      if (!paginatedTasks) return;
+      setTasks(paginatedTasks.data.tasks);
+      setPagination(paginatedTasks.pagination);
+      setCurrentPage(paginatedTasks.pagination.page);
+      setNumberOfCompleted(paginatedTasks.data.numberOfCompleted);
+      setCache(prev => ({ ...prev, [currentPage.toString()]: paginatedTasks.data.tasks }));
+    }
+  };
 
   useEffect(() => {
     const loadTasks = async () => {
       setIsLoading(true);
-      await getPaginationTask();
+      await getPaginationTask(false, currentPage, currentFilter, currentLimit);
       setIsLoading(false);
     };
     loadTasks();
-  }, [currentPage, currentFilter]);
+  }, []);
 
   const handleAddTask = async (task: { title: string; subtitle: string }) => {
     setIsCreateLoading(true);
     const result = await addTask(task);
     if (result) {
-      await getPaginationTask(true);
+      await getPaginationTask(true, currentPage, currentFilter, currentLimit);
     }
     setIsCreateLoading(false);
   };
@@ -92,7 +105,7 @@ const TaskProvider = ({ children }: { children: React.ReactNode }) => {
     setIsUpdateLoading(true);
     const result = await updateTask(task);
     if (result) {
-      await getPaginationTask(true);
+      await getPaginationTask(true, currentPage, currentFilter, currentLimit);
     }
     setIsUpdateLoading(false);
   };
@@ -101,7 +114,7 @@ const TaskProvider = ({ children }: { children: React.ReactNode }) => {
     setIsDeleteLoading(true);
     const result = await deleteTask(id);
     if (result) {
-      await getPaginationTask(true);
+      await getPaginationTask(true, currentPage, currentFilter, currentLimit);
     }
     setIsDeleteLoading(false);
   };
@@ -115,11 +128,11 @@ const TaskProvider = ({ children }: { children: React.ReactNode }) => {
         tasks,
         isLoading,
         currentPage,
+        currentLimit,
         isCreateLoading,
         isUpdateLoading,
         isDeleteLoading,
-        setCurrentFilter,
-        setCurrentPage,
+        getPaginationTask,
         handleAddTask,
         handleUpdateTask,
         handleRemoveTask,

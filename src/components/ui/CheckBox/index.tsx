@@ -1,24 +1,30 @@
 import React from 'react';
 
 interface Props {
-  label: string;
-  value: string;
+  label?: string;
   className?: string;
-  onChange?: (values: string) => void;
+  onChange?: () => void;
   checked?: boolean;
+  showLabel?: boolean;
 }
 
-const CheckBox = ({ onChange, label, value, checked = false }: Props) => {
+const CheckBox = ({
+  onChange,
+  label = '',
+  checked = false,
+  showLabel = true,
+  className,
+}: Props) => {
   return (
     <label className="text-sm flex items-center gap-2">
       <input
         type="checkbox"
         name="gender"
-        value={value}
+        className={className}
         checked={checked}
-        onChange={() => onChange?.(value)}
+        onChange={onChange}
       />
-      {label}
+      {showLabel && label}
     </label>
   );
 };

@@ -3,57 +3,83 @@
 import { useState } from 'react';
 import { BarsOutlined, CloseOutlined } from '@ant-design/icons';
 import Link from 'next/link';
+import LogoHeader from './Icons/LogoHeader';
+
+const RedirectLink = function RedirectLink({ link, title }: { link: string; title: string }) {
+  return (
+    <Link
+      href={link}
+      className="px-3 py-2 text-base font-medium text-gray-600 transition duration-150 hover:text-gray-900"
+    >
+      {title}
+    </Link>
+  );
+};
+
+const RedirectLinkOnMobile = function RedirectLinkOnMobile({
+  link,
+  title,
+}: {
+  link: string;
+  title: string;
+}) {
+  return (
+    <Link
+      href={link}
+      className="block rounded-md px-3 py-2 text-base font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+    >
+      {title}
+    </Link>
+  );
+};
 
 export const Header = function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  const redirectLinkList = [
+    { link: '/', title: 'Home' },
+    { link: '/blog', title: 'Service' },
+    { link: '/docs', title: 'Feature' },
+    { link: '/showcase', title: 'Product' },
+    { link: '/todo-list', title: 'Testimonial' },
+    { link: '/todo-list', title: 'FAQ' },
+  ];
+
   return (
     <header className="sticky top-0 z-10 bg-white shadow">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center justify-between">
+        <div className="flex h-16 items-center justify-between lg:justify-evenly">
           <div className="flex flex-shrink-0 items-center">
             <Link
               href="/"
               className="text-xl font-bold text-blue-600 transition duration-150 hover:text-blue-800"
             >
-              Truong Le Minh Nhat
+              <LogoHeader />
             </Link>
           </div>
 
-          <nav className="hidden space-x-8 md:flex">
-            <Link
-              href="/"
-              className="px-3 py-2 text-sm font-medium text-gray-600 transition duration-150 hover:text-gray-900"
-            >
-              Home
-            </Link>
-            <Link
-              href="/blog"
-              className="px-3 py-2 text-sm font-medium text-gray-600 transition duration-150 hover:text-gray-900"
-            >
-              Blog
-            </Link>
-            <Link
-              href="/docs"
-              className="px-3 py-2 text-sm font-medium text-gray-600 transition duration-150 hover:text-gray-900"
-            >
-              Docs
-            </Link>
-            <Link
-              href="/showcase"
-              className="px-3 py-2 text-sm font-medium text-gray-600 transition duration-150 hover:text-gray-900"
-            >
-              Showcase
-            </Link>
-            <Link
-              href="/todo-list"
-              className="px-3 py-2 text-sm font-medium text-gray-600 transition duration-150 hover:text-gray-900"
-            >
-              Todo list management
-            </Link>
+          <nav className="hidden space-x-8 lg:flex">
+            {redirectLinkList.map((item, index) => (
+              <RedirectLink link={item.link} title={item.title} key={index} />
+            ))}
           </nav>
 
-          <div className="flex items-center md:hidden">
+          <div className="hidden gap-2 lg:flex">
+            <button
+              type="button"
+              className="h-10 w-20 cursor-pointer rounded-md font-medium text-[#4CAF4F] transition-all hover:bg-gray-100 hover:text-[#2c862f]"
+            >
+              login
+            </button>
+            <button
+              type="button"
+              className="h-10 w-24 cursor-pointer rounded-md bg-[#4CAF4F] font-medium text-white transition-all hover:bg-[#2c862f]"
+            >
+              Signup
+            </button>
+          </div>
+
+          <div className="flex items-center lg:hidden">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="rounded-md p-2 text-gray-600 hover:bg-gray-100 hover:text-gray-900 focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-inset"
@@ -64,38 +90,25 @@ export const Header = function Header() {
           </div>
         </div>
         {isMenuOpen && (
-          <div className="md:hidden">
+          <div className="lg:hidden">
             <div className="space-y-1 px-2 pt-2 pb-3 sm:px-3">
-              <Link
-                href="/"
-                className="block rounded-md bg-gray-100 px-3 py-2 text-base font-medium text-gray-900"
-              >
-                Home
-              </Link>
-              <Link
-                href="/blog"
-                className="block rounded-md px-3 py-2 text-base font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-900"
-              >
-                Blog
-              </Link>
-              <Link
-                href="/docs"
-                className="block rounded-md px-3 py-2 text-base font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-900"
-              >
-                Docs
-              </Link>
-              <Link
-                href="/showcase"
-                className="block rounded-md px-3 py-2 text-base font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-900"
-              >
-                Showcase
-              </Link>
-              <Link
-                href="/todo-list"
-                className="block rounded-md px-3 py-2 text-base font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-900"
-              >
-                Todo list management
-              </Link>
+              {redirectLinkList.map((item, index) => (
+                <RedirectLinkOnMobile link={item.link} title={item.title} key={index} />
+              ))}
+              <div className="flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  className="h-10 w-full cursor-pointer rounded-md font-medium text-[#4CAF4F] transition-all hover:bg-gray-100 hover:text-[#2c862f]"
+                >
+                  login
+                </button>
+                <button
+                  type="button"
+                  className="h-10 w-full cursor-pointer rounded-md bg-[#4CAF4F] font-medium text-white transition-all hover:bg-[#2c862f]"
+                >
+                  Signup
+                </button>
+              </div>
             </div>
           </div>
         )}

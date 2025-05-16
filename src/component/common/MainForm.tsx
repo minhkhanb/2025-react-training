@@ -5,8 +5,9 @@ import { FormProps } from '../Form/types/IForm';
 import Form from '../Form';
 import { withProperties } from '@/utils/types';
 import FormField from '../Form/components/FormField';
+import { FieldValues } from 'react-hook-form';
 
-const MainForm = ({ children, ...props }: FormProps) => {
+const MainForm = ({ children, ...props }: FormProps<FieldValues>) => {
   return (
     <Form
       {...props}

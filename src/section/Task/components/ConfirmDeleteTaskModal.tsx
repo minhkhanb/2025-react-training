@@ -1,6 +1,5 @@
 import ConfirmModal from '@src/components/common/ConfirmModal';
 import { Task, useTask } from '@src/components/Providers/TaskProvider';
-import { toast } from '@src/modules/toast';
 
 interface Props {
   visible: boolean;
@@ -9,18 +8,12 @@ interface Props {
 }
 
 const ConfirmDeleteTaskModal = ({ visible, onClose, task }: Props) => {
-  const { handleRemoveTask } = useTask();
+  const { handleRemoveTask, isDeleteLoading } = useTask();
 
   if (!task) return;
 
   const handleDeleteTask = () => {
     handleRemoveTask(task.id);
-    toast({
-      title: 'Success',
-      message: 'Delete Task Successfully',
-      type: 'success',
-      duration: 3000,
-    });
     onClose();
   };
 
@@ -41,7 +34,7 @@ const ConfirmDeleteTaskModal = ({ visible, onClose, task }: Props) => {
             type="submit"
             className="text-sm text-white bg-blue-300 px-4 py-2 rounded-md cursor-pointer"
           >
-            Confirm
+            {isDeleteLoading ? 'Deleting' : 'Confirm'}
           </button>
         </div>
       </div>

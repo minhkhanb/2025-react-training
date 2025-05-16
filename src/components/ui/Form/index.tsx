@@ -7,7 +7,7 @@ import * as yup from 'yup';
 interface Props {
   className?: string;
   children: ReactNode;
-  validationSchema: yup.ObjectSchema<any>; // Yup schema
+  validationSchema: yup.ObjectSchema<any>;
   defaultValues: any;
   onSubmit: (data: any, methods: UseFormReturn<any>, defaultValues: DefaultValues<any>) => void;
   mode?: 'onBlur' | 'onChange' | 'onSubmit';

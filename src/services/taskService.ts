@@ -32,7 +32,7 @@ export const fetchTasks = async (
 };
 
 // Add a new task
-export const addTask = async (task: Omit<Task, 'id' | 'isComplete' | 'slug'>) => {
+export const addTask = async (task: Omit<Task, 'id' | 'isComplete'>) => {
   return await callApi<Task>({ endpoint: `tasks`, method: 'POST', data: task });
 };
 
@@ -48,16 +48,16 @@ export const updateTask = async (payload: Task) => {
 
 // Delete a task
 export const deleteTask = async (id: string) => {
-  return await callApi<{ message: string }>({
+  return await callApi<boolean>({
     endpoint: `tasks/${id}`,
     method: 'DELETE',
   });
 };
 
-// Get Task by slug
-export const getTaskBySlug = async (slug: string) => {
+// Get Task by id
+export const getTaskById = async (id: string) => {
   return await callApi<Task>({
-    endpoint: `tasks/get-by-slug/${slug}`,
+    endpoint: `tasks/get-by-id/${id}`,
     method: 'GET',
   });
 };

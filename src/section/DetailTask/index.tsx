@@ -1,25 +1,25 @@
 'use client';
 import { Task } from '@src/components/Providers/TaskProvider';
-import { getTaskBySlug } from '@src/services/taskService';
+import { getTaskById } from '@src/services/taskService';
 import { useParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
 const DetailTask = () => {
   const params = useParams();
-  const slug = params?.slug as string | undefined;
+  const id = params?.id as string | undefined;
 
   const [task, setTask] = useState<Task>();
 
   useEffect(() => {
-    if (!slug) return;
+    if (!id) return;
     const getTask = async () => {
-      const taskFound = await getTaskBySlug(slug);
+      const taskFound = await getTaskById(id);
       setTask(taskFound);
     };
     getTask();
-  }, [slug]);
+  }, [id]);
 
-  if (!slug) return;
+  if (!id) return;
 
   return (
     <div className="min-h-screen flex flex-col gap-2 items-center justify-center">

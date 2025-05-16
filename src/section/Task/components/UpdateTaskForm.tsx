@@ -1,30 +1,29 @@
 import { Task, useTask } from '@src/components/Providers/TaskProvider';
 import { FormValues, taskSchema } from '@src/validattions/TaskSchema';
-import { toast } from '@src/modules/toast';
 import { FormField } from '@src/components/FormField';
 import Input from '@src/components/ui/Input';
 import Form from '@src/components/ui/Form';
 import SubmitButton from '@src/components/ui/SubmitButton';
 
-const UpdateTaskForm = ({ task }: { task: Task | undefined }) => {
-  const { handleUpdateTask } = useTask();
+interface Props {
+  onClose: () => void;
+  task: Task | undefined;
+}
+
+const UpdateTaskForm = ({ task, onClose }: Props) => {
+  const { handleUpdateTask, isUpdateLoading } = useTask();
 
   if (!task) return null;
 
   const onSubmit = (data: FormValues) => {
     const newTask: Task = {
       id: task.id,
-      isCompleted: task.isCompleted,
+      isComplete: task.isComplete,
       title: data.title,
       subtitle: data.subtitle,
     };
     handleUpdateTask(newTask);
-    toast({
-      title: 'Success',
-      message: 'Update Task Successfully',
-      type: 'success',
-      duration: 3000,
-    });
+    onClose();
   };
 
   return (
@@ -51,7 +50,7 @@ const UpdateTaskForm = ({ task }: { task: Task | undefined }) => {
           <FormField name="subtitle" component={Input} placeholder="Subtitle" />
         </div>
       </div>
-      <SubmitButton>Update Task</SubmitButton>
+      <SubmitButton>{isUpdateLoading ? 'Updating' : 'Update Task'}</SubmitButton>
     </Form>
   );
 };

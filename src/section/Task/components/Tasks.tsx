@@ -8,9 +8,10 @@ import React from 'react';
 interface Props {
   onUpdateTask: (task: TaskInterface) => void;
   onDeleteTask: (task: TaskInterface) => void;
+  currentTask: TaskInterface | undefined;
 }
 
-const Tasks = ({ onUpdateTask, onDeleteTask }: Props) => {
+const Tasks = ({ onUpdateTask, onDeleteTask, currentTask }: Props) => {
   const { tasks, currentFilter, isLoading } = useTask();
 
   const title = {
@@ -38,7 +39,13 @@ const Tasks = ({ onUpdateTask, onDeleteTask }: Props) => {
         <Empty title={title[currentFilter]} subtitle={subtitle[currentFilter]} />
       ) : (
         tasks.map(task => (
-          <Task onDeleteTask={onDeleteTask} onUpdateTask={onUpdateTask} task={task} key={task.id} />
+          <Task
+            isSelect={task.id === currentTask?.id}
+            onDeleteTask={onDeleteTask}
+            onUpdateTask={onUpdateTask}
+            task={task}
+            key={task.id}
+          />
         ))
       )}
     </div>

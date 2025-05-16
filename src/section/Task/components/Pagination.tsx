@@ -9,12 +9,13 @@ const Pagination = () => {
 
   return (
     <div className="w-full flex items-center justify-end gap-4">
-      {pagination.hasPreviousPage && (
-        <button
-          onClick={() => setCurrentPage(prev => prev - 1)}
-          className="cursor-pointer fa-solid fa-chevron-left"
-        />
-      )}
+      <button
+        onClick={() => setCurrentPage(prev => prev - 1)}
+        className={cn(
+          'cursor-pointer fa-solid transition-all duration-500 fa-chevron-left text-gray-300',
+          pagination.hasPreviousPage && 'text-gray-500'
+        )}
+      />
       {Array.from({ length: pagination.totalPages }, (_, i) => i + 1).map((_, index) => (
         <button
           key={index}
@@ -27,12 +28,13 @@ const Pagination = () => {
           {index + 1}
         </button>
       ))}
-      {pagination.hasNextPage && (
-        <button
-          onClick={() => setCurrentPage(prev => prev + 1)}
-          className="cursor-pointer fa-solid fa-chevron-right"
-        />
-      )}
+      <button
+        onClick={() => setCurrentPage(prev => prev + 1)}
+        className={cn(
+          'cursor-pointer fa-solid transition-all duration-500 fa-chevron-right text-gray-300',
+          pagination.hasNextPage && 'text-gray-500'
+        )}
+      />
     </div>
   );
 };

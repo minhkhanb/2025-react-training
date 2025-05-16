@@ -24,19 +24,34 @@ const Task = () => {
 
       <UpdateTaskModal
         visible={updateTaskVisible}
-        onClose={() => setUpdateTaskVisible(false)}
+        onClose={() => {
+          setCurrentTask(undefined);
+          setUpdateTaskVisible(false);
+        }}
         currentTask={currentTask}
       />
 
       <ConfirmDeleteTaskModal
         visible={deleteTaskVisible}
-        onClose={() => setDeleteTaskVisible(false)}
+        onClose={() => {
+          setDeleteTaskVisible(false);
+          setCurrentTask(undefined);
+        }}
         task={currentTask}
       />
 
       <div className="w-full min-h-screen p-6 gap-2 flex flex-col">
-        <Filter onAddTask={() => setAddTaskVisible(true)} />
+        <div className="w-full flex items-center justify-between">
+          <Filter />
+          <button
+            onClick={() => setAddTaskVisible(true)}
+            className="text-sm font-medium text-white cursor-pointer bg-blue-300 px-4 py-2 rounded-md"
+          >
+            Add New
+          </button>
+        </div>
         <Tasks
+          currentTask={currentTask}
           onDeleteTask={task => {
             setDeleteTaskVisible(true);
             setCurrentTask(task);

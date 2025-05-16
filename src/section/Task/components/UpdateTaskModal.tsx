@@ -12,7 +12,7 @@ interface Props {
 const UpdateTaskModal = ({ visible, onClose, currentTask }: Props) => {
   return (
     <Modal title="Update Task" visible={visible} onClose={onClose}>
-      <UpdateTaskForm task={currentTask} />
+      <UpdateTaskForm task={currentTask} onClose={onClose} />
     </Modal>
   );
 };

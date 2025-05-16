@@ -1,21 +1,26 @@
 import React from 'react';
 import { useTask, Task as TaskInterface } from './Providers/TaskProvider';
 import { useRouter } from 'next/navigation';
+import { cn } from '@src/utils/cn';
 
 interface Props {
   task: TaskInterface;
   onUpdateTask: (task: TaskInterface) => void;
   onDeleteTask: (task: TaskInterface) => void;
+  isSelect?: boolean;
 }
 
-const Task = ({ task, onUpdateTask, onDeleteTask }: Props) => {
+const Task = ({ task, onUpdateTask, onDeleteTask, isSelect = false }: Props) => {
   const router = useRouter();
   const { handleUpdateTask } = useTask();
 
   return (
     <div
-      onClick={() => router.push(`/${task.slug}`)}
-      className="w-full flex cursor-pointer flex-col p-3 border-[1px] border-[#efefef] gap-2 bg-[white] shadow-lg rounded-lg"
+      onClick={() => router.push(`/${task.id}`)}
+      className={cn(
+        'w-full flex cursor-pointer transition-all duration-500 flex-col p-3 border-[1px] border-[#efefef] gap-2 bg-white shadow-lg rounded-lg',
+        isSelect && 'bg-blue-200'
+      )}
     >
       <div className="flex items-center justify-between border-b-[1px] border-[#cdcdcd] pb-1">
         <div className="flex flex-col gap-1 w-4/5">

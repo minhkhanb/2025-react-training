@@ -1,2 +1,2 @@
-echo "Đang kiểm tra mã nguồn trước khi commit..."
+echo "Checking before committing..."
 npx lint-staged

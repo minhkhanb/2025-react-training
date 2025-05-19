@@ -1,36 +1,69 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+# 2025 React Training
 
-First, run the development server:
+**2025 React Training** is a modern frontend training project built with **Next.js 15.3.2**, **React 19**, **TypeScript**, and **Tailwind CSS**. This project provides a practical learning environment for mastering modern React and frontend development best practices.
+
+## 🚀 Key Features
+
+- ⚡ Uses Next.js 15+ App Router
+- 💡 Integrates new React 19 hooks like `useOptimistic`, `useFormStatus`, and more
+- 🌐 Internationalization support via `locales`
+- 🎨 Modern UI styling with Tailwind CSS
+- 🧩 Modular and scalable folder structure
+
+## 📁 Folder Structure
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+src/
+├── app/                # Main routes and layout using Next.js App Router
+├── assets/             # Static assets like images, fonts, icons, etc.
+├── components/         # Reusable UI components
+├── composables/        # Custom hooks and shared logic
+├── config/             # Project configuration (theme, constants, i18n, etc.)
+├── locales/            # Language files for internationalization
+├── modules/
+│   └── toast/          # Toast notification module
+├── section/            # Page sections
+├── utils/              # Shared utility functions
+├── endpoints.ts        # API endpoints definition
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠️ Getting Started
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/minhkhanb/2025-react-training.git
+   cd 2025-react-training
+   ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+2. Install dependencies:
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
 
-## Learn More
+3. Run the development server:
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+4. Open your browser and visit [http://localhost:3000](http://localhost:3000)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📦 Technologies Used
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- [Next.js 15.3.2](https://nextjs.org/)
+- [React 19](https://react.dev/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Vercel](https://vercel.com/) for deployment
 
-## Deploy on Vercel
+## 🤝 Contribution
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+We welcome contributions! Feel free to fork the repository, create a new branch, and submit a pull request with your improvements.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📄 License
+
+This project is licensed under the [MIT License](LICENSE).

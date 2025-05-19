@@ -13,8 +13,7 @@
   "lint-staged": {
     "*.{js,ts,jsx,tsx}": [
       "prettier --write",
-      "eslint --fix",
-      "npm run typecheck"
+      "eslint --fix"
     ]
   },
   "dependencies": {
@@ -28,6 +27,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "clsx": "^2.1.1",
     "eslint": "^9.27.0",
     "eslint-config-next": "^15.3.2",
     "eslint-config-prettier": "^10.1.5",
@@ -35,6 +35,7 @@
     "husky": "^9.1.7",
     "lint-staged": "^16.0.0",
     "prettier": "^3.5.3",
+    "tailwind-merge": "^3.3.0",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

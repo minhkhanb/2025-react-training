@@ -2,27 +2,26 @@
 
 import React, { useEffect, useId, useRef } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { DefaultValues, FieldValues, FormProvider, useForm, UseFormReturn } from 'react-hook-form';
+import { FieldValues, FormProvider, useForm } from 'react-hook-form';
 import { FormProps, SubmitMode } from './types/IForm';
 import FormField from './components/FormField';
 import { withProperties } from '@/utils/types';
 import { FormOptionsContext } from './hooks/useFormContextSave';
-import * as yup from 'yup';
 
 function Form<T extends FieldValues>({
   mode,
   validationSchema,
   submitMode = SubmitMode.onSubmitButton,
-  defaultValues = {} as T,
+  defaultValues,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   showUnsavedChangesDialog: _,
   children,
   ...props
 }: FormProps<T>) {
-  const formHandlers = useForm({
+  const formHandlers = useForm<T>({
     mode,
-    resolver: validationSchema ? yupResolver(validationSchema as yup.ObjectSchema<T>) : undefined,
-    defaultValues: defaultValues as DefaultValues<T> | undefined,
+    resolver: validationSchema && yupResolver(validationSchema),
+    defaultValues,
   });
 
   const formRef = useRef<HTMLFormElement>(null);
@@ -43,12 +42,7 @@ function Form<T extends FieldValues>({
     return formHandlers.handleSubmit(async values => {
       try {
         if (props.onSubmit) {
-          await props.onSubmit(
-            values as T,
-            defaultValues,
-            formHandlers.formState,
-            formHandlers as UseFormReturn<T, unknown, T>
-          );
+          await props.onSubmit(values, defaultValues, formHandlers.formState, formHandlers);
         }
       } catch (err) {
         console.log('PDebug err debug: ', err);
@@ -57,6 +51,10 @@ function Form<T extends FieldValues>({
   };
 
   useEffect(() => {
+    console.log(defaultValues, formHandlers.formState.isDirty);
+
+    if (formHandlers.formState.isDirty) return;
+
     formHandlers.reset(defaultValues);
   }, [defaultValues, formHandlers]);
 

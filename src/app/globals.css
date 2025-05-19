@@ -16,7 +16,7 @@
   }
 
   .line-b:after {
-    background-color: color-mix(in oklab, transparent, transparent);
+    background-color: color-mix(in oklab, var(--color-gray-950) 0%, transparent);
   }
 }
 

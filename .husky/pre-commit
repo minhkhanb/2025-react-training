@@ -1,0 +1,2 @@
+echo "Đang kiểm tra mã nguồn trước khi commit..."
+npx lint-staged

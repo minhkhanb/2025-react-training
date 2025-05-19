@@ -4,12 +4,12 @@ import { Button } from '@src/components/ui';
 import Link from 'next/link';
 import WatchNow from '@src/assets/images/watch-now.svg';
 import Calendar from '@src/assets/images/calendar.svg';
-import UserAvatar from '@src/components/common/Avatar/UserAvatar';
 import Student from '@src/assets/images/student.png';
 import Vector from '@src/assets/images/vector.svg';
 import Email from '@src/assets/images/email.svg';
 import Billing from '@src/assets/images/billing.svg';
 import User from '@src/assets/images/user.svg';
+import { Avatar, AvatarImage } from '@src/components/shadcn/ui/avatar';
 
 const Main = () => {
   return (
@@ -56,7 +56,9 @@ const Main = () => {
 
         <div className="absolute flex items-center gap-5 bottom-[100px] right-[550px] bg-white/80 rounded-lg px-6 py-3">
           <div>
-            <UserAvatar photo={Student} />
+            <Avatar>
+              <AvatarImage src="https://dhseedharvestco.com/cdn/shop/products/bee_3_2eb275c2-0079-4484-8325-3973376e88b8_1400x.jpg?v=1681981193" />
+            </Avatar>
           </div>
           <div>
             <h3 className="font-semibold text-lg text-[#595959]">User Experience Class</h3>

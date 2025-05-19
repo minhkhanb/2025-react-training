@@ -17,6 +17,7 @@ const Button: FunctionComponent<ButtonProps> = ({
   as = 'button',
   inverted,
   children,
+  className,
   ...props
 }) => {
   const Btn = as as any;
@@ -24,15 +25,17 @@ const Button: FunctionComponent<ButtonProps> = ({
   return (
     <Btn
       {...props}
-      type={props.type || 'button'}
       className={cn(
         'rounded-md bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow hover:bg-sky-500',
         'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600',
         'ring ring-inset',
         'inline-flex flex-row items-center cursor-pointer appearance-none outline-0 whitespace-nowrap',
-        props.className,
-        inverted ? 'bg-white text-gray-900 ring-gray-300' : 'bg-sky-600 text-white ring-transparent'
+        inverted
+          ? 'bg-white text-gray-900 ring-gray-300'
+          : 'bg-sky-600 text-white ring-transparent',
+        className
       )}
+      type={props.type || 'button'}
     >
       {children}
     </Btn>

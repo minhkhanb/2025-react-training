@@ -2,7 +2,8 @@
 
 import { ArrowRightOutlined } from '@ant-design/icons';
 import Image from 'next/image';
-import React from 'react';
+import React, { use } from 'react';
+import { CommunityUpdate } from '../../api/CommunityUpdateService';
 
 const CommunityUpdateCard = function CommunityUpdateCard({
   imageLink,
@@ -31,21 +32,12 @@ const CommunityUpdateCard = function CommunityUpdateCard({
   );
 };
 
-export default function CommunityUpdateSection() {
-  const communitiesUpdateList = [
-    {
-      imageLink: '/images/CommunityUpdate1.jpg',
-      caption: 'Creating Streamlined Safeguarding Processes with OneRen',
-    },
-    {
-      imageLink: '/images/CommunityUpdate2.jpg',
-      caption: 'What are your safeguarding responsibilities and how can you manage them?',
-    },
-    {
-      imageLink: '/images/CommunityUpdate3.jpg',
-      caption: 'Revamping the Membership Model with Triathlon Australia',
-    },
-  ];
+export default function CommunityUpdateSection({
+  listCommunitiesUpdate,
+}: {
+  listCommunitiesUpdate: Promise<CommunityUpdate[]>;
+}) {
+  const communitiesUpdateList = use(listCommunitiesUpdate);
 
   return (
     <div className="my-5 flex flex-wrap gap-4 px-6 py-8">

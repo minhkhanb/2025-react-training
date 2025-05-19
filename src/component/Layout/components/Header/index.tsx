@@ -1,9 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import { use, useState } from 'react';
 import { BarsOutlined, CloseOutlined } from '@ant-design/icons';
 import Link from 'next/link';
 import LogoHeader from './Icons/LogoHeader';
+import { HeaderContent } from '../../api/headerServices';
 
 const RedirectLink = function RedirectLink({ link, title }: { link: string; title: string }) {
   return (
@@ -33,17 +34,14 @@ const RedirectLinkOnMobile = function RedirectLinkOnMobile({
   );
 };
 
-export const Header = function Header() {
+export const Header = function Header({
+  headerContents,
+}: {
+  headerContents: Promise<HeaderContent[]>;
+}) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const redirectLinkList = [
-    { link: '/', title: 'Home' },
-    { link: '/blog', title: 'Service' },
-    { link: '/docs', title: 'Feature' },
-    { link: '/showcase', title: 'Product' },
-    { link: '/todo-list', title: 'Testimonial' },
-    { link: '/todo-list', title: 'FAQ' },
-  ];
+  const headerContent = use(headerContents);
 
   return (
     <header className="sticky top-0 z-10 bg-white shadow">
@@ -59,7 +57,7 @@ export const Header = function Header() {
           </div>
 
           <nav className="hidden space-x-8 lg:flex">
-            {redirectLinkList.map((item, index) => (
+            {headerContent.map((item, index) => (
               <RedirectLink link={item.link} title={item.title} key={index} />
             ))}
           </nav>
@@ -92,7 +90,7 @@ export const Header = function Header() {
         {isMenuOpen && (
           <div className="lg:hidden">
             <div className="space-y-1 px-2 pt-2 pb-3 sm:px-3">
-              {redirectLinkList.map((item, index) => (
+              {headerContent.map((item, index) => (
                 <RedirectLinkOnMobile link={item.link} title={item.title} key={index} />
               ))}
               <div className="flex flex-wrap gap-2">

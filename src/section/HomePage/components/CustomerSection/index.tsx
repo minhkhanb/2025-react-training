@@ -1,76 +1,15 @@
 'use client';
 
 import Image from 'next/image';
-import React, { useState } from 'react';
-import Customer1 from '../../icons/CustomerIcon/customer1';
-import Customer2 from '../../icons/CustomerIcon/customer2';
-import Customer3 from '../../icons/CustomerIcon/customer3';
-import Customer4 from '../../icons/CustomerIcon/customer4';
-import Customer5 from '../../icons/CustomerIcon/customer5';
-import Customer6 from '../../icons/CustomerIcon/customer6';
+import React, { use, useState } from 'react';
 import { ArrowRightOutlined } from '@ant-design/icons';
+import { Customer } from '../../api/CustomerService';
+import { iconCustomerRegistry } from '../../icons/CustomerIcon/IconRegistry';
 
-type customer = {
-  imageLink: string;
-  customer: React.JSX.Element;
-  description: string;
-  author: string;
-  position: string;
-};
+export default function CustomerSection({ listCustomers }: { listCustomers: Promise<Customer[]> }) {
+  const listCustomer = use(listCustomers);
 
-export default function CustomerSection() {
-  const listCustomer: customer[] = [
-    {
-      imageLink: '/images/CustomerImg.jpg',
-      customer: <Customer1 />,
-      description:
-        'Maecenas dignissim justo eget nulla rutrum molestie. Maecenas lobortis sem dui, vel rutrum risus tincidunt ullamcorper. Proin eu enim metus. Vivamus sed libero ornare, tristique quam in, gravida enim. Nullam ut molestie arcu, at hendrerit elit. Morbi laoreet elit at ligula molestie, nec molestie mi blandit. Suspendisse cursus tellus sed augue ultrices, quis tristique nulla sodales. Suspendisse eget lorem eu turpis vestibulum pretium. Suspendisse potenti. Quisque malesuada enim sapien, vitae placerat ante feugiat eget. Quisque vulputate odio neque, eget efficitur libero condimentum id. Curabitur id nibh id sem dignissim finibus ac sit amet magna.',
-      author: 'Tim Smith',
-      position: 'British Dragon Boat Racing Association',
-    },
-    {
-      imageLink: '/images/CustomerImg.jpg',
-      customer: <Customer2 />,
-      description:
-        'Maecenas dignissim justo eget nulla rutrum molestie. Maecenas lobortis sem dui, vel rutrum risus tincidunt ullamcorper. Proin eu enim metus. Vivamus sed libero ornare, tristique quam in, gravida enim. Nullam ut molestie arcu, at hendrerit elit. Morbi laoreet elit at ligula molestie, nec molestie mi blandit. Suspendisse cursus tellus sed augue ultrices, quis tristique nulla sodales. Suspendisse eget lorem eu turpis vestibulum pretium. Suspendisse potenti. Quisque malesuada enim sapien, vitae placerat ante feugiat eget. Quisque vulputate odio neque, eget efficitur libero condimentum id. Curabitur id nibh id sem dignissim finibus ac sit amet magna.',
-      author: 'Tim Smuth',
-      position: 'British Dragon Boat Racing Association',
-    },
-    {
-      imageLink: '/images/CustomerImg.jpg',
-      customer: <Customer3 />,
-      description:
-        'Maecenas dignissim justo eget nulla rutrum molestie. Maecenas lobortis sem dui, vel rutrum risus tincidunt ullamcorper. Proin eu enim metus. Vivamus sed libero ornare, tristique quam in, gravida enim. Nullam ut molestie arcu, at hendrerit elit. Morbi laoreet elit at ligula molestie, nec molestie mi blandit. Suspendisse cursus tellus sed augue ultrices, quis tristique nulla sodales. Suspendisse eget lorem eu turpis vestibulum pretium. Suspendisse potenti. Quisque malesuada enim sapien, vitae placerat ante feugiat eget. Quisque vulputate odio neque, eget efficitur libero condimentum id. Curabitur id nibh id sem dignissim finibus ac sit amet magna.',
-      author: 'Tom Smith',
-      position: 'British Dragon Boat Racing Association',
-    },
-    {
-      imageLink: '/images/CustomerImg.jpg',
-      customer: <Customer4 />,
-      description:
-        'Maecenas dignissim justo eget nulla rutrum molestie. Maecenas lobortis sem dui, vel rutrum risus tincidunt ullamcorper. Proin eu enim metus. Vivamus sed libero ornare, tristique quam in, gravida enim. Nullam ut molestie arcu, at hendrerit elit. Morbi laoreet elit at ligula molestie, nec molestie mi blandit. Suspendisse cursus tellus sed augue ultrices, quis tristique nulla sodales. Suspendisse eget lorem eu turpis vestibulum pretium. Suspendisse potenti. Quisque malesuada enim sapien, vitae placerat ante feugiat eget. Quisque vulputate odio neque, eget efficitur libero condimentum id. Curabitur id nibh id sem dignissim finibus ac sit amet magna.',
-      author: 'Tam Smith',
-      position: 'British Dragon Boat Racing Association',
-    },
-    {
-      imageLink: '/images/CustomerImg.jpg',
-      customer: <Customer5 />,
-      description:
-        'Maecenas dignissim justo eget nulla rutrum molestie. Maecenas lobortis sem dui, vel rutrum risus tincidunt ullamcorper. Proin eu enim metus. Vivamus sed libero ornare, tristique quam in, gravida enim. Nullam ut molestie arcu, at hendrerit elit. Morbi laoreet elit at ligula molestie, nec molestie mi blandit. Suspendisse cursus tellus sed augue ultrices, quis tristique nulla sodales. Suspendisse eget lorem eu turpis vestibulum pretium. Suspendisse potenti. Quisque malesuada enim sapien, vitae placerat ante feugiat eget. Quisque vulputate odio neque, eget efficitur libero condimentum id. Curabitur id nibh id sem dignissim finibus ac sit amet magna.',
-      author: 'Tem Smith',
-      position: 'British Dragon Boat Racing Association',
-    },
-    {
-      imageLink: '/images/CustomerImg.jpg',
-      customer: <Customer6 />,
-      description:
-        'Maecenas dignissim justo eget nulla rutrum molestie. Maecenas lobortis sem dui, vel rutrum risus tincidunt ullamcorper. Proin eu enim metus. Vivamus sed libero ornare, tristique quam in, gravida enim. Nullam ut molestie arcu, at hendrerit elit. Morbi laoreet elit at ligula molestie, nec molestie mi blandit. Suspendisse cursus tellus sed augue ultrices, quis tristique nulla sodales. Suspendisse eget lorem eu turpis vestibulum pretium. Suspendisse potenti. Quisque malesuada enim sapien, vitae placerat ante feugiat eget. Quisque vulputate odio neque, eget efficitur libero condimentum id. Curabitur id nibh id sem dignissim finibus ac sit amet magna.',
-      author: 'Tum Smith',
-      position: 'British Dragon Boat Racing Association',
-    },
-  ];
-
-  const [selectedCustomer, setSelectedCustomer] = useState<customer>(listCustomer[0]);
+  const [selectedCustomer, setSelectedCustomer] = useState<Customer>(listCustomer[0]);
 
   return (
     <div className="flex items-start justify-center gap-7 bg-[#F5F7FA] px-6 py-8 lg:items-center lg:gap-20 lg:px-36">
@@ -95,11 +34,19 @@ export default function CustomerSection() {
         </div>
         <div className="flex w-full flex-col items-center gap-2.5 lg:flex-row">
           <div className="flex grow flex-wrap justify-between gap-3 md:gap-10">
-            {listCustomer.map((item, index) => (
-              <div className="cursor-pointer" onClick={() => setSelectedCustomer(item)} key={index}>
-                {item.customer}
-              </div>
-            ))}
+            {listCustomer.map((item, index) => {
+              const Icon = iconCustomerRegistry[item.customer];
+
+              return (
+                <div
+                  className="cursor-pointer"
+                  onClick={() => setSelectedCustomer(item)}
+                  key={index}
+                >
+                  <Icon />
+                </div>
+              );
+            })}
           </div>
           <div className="flex grow items-center justify-center p-2">
             <p className="cursor-pointer text-xl leading-5 font-semibold text-[#4CAF4F] hover:text-[#347136]">

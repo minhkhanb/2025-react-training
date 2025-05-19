@@ -1,16 +1,11 @@
 'use client';
 
-import {
-  DribbbleOutlined,
-  InstagramOutlined,
-  SendOutlined,
-  TwitterOutlined,
-  YoutubeFilled,
-} from '@ant-design/icons';
+import { SendOutlined } from '@ant-design/icons';
 import Link from 'next/link';
 import LogoFooter from './Icons/LogoFooter';
-import { ForwardRefExoticComponent, RefAttributes } from 'react';
-import { AntdIconProps } from '@ant-design/icons/lib/components/AntdIcon';
+import { RedirectLink, SocialIcons } from '../../api/footerServices';
+import DynamicAntIcon from '@/component/DynamicAntIcon';
+import { use } from 'react';
 
 const SocialIcon = function SocialIcon({
   link,
@@ -19,7 +14,7 @@ const SocialIcon = function SocialIcon({
 }: {
   link: string;
   title: string;
-  Icon: ForwardRefExoticComponent<Omit<AntdIconProps, 'ref'> & RefAttributes<HTMLSpanElement>>;
+  Icon: string;
 }) {
   return (
     <a
@@ -27,12 +22,18 @@ const SocialIcon = function SocialIcon({
       className="flex h-8 w-8 items-center justify-center rounded-full bg-[rgba(162,162,162,0.3)] text-white transition duration-150 hover:text-white"
     >
       <span className="sr-only">{title}</span>
-      <Icon />
+      <DynamicAntIcon iconName={Icon} />
     </a>
   );
 };
 
-const RedirectLink = function RedirectLink({ link, title }: { link: string; title: string }) {
+const RedirectLinkComponent = function RedirectLink({
+  link,
+  title,
+}: {
+  link: string;
+  title: string;
+}) {
   return (
     <li>
       <Link href={link} className="text-gray-300 transition duration-150 hover:text-white">
@@ -42,33 +43,18 @@ const RedirectLink = function RedirectLink({ link, title }: { link: string; titl
   );
 };
 
-export const Footer = function Footer() {
-  const listSocial = [
-    { link: 'https://www.facebook.com/nhat3173', title: 'Instagram', Icon: InstagramOutlined },
-    {
-      link: 'https://github.com/nhattlm3173/HDW-TRAINING-NEXTJS',
-      title: 'Dribbble',
-      Icon: DribbbleOutlined,
-    },
-    { link: 'https://www.facebook.com/nhat3173', title: 'Twitter', Icon: TwitterOutlined },
-    { link: 'https://www.facebook.com/nhat3173', title: 'Youtube', Icon: YoutubeFilled },
-  ];
-
-  const listCompanyLink = [
-    { link: '/', title: 'About us' },
-    { link: '/blog', title: 'Blog' },
-    { link: '/docs', title: 'Contact us' },
-    { link: '/showcase', title: 'Pricing' },
-    { link: '/todo-list', title: 'Testimonials' },
-  ];
-
-  const listSupportLink = [
-    { link: '/', title: 'Help center' },
-    { link: '/blog', title: 'Terms of service' },
-    { link: '/docs', title: 'Legal' },
-    { link: '/showcase', title: 'Privacy policy' },
-    { link: '/todo-list', title: 'Status' },
-  ];
+export const Footer = function Footer({
+  SocialIcons,
+  CompanyLinks,
+  SupportLinks,
+}: {
+  SocialIcons: Promise<SocialIcons[]>;
+  CompanyLinks: Promise<RedirectLink[]>;
+  SupportLinks: Promise<RedirectLink[]>;
+}) {
+  const socialIcons = use(SocialIcons);
+  const companyLinks = use(CompanyLinks);
+  const supportLinks = use(SupportLinks);
 
   return (
     <footer className="bg-[#263238] text-white">
@@ -82,7 +68,7 @@ export const Footer = function Footer() {
               Copyright © {new Date().getFullYear()} Nexcent ltd. <br /> All rights reserved
             </p>
             <div className="flex space-x-4">
-              {listSocial.map((item, index) => {
+              {socialIcons.map((item, index) => {
                 return (
                   <SocialIcon key={index} link={item.link} title={item.title} Icon={item.Icon} />
                 );
@@ -94,8 +80,8 @@ export const Footer = function Footer() {
             <div className="">
               <h3 className="mb-4 text-xl font-semibold tracking-wider">Company</h3>
               <ul className="space-y-2">
-                {listCompanyLink.map((item, index) => (
-                  <RedirectLink link={item.link} title={item.title} key={index} />
+                {companyLinks.map((item, index) => (
+                  <RedirectLinkComponent link={item.link} title={item.title} key={index} />
                 ))}
               </ul>
             </div>
@@ -103,8 +89,8 @@ export const Footer = function Footer() {
             <div className="">
               <h3 className="mb-4 text-xl font-semibold tracking-wider">Support</h3>
               <ul className="space-y-2">
-                {listSupportLink.map((item, index) => (
-                  <RedirectLink link={item.link} title={item.title} key={index} />
+                {supportLinks.map((item, index) => (
+                  <RedirectLinkComponent link={item.link} title={item.title} key={index} />
                 ))}
               </ul>
             </div>

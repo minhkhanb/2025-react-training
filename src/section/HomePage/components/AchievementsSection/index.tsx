@@ -2,19 +2,26 @@
 
 import React, { use } from 'react';
 import { Achievement } from '../../api/AchievementService';
+import Image from 'next/image';
 
 const AchievementItem = function AchievementItem({
-  Icon,
+  achievementImageLink,
   total,
   title,
 }: {
-  Icon: React.JSX.ElementType;
+  achievementImageLink: string;
   total: string;
   title: string;
 }) {
   return (
     <div className="flex w-full gap-4 md:w-1/2">
-      <Icon />
+      <Image
+        className="object-contain"
+        src={achievementImageLink}
+        alt={title}
+        width={48}
+        height={48}
+      />
 
       <div className="flex flex-wrap">
         <p className="w-full text-3xl font-bold text-[#4D4D4D]">{total}</p>
@@ -47,7 +54,12 @@ export default function Achievements({
       <div className="mt-5 flex flex-wrap justify-end gap-10 lg:mt-0 lg:w-1/2">
         <div className="flex w-full flex-wrap justify-between gap-y-10">
           {AchievementsList.map((item, index) => (
-            <AchievementItem Icon={item.icon} key={index} total={item.total} title={item.title} />
+            <AchievementItem
+              achievementImageLink={item.achievementImageLink}
+              key={index}
+              total={item.total}
+              title={item.title}
+            />
           ))}
         </div>
       </div>

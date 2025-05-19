@@ -1,12 +1,12 @@
 'use client';
 
 import React, { use } from 'react';
-import { IconClientName, iconClientRegistry } from '../../icons/ClientIcon/iconRegistry';
+import Image from 'next/image';
 
 export default function ClientSection({
   listClientIcons,
 }: {
-  listClientIcons: Promise<{ Icon: IconClientName }[]>;
+  listClientIcons: Promise<{ clientImageLink: string }[]>;
 }) {
   const listClient = use(listClientIcons);
 
@@ -20,10 +20,20 @@ export default function ClientSection({
       </div>
       <div className="flex w-full flex-wrap items-center justify-between">
         {listClient.map((item, index) => {
-          const Icon = iconClientRegistry[item.Icon];
+          // const Icon = iconClientRegistry[item.Icon];
 
-          if (!Icon) return null;
-          return <Icon key={index} />;
+          // if (!Icon) return null;
+          // return <Icon key={index} />;
+          return (
+            <Image
+              className="object-contain"
+              key={index}
+              src={item.clientImageLink}
+              alt={'Client'}
+              width={48}
+              height={48}
+            />
+          );
         })}
       </div>
     </div>

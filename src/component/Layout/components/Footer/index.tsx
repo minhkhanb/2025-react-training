@@ -98,7 +98,13 @@ export const Footer = function Footer({
             <div className="">
               <h3 className="mb-4 text-xl font-semibold tracking-wider">Stay up to date</h3>
               <div className="flex h-10 w-64 items-center justify-between rounded-xl bg-[rgba(162,162,162,0.3)] px-4">
-                <input type="text" name="" id="" placeholder="Your email address" />
+                <input
+                  type="text"
+                  name=""
+                  id=""
+                  placeholder="Your email address"
+                  className="outline-none"
+                />
                 <SendOutlined className="cursor-pointer" />
               </div>
             </div>

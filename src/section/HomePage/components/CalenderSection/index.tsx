@@ -1,14 +1,20 @@
 'use client';
 
 import React from 'react';
-import CalenderIcon from '../../icons/CalenderIcon';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function CalenderSection() {
   return (
     <div className="mb-7 flex min-h-[70vh] items-center justify-between gap-8 p-6 pb-2 sm:p-12 sm:pb-2 md:p-20 md:pb-2 lg:px-36 lg:pb-2">
       <div className="hidden lg:flex">
-        <CalenderIcon />
+        <Image
+          className="object-contain"
+          src={'/images/Calender.png'}
+          alt={'Calender'}
+          width={441}
+          height={133}
+        />
       </div>
       <main className="row-start-2 flex flex-grow flex-col items-center gap-6 text-center sm:items-start sm:text-left">
         <h2 className="text-3xl font-semibold text-[#4D4D4D] md:text-4xl">

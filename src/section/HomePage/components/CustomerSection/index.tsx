@@ -4,7 +4,6 @@ import Image from 'next/image';
 import React, { use, useState } from 'react';
 import { ArrowRightOutlined } from '@ant-design/icons';
 import { Customer } from '../../api/CustomerService';
-import { iconCustomerRegistry } from '../../icons/CustomerIcon/IconRegistry';
 
 export default function CustomerSection({ listCustomers }: { listCustomers: Promise<Customer[]> }) {
   const listCustomer = use(listCustomers);
@@ -35,7 +34,7 @@ export default function CustomerSection({ listCustomers }: { listCustomers: Prom
         <div className="flex w-full flex-col items-center gap-2.5 lg:flex-row">
           <div className="flex grow flex-wrap justify-between gap-3 md:gap-10">
             {listCustomer.map((item, index) => {
-              const Icon = iconCustomerRegistry[item.customer];
+              // const Icon = iconCustomerRegistry[item.customer];
 
               return (
                 <div
@@ -43,7 +42,13 @@ export default function CustomerSection({ listCustomers }: { listCustomers: Prom
                   onClick={() => setSelectedCustomer(item)}
                   key={index}
                 >
-                  <Icon />
+                  <Image
+                    className="object-contain"
+                    src={item.customerImageLink}
+                    alt={item.author}
+                    width={48}
+                    height={48}
+                  />
                 </div>
               );
             })}

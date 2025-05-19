@@ -8,19 +8,19 @@ export interface Community {
 
 const communityList: Community[] = [
   {
-    communityImageLink: '/images/Community1.png',
+    communityImageLink: '/images/community-icon1.png',
     title: 'Membership Organisations',
     description:
       'Our membership management software provides full automation of membership renewals and payments',
   },
   {
-    communityImageLink: '/images/Community2.png',
+    communityImageLink: '/images/community-icon2.png',
     title: 'National Associations',
     description:
       'Our membership management software provides full automation of membership renewals and payments',
   },
   {
-    communityImageLink: '/images/Community3.png',
+    communityImageLink: '/images/community-icon3.png',
     title: 'Clubs And Groups',
     description:
       'Our membership management software provides full automation of membership renewals and payments',

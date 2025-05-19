@@ -8,11 +8,7 @@ const CommunityCard = function CommunityCard({
   communityImageLink,
   title,
   description,
-}: {
-  communityImageLink: string;
-  title: string;
-  description: string;
-}) {
+}: Community) {
   return (
     <div className="h-64 w-80 gap-2 rounded-lg px-8 py-6 shadow-md">
       <div className="flex w-full flex-wrap justify-center gap-4">

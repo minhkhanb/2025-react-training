@@ -8,11 +8,7 @@ const AchievementItem = function AchievementItem({
   achievementImageLink,
   total,
   title,
-}: {
-  achievementImageLink: string;
-  total: string;
-  title: string;
-}) {
+}: Achievement) {
   return (
     <div className="flex w-full gap-4 md:w-1/2">
       <Image

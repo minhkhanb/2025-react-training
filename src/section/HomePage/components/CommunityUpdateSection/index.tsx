@@ -5,13 +5,7 @@ import Image from 'next/image';
 import React, { use } from 'react';
 import { CommunityUpdate } from '../../api/CommunityUpdateService';
 
-const CommunityUpdateCard = function CommunityUpdateCard({
-  imageLink,
-  caption,
-}: {
-  imageLink: string;
-  caption: string;
-}) {
+const CommunityUpdateCard = function CommunityUpdateCard({ imageLink, caption }: CommunityUpdate) {
   return (
     <div className="relative h-[366px] w-[368px] shrink-0 rounded-lg">
       <Image

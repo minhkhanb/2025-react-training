@@ -7,15 +7,15 @@ export interface CommunityUpdate {
 
 const communitiesUpdateList = [
   {
-    imageLink: '/images/CommunityUpdate1.jpg',
+    imageLink: '/images/community-update1.jpg',
     caption: 'Creating Streamlined Safeguarding Processes with OneRen',
   },
   {
-    imageLink: '/images/CommunityUpdate2.jpg',
+    imageLink: '/images/community-update2.jpg',
     caption: 'What are your safeguarding responsibilities and how can you manage them?',
   },
   {
-    imageLink: '/images/CommunityUpdate3.jpg',
+    imageLink: '/images/community-update3.jpg',
     caption: 'Revamping the Membership Model with Triathlon Australia',
   },
 ];

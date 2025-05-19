@@ -42,7 +42,7 @@ export default function HeroSection() {
       </main>
       <div className="hidden lg:flex">
         <Image
-          src={'/images/Hero.png'}
+          src={'/images/hero.png'}
           className="object-contain"
           width={391}
           height={407}

@@ -7,19 +7,11 @@ import { RedirectLink, SocialIcons } from '../../api/footerServices';
 import DynamicAntIcon from '@/component/DynamicAntIcon';
 import { use } from 'react';
 
-const SocialIcon = function SocialIcon({
-  link,
-  title,
-  Icon,
-}: {
-  link: string;
-  title: string;
-  Icon: string;
-}) {
+const SocialIcon = function SocialIcon({ link, title, Icon }: SocialIcons) {
   return (
     <a
       href={link}
-      className="flex h-8 w-8 items-center justify-center rounded-full bg-[rgba(162,162,162,0.3)] text-white transition duration-150 hover:text-white"
+      className="flex h-8 w-8 items-center justify-center rounded-full bg-[rgba(162,162,162,0.3)] text-white transition duration-150 hover:text-gray-300"
     >
       <span className="sr-only">{title}</span>
       <DynamicAntIcon iconName={Icon} />
@@ -27,13 +19,7 @@ const SocialIcon = function SocialIcon({
   );
 };
 
-const RedirectLinkComponent = function RedirectLink({
-  link,
-  title,
-}: {
-  link: string;
-  title: string;
-}) {
+const RedirectLinkComponent = function RedirectLink({ link, title }: RedirectLink) {
   return (
     <li>
       <Link href={link} className="text-gray-300 transition duration-150 hover:text-white">

@@ -10,7 +10,7 @@ export default function UnlockSection() {
       <div className="hidden lg:flex">
         <Image
           className="object-contain"
-          src={'/images/Unlock.png'}
+          src={'/images/unlock.png'}
           alt={'Unlock'}
           width={442}
           height={433}

@@ -6,7 +6,7 @@ import Link from 'next/link';
 import LogoHeader from './Icons/LogoHeader';
 import { HeaderContent } from '../../api/headerServices';
 
-const RedirectLink = function RedirectLink({ link, title }: { link: string; title: string }) {
+const RedirectLink = function RedirectLink({ link, title }: HeaderContent) {
   return (
     <Link
       href={link}
@@ -17,13 +17,7 @@ const RedirectLink = function RedirectLink({ link, title }: { link: string; titl
   );
 };
 
-const RedirectLinkOnMobile = function RedirectLinkOnMobile({
-  link,
-  title,
-}: {
-  link: string;
-  title: string;
-}) {
+const RedirectLinkOnMobile = function RedirectLinkOnMobile({ link, title }: HeaderContent) {
   return (
     <Link
       href={link}

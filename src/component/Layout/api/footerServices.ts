@@ -11,7 +11,7 @@ export interface RedirectLink {
   title: string;
 }
 
-const listSocial: SocialIcons[] = [
+const socialIcons: SocialIcons[] = [
   { link: 'https://www.facebook.com/nhat3173', title: 'Instagram', Icon: 'InstagramOutlined' },
   {
     link: 'https://github.com/nhattlm3173/HDW-TRAINING-NEXTJS',
@@ -22,7 +22,7 @@ const listSocial: SocialIcons[] = [
   { link: 'https://www.facebook.com/nhat3173', title: 'Youtube', Icon: 'YoutubeFilled' },
 ];
 
-const listCompanyLinks: RedirectLink[] = [
+const companyLinks: RedirectLink[] = [
   { link: '/', title: 'About us' },
   { link: '/blog', title: 'Blog' },
   { link: '/docs', title: 'Contact us' },
@@ -30,7 +30,7 @@ const listCompanyLinks: RedirectLink[] = [
   { link: '/todo-list', title: 'Testimonials' },
 ];
 
-const listSupportLinks: RedirectLink[] = [
+const supportLinks: RedirectLink[] = [
   { link: '/', title: 'Help center' },
   { link: '/blog', title: 'Terms of service' },
   { link: '/docs', title: 'Legal' },
@@ -38,14 +38,38 @@ const listSupportLinks: RedirectLink[] = [
   { link: '/todo-list', title: 'Status' },
 ];
 
-export const getListSocialIcons = () => {
-  return fakeFetch<SocialIcons[]>(listSocial);
+/**
+ * Fetches social media icons data
+ */
+export const getListSocialIcons = async (): Promise<SocialIcons[]> => {
+  try {
+    return await fakeFetch<SocialIcons[]>(socialIcons);
+  } catch (err) {
+    console.error('Failed to fetch social icons: ', err);
+    return [];
+  }
 };
 
-export const getListCompanyLinks = () => {
-  return fakeFetch<RedirectLink[]>(listCompanyLinks);
+/**
+ * Fetches company navigation links
+ */
+export const getListCompanyLinks = async (): Promise<RedirectLink[]> => {
+  try {
+    return await fakeFetch<RedirectLink[]>(companyLinks);
+  } catch (err) {
+    console.error('Failed to fetch company links: ', err);
+    return [];
+  }
 };
 
-export const getListSupportLinks = () => {
-  return fakeFetch<RedirectLink[]>(listSupportLinks);
+/**
+ * Fetches support navigation links
+ */
+export const getListSupportLinks = async (): Promise<RedirectLink[]> => {
+  try {
+    return await fakeFetch<RedirectLink[]>(supportLinks);
+  } catch (err) {
+    console.error('Failed to fetch support links: ', err);
+    return [];
+  }
 };

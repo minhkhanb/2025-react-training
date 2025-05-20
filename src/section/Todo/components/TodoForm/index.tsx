@@ -1,12 +1,12 @@
 'use client';
 
-import { memo } from 'react';
+import { memo, useMemo } from 'react';
 import { TodoFormProps, TodoValue } from '@/section/Todo/types/ITodoList';
 import { FormState, UseFormReturn } from 'react-hook-form';
-import Button from '@/component/ui/Button';
-import Form from '@/component/Form';
+import Button from '@/components/ui/Button';
+import Form from '@/components/Form';
 import * as yup from 'yup';
-import Input from '@/component/ui/Input';
+import Input from '@/components/ui/Input';
 
 export const ToDoForm = memo(function TodoForm({
   todoSelectedValue,
@@ -64,7 +64,7 @@ export const ToDoForm = memo(function TodoForm({
       formHandlers?.setValue('message', '');
     } else {
       const todoData: TodoValue = {
-        id: Date.now().toString(),
+        _id: Date.now().toString(),
         message: values.message,
         isFinish: false,
       };
@@ -81,13 +81,20 @@ export const ToDoForm = memo(function TodoForm({
     })
     .required();
 
+  // console.log(todoSelectedValue);
+
+  const defaultValues = useMemo(
+    () => ({
+      message: todoSelectedValue ?? '',
+    }),
+    [todoSelectedValue]
+  );
+
   return (
     <div className="flex items-center rounded-t-xl border-b border-gray-200 bg-white p-6">
       <Form
         onSubmit={onSubmit}
-        defaultValues={{
-          message: todoSelectedValue ?? '',
-        }}
+        defaultValues={defaultValues}
         validationSchema={schema}
         // mode="onChange"
         className="flex w-full"

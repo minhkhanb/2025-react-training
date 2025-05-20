@@ -51,9 +51,9 @@ function Form<T extends FieldValues>({
   };
 
   useEffect(() => {
-    console.log(defaultValues, formHandlers.formState.isDirty);
+    // console.log(defaultValues, formHandlers);
 
-    if (formHandlers.formState.isDirty) return;
+    // if (formHandlers.formState.isDirty) return;
 
     formHandlers.reset(defaultValues);
   }, [defaultValues, formHandlers]);

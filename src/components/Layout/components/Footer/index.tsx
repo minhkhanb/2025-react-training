@@ -4,7 +4,7 @@ import { SendOutlined } from '@ant-design/icons';
 import Link from 'next/link';
 import LogoFooter from './Icons/LogoFooter';
 import { RedirectLink, SocialIcons } from '../../api/footerServices';
-import DynamicAntIcon from '@/component/DynamicAntIcon';
+import DynamicAntIcon from '@/components/DynamicAntIcon';
 import { use } from 'react';
 
 const SocialIcon = function SocialIcon({ link, title, Icon }: SocialIcons) {

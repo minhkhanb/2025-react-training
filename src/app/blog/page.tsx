@@ -1,15 +1,20 @@
+import Link from 'next/link';
+
 export default function Blog() {
   const posts = [
     {
       title: 'First Post',
+      slug: 'first-post',
       description: 'This is the first blog post.',
     },
     {
       title: 'Second Post',
+      slug: 'second-post',
       description: 'Here is another interesting article.',
     },
     {
       title: 'Next.js Tips',
+      slug: 'nextjs-tips',
       description: 'Some useful tips for working with Next.js.',
     },
   ];
@@ -21,8 +26,9 @@ export default function Blog() {
       <ul className="space-y-6">
         {posts.map((post, idx) => (
           <li key={idx} className="border rounded-lg p-4 shadow-sm hover:shadow-md transition">
-            <h2 className="text-xl font-semibold mb-2">{post.title}</h2>
-            <p className="">{post.description}</p>
+            <h2 className="text-xl font-semibold mb-2">
+              <Link href={`/blog/post/${post.slug}`}>{post.title}</Link>
+            </h2>
           </li>
         ))}
       </ul>

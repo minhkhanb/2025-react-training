@@ -10,7 +10,7 @@ export default function CalenderSection() {
       <div className="hidden lg:flex">
         <Image
           className="object-contain"
-          src={'/images/calender.png'}
+          src={'/images/calender-image.png'}
           alt={'Calender'}
           width={441}
           height={133}

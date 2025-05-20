@@ -55,6 +55,7 @@ export default function DynamicAntIcon({ iconName, ...props }: Props) {
       // Dynamic import path must match Ant Design's icon export structure
       const mod = await import(`@ant-design/icons/es/icons/${iconName}`);
       setIcon(() => mod.default);
+      iconCache[iconName] = mod.default;
     } catch (err) {
       console.warn('Icon not found: ', iconName, err);
       setError(true);

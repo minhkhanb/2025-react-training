@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import React, { useState } from 'react';
-import HeroIcon from '../../icons/HeroIcon';
+import Image from 'next/image';
 
 const Dot = function Dot({
   page,
@@ -41,7 +41,13 @@ export default function HeroSection() {
         </Link>
       </main>
       <div className="hidden lg:flex">
-        <HeroIcon />
+        <Image
+          src={'/images/hero-image.png'}
+          className="object-contain"
+          width={391}
+          height={407}
+          alt={'Hero Image'}
+        />
       </div>
       <div className="flex h-4 w-full items-center justify-center gap-2">
         {Array.from({ length: 3 }, (_, i) => i + 1).map(item => (

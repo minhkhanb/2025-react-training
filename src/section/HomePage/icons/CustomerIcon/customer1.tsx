@@ -2,9 +2,16 @@
 
 import React from 'react';
 
-export default function Customer1() {
+export default function Customer1(props: React.SVGProps<SVGSVGElement>) {
   return (
-    <svg width="48" height="49" viewBox="0 0 48 49" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg
+      {...props}
+      width="48"
+      height="49"
+      viewBox="0 0 48 49"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <rect y="0.399048" width="48" height="48" rx="8" fill="#E8F5E9" />
       <g clipPath="url(#clip0_22_772)">
         <path

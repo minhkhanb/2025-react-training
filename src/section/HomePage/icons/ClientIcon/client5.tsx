@@ -1,8 +1,15 @@
 import React from 'react';
 
-export default function Client5() {
+export default function Client5(props: React.SVGProps<SVGSVGElement>) {
   return (
-    <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg
+      {...props}
+      width="48"
+      height="48"
+      viewBox="0 0 48 48"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <g clipPath="url(#clip0_211_843)">
         <path
           d="M42.4375 11.6905C42.4375 12.1565 42.8199 12.5343 43.2917 12.5343H44.1458C44.6176 12.5343 45 12.1565 45 11.6905C45 11.2246 44.6176 10.8468 44.1458 10.8468H43.2917C42.8199 10.8468 42.4375 11.2246 42.4375 11.6905Z"

@@ -2,9 +2,16 @@
 
 import React from 'react';
 
-export default function Community3() {
+export default function Community3(props: React.SVGProps<SVGSVGElement>) {
   return (
-    <svg width="65" height="56" viewBox="0 0 65 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg
+      {...props}
+      width="65"
+      height="56"
+      viewBox="0 0 65 56"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <path
         d="M65 38C65 47.9411 56.9411 56 47 56L20 56C17.2386 56 15 53.7614 15 51L15 17C15 11.4772 19.4772 7 25 7L60 7C62.7614 7 65 9.23858 65 12L65 38Z"
         fill="#E8F5E9"

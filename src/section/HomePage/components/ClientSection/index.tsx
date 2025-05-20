@@ -1,24 +1,14 @@
 'use client';
 
-import React from 'react';
-import Client1 from '../../icons/ClientIcon/client1';
-import Client2 from '../../icons/ClientIcon/client2';
-import Client3 from '../../icons/ClientIcon/client3';
-import Client4 from '../../icons/ClientIcon/client4';
-import Client5 from '../../icons/ClientIcon/client5';
-import Client6 from '../../icons/ClientIcon/client6';
-import Client7 from '../../icons/ClientIcon/client7';
+import React, { use } from 'react';
+import Image from 'next/image';
 
-export default function ClientSection() {
-  const listClient = [
-    { client: Client1 },
-    { client: Client2 },
-    { client: Client3 },
-    { client: Client4 },
-    { client: Client5 },
-    { client: Client6 },
-    { client: Client7 },
-  ];
+export default function ClientSection({
+  listClientIcons,
+}: {
+  listClientIcons: Promise<{ clientImageLink: string }[]>;
+}) {
+  const listClient = use(listClientIcons);
 
   return (
     <div className="my-10 flex flex-wrap justify-center gap-4 px-5 md:px-36">
@@ -29,9 +19,22 @@ export default function ClientSection() {
         </p>
       </div>
       <div className="flex w-full flex-wrap items-center justify-between">
-        {listClient.map((item, index) => (
-          <item.client key={index} />
-        ))}
+        {listClient.map((item, index) => {
+          // const Icon = iconClientRegistry[item.Icon];
+
+          // if (!Icon) return null;
+          // return <Icon key={index} />;
+          return (
+            <Image
+              className="object-contain"
+              key={index}
+              src={item.clientImageLink}
+              alt={'Client'}
+              width={48}
+              height={48}
+            />
+          );
+        })}
       </div>
     </div>
   );

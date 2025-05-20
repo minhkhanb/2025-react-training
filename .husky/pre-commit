@@ -1,0 +1,2 @@
+echo "Checking before committing..."
+npx lint-staged

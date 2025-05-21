@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { ToastButtons } from '@src/components/toast';
 
 export default function Home() {
   return (
@@ -9,7 +10,7 @@ export default function Home() {
       <p className="text-lg text-gray-700 dark:text-gray-300 mb-8 text-center max-w-xl">
         This is a basic home page built with Next.js and React.
       </p>
-      <div className="flex gap-4">
+      <div className="flex mb-6 gap-4">
         <Link
           href="/about-us"
           className="px-6 py-3 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition-colors font-semibold text-lg"
@@ -22,6 +23,10 @@ export default function Home() {
         >
           Blog
         </Link>
+      </div>
+      <div className="flex flex-col gap-4 text-center">
+        <p className="font-bold">Toast Message using Singleton Function</p>
+        <ToastButtons />
       </div>
     </div>
   );

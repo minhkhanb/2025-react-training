@@ -1,2 +1,3 @@
 echo "Checking before committing..."
+npm run typecheck
 npx lint-staged

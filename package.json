@@ -9,6 +9,7 @@
     "lint": "next lint",
     "lint:fix": "eslint --fix \"**/*.{js,jsx,ts,tsx}\" && prettier --write \"**/*.{js,jsx,ts,tsx,json,md,css}\"",
     "prepare": "husky",
+    "typecheck": "tsc --noEmit",
     "test": "echo \"No tests yet\" && exit 0"
   },
   "dependencies": {

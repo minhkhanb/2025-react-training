@@ -9,8 +9,8 @@ import {
   flexRender,
   SortingState,
   RowSelectionState,
+  ColumnDef,
 } from '@tanstack/react-table';
-import { posts } from '@src/data/posts';
 import {
   Table,
   TableBody,
@@ -19,17 +19,24 @@ import {
   TableHeader,
   TableRow,
 } from '@src/components/ui/table';
-import { columns } from './columns';
-import { Search } from './components/Search';
-import { Pagination } from './components/Pagination';
+import { Search } from './Search';
+import { Pagination } from './Pagination';
 
-export default function BlogTable() {
+export default function DataTable<TData>({
+  columns,
+  pageSize = 5,
+  data,
+}: {
+  columns: ColumnDef<TData>[];
+  pageSize?: number;
+  data: TData[];
+}) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [filtering, setFiltering] = useState<string>('');
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
 
   const table = useReactTable({
-    data: posts,
+    data: data,
     columns,
     state: {
       sorting,
@@ -45,7 +52,7 @@ export default function BlogTable() {
     getPaginationRowModel: getPaginationRowModel(),
     initialState: {
       pagination: {
-        pageSize: 5,
+        pageSize: pageSize,
       },
     },
   });
@@ -61,6 +68,7 @@ export default function BlogTable() {
               {headerGroup.headers.map(header => (
                 <TableHead
                   key={header.id}
+                  style={{ width: header.column.getSize() }}
                   onClick={header.column.getToggleSortingHandler()}
                   className="cursor-pointer"
                 >
@@ -78,7 +86,7 @@ export default function BlogTable() {
           {table.getRowModel().rows.map(row => (
             <TableRow key={row.id}>
               {row.getVisibleCells().map(cell => (
-                <TableCell key={cell.id}>
+                <TableCell key={cell.id} style={{ width: cell.column.getSize() }}>
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </TableCell>
               ))}
@@ -87,13 +95,13 @@ export default function BlogTable() {
         </TableBody>
       </Table>
 
-      <Pagination table={table} />
-
-      <div>
-        <p>
+      <div className="flex justify-end">
+        <p className="text-sm text-gray-600">
           Đã chọn <strong>{Object.keys(rowSelection).length}</strong> hàng
         </p>
       </div>
+
+      <Pagination table={table} />
     </div>
   );
 }

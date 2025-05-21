@@ -1,15 +1,22 @@
 import { faker } from '@faker-js/faker';
+import { ColumnSort, SortingState } from '@tanstack/table-core';
 
 export type Person = {
+  id: number;
   firstName: string;
-  lastName?: string;
+  lastName: string;
   age: number;
-  visits?: number;
+  visits: number;
   progress: number;
-  status: 'relationship' | 'single' | 'complicated' | 'married';
-  rank: number;
+  status: 'relationship' | 'complicated' | 'single';
   createdAt: Date;
-  subRows?: Person[];
+};
+
+export type PersonApiResponse = {
+  data: Person[];
+  meta: {
+    totalRowCount: number;
+  };
 };
 
 const range = (len: number) => {
@@ -22,21 +29,16 @@ const range = (len: number) => {
   return arr;
 };
 
-const newPerson = (): Person => {
+const newPerson = (index: number): Person => {
   return {
+    id: index + 1,
     firstName: faker.person.firstName(),
-    lastName: Math.random() < 0.1 ? undefined : faker.person.lastName(),
+    lastName: faker.person.lastName(),
     age: faker.number.int(40),
-    visits: Math.random() < 0.1 ? undefined : faker.number.int(1000),
+    visits: faker.number.int(1000),
     progress: faker.number.int(100),
     createdAt: faker.date.anytime(),
-    status: faker.helpers.shuffle<Person['status']>([
-      'relationship',
-      'complicated',
-      'single',
-      'married',
-    ])[0]!,
-    rank: faker.number.int(100),
+    status: faker.helpers.shuffle<Person['status']>(['relationship', 'complicated', 'single'])[0]!,
   };
 };
 
@@ -44,13 +46,39 @@ export function makeData(...lens: number[]) {
   const makeDataLevel = (depth = 0): Person[] => {
     const len = lens[depth]!;
 
-    return range(len).map((_id): Person => {
+    return range(len).map((d): Person => {
       return {
-        ...newPerson(),
-        subRows: lens[depth + 1] ? makeDataLevel(depth + 1) : undefined,
+        ...newPerson(d),
       };
     });
   };
 
   return makeDataLevel();
 }
+
+const data = makeData(1000);
+
+//simulates a backend api
+export const fetchData = async (start: number, size: number, sorting: SortingState) => {
+  const dbData = [...data];
+
+  if (sorting.length) {
+    const sort = sorting[0] as ColumnSort;
+    const { id, desc } = sort as { id: keyof Person; desc: boolean };
+    dbData.sort((a, b) => {
+      if (desc) {
+        return a[id] < b[id] ? 1 : -1;
+      }
+      return a[id] > b[id] ? 1 : -1;
+    });
+  }
+
+  await new Promise(resolve => setTimeout(resolve, 200));
+
+  return {
+    data: dbData.slice(start, start + size),
+    meta: {
+      totalRowCount: dbData.length,
+    },
+  };
+};

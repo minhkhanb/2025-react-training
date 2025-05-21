@@ -12,7 +12,7 @@ let listeners: ToastListener[] = [];
 
 export function toast({ title, message, type, duration }: Omit<Toast, 'id'>) {
   const newToast: Toast = {
-    id: new Date().getTime().toString(),
+    id: crypto.randomUUID(),
     title,
     message,
     type,
@@ -23,7 +23,9 @@ export function toast({ title, message, type, duration }: Omit<Toast, 'id'>) {
 }
 
 export function subscribeToast(fn: ToastListener) {
-  listeners.push(fn);
+  if (!listeners.includes(fn)) {
+    listeners.push(fn);
+  }
 
   return () => {
     listeners = listeners.filter(listener => listener !== fn);

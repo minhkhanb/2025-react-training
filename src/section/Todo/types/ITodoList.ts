@@ -1,22 +1,11 @@
-import { UseMutateFunction } from '@tanstack/react-query';
 import { Dispatch, SetStateAction } from 'react';
 
 export interface TodoFormValues {
   message: string;
 }
 
-type handleChangeStatusTodoItemType = UseMutateFunction<
-  unknown,
-  Error,
-  {
-    _id: string;
-  },
-  unknown
->;
-
 export interface TodoListProps {
   todoListData: TodoValue[];
-  handleChangeStatusTodoItem: handleChangeStatusTodoItemType;
   askUpdate: (todo: TodoValue) => void;
   askDelete: (todo: TodoValue) => void;
   itemsPerPage: number;
@@ -35,7 +24,6 @@ export interface TodoValue {
 export interface TodoItemProps {
   todoItem: TodoValue;
   askDelete: (todo: TodoValue) => void;
-  handleChangeStatusTodoItemAction: handleChangeStatusTodoItemType;
   askUpdateAction: (todo: TodoValue) => void;
 }
 

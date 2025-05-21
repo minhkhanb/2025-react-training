@@ -12,6 +12,17 @@ export const getAllTodo = async (page: number) => {
   }
 };
 
+export const getTodoById = async (id: string) => {
+  try {
+    const res = await api.get<TodoValue>(`api/todos/${id}`);
+
+    return res.data;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    return error?.message || error;
+  }
+};
+
 export const createTodo = async (newTodo: TodoValue) => {
   try {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars

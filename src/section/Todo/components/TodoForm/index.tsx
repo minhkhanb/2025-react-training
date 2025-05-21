@@ -7,6 +7,7 @@ import Button from '@/components/ui/Button';
 import Form from '@/components/Form';
 import * as yup from 'yup';
 import Input from '@/components/ui/Input';
+import { useRouter } from 'next/navigation';
 
 export const ToDoForm = memo(function TodoForm({
   todoSelectedValue,
@@ -43,6 +44,8 @@ export const ToDoForm = memo(function TodoForm({
   //   }
   // };
 
+  const router = useRouter();
+
   type Todo = { message: string };
 
   const onSubmit = (
@@ -73,6 +76,8 @@ export const ToDoForm = memo(function TodoForm({
 
       formHandlers?.reset();
     }
+
+    router.back();
   };
 
   const schema = yup
@@ -121,6 +126,8 @@ export const ToDoForm = memo(function TodoForm({
             setTodoToUpdateAction(null);
 
             setTodoSelectedValue('');
+
+            router.back();
           }}
           label="Cancel"
         />

@@ -3,13 +3,13 @@
 import React from 'react';
 import { FormState, UseFormReturn } from 'react-hook-form';
 import { IFormInput } from '../../types/IFormInput';
-import { ToastType } from '@/component/Toast/types/IToast';
-import { useToast } from '@/component/Toast/hooks/useToast';
-import Button from '@/component/ui/Button';
-import Form from '@/component/Form';
+import { ToastType } from '@/components/Toast/types/IToast';
+import { useToast } from '@/components/Toast/hooks/useToast';
+import Button from '@/components/ui/Button';
+import Form from '@/components/Form';
 import * as yup from 'yup';
-import Input from '@/component/ui/Input';
-import Dropdown from '@/component/ui/Dropdown';
+import Input from '@/components/ui/Input';
+import Dropdown from '@/components/ui/Dropdown';
 
 export default function TestForm() {
   const { showToast } = useToast();

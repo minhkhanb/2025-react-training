@@ -1,12 +1,12 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useToast } from '@/component/Toast/hooks/useToast';
-import { ToastType } from '@/component/Toast/types/IToast';
-import Button from '@/component/ui/Button';
-import Checkbox from '@/component/ui/Checkbox';
-import Radio from '@/component/ui/Radio';
-import Dropdown from '@/component/ui/Dropdown';
+import { useToast } from '@/components/Toast/hooks/useToast';
+import { ToastType } from '@/components/Toast/types/IToast';
+import Button from '@/components/ui/Button';
+import Checkbox from '@/components/ui/Checkbox';
+import Radio from '@/components/ui/Radio';
+import Dropdown from '@/components/ui/Dropdown';
 import TestForm from './components/TestForm';
 
 export default function Test() {

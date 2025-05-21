@@ -1,8 +1,8 @@
 'use client';
 
 import { useCallback, useState } from 'react';
-import { useToast } from '@/component/Toast/hooks/useToast';
-import { ToastType } from '@/component/Toast/types/IToast';
+import { useToast } from '@/components/Toast/hooks/useToast';
+import { ToastType } from '@/components/Toast/types/IToast';
 import { TodoValue } from '../types/ITodoList';
 
 export function useTodoOperations(initialTodos: TodoValue[] = []) {
@@ -24,7 +24,7 @@ export function useTodoOperations(initialTodos: TodoValue[] = []) {
 
   const handleDeleteTodoItem = useCallback(
     (id: string, message: string) => {
-      setTodoListData((pre: TodoValue[]) => pre.filter((item: TodoValue) => item.id !== id));
+      setTodoListData((pre: TodoValue[]) => pre.filter((item: TodoValue) => item._id !== id));
 
       showToast(`Task ${message} deleted successfully!`, ToastType.SUCCESS);
     },
@@ -37,7 +37,7 @@ export function useTodoOperations(initialTodos: TodoValue[] = []) {
 
       setTodoListData((pre: TodoValue[]) =>
         pre.map((item: TodoValue) => {
-          if (item.id === id) {
+          if (item._id === id) {
             message = item.message;
 
             return { ...item, isFinish: !item.isFinish };
@@ -56,7 +56,7 @@ export function useTodoOperations(initialTodos: TodoValue[] = []) {
     (message: string) => {
       setTodoListData((pre: TodoValue[]) =>
         pre.map((item: TodoValue) => {
-          if (item.id === todoToUpdate?.id) {
+          if (item._id === todoToUpdate?._id) {
             return { ...item, message };
           }
 
@@ -70,7 +70,7 @@ export function useTodoOperations(initialTodos: TodoValue[] = []) {
 
       setTodoToUpdate(null);
     },
-    [showToast, todoToUpdate?.id]
+    [showToast, todoToUpdate?._id]
   );
 
   return {

@@ -1,7 +1,7 @@
 'use client';
 
 import React, { createContext, useState, ReactNode, useCallback, useMemo } from 'react';
-import { Toast, ToastContextType, ToastType } from '@/component/Toast/types/IToast';
+import { Toast, ToastContextType, ToastType } from '@/components/Toast/types/IToast';
 import { ToastContainer } from './components/ToastContainer';
 
 // Create a context for managing toast notifications

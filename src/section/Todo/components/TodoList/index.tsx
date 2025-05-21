@@ -1,35 +1,37 @@
 'use client';
 
-import { memo, useMemo, useState } from 'react';
+import { memo } from 'react';
 import { TodoItem } from '../TodoItem';
 import { EmptyState } from '../EmptyState';
 import { TodoListProps, TodoValue } from '../../types/ITodoList';
 import { Summary } from '../Summary';
-import Pagination from '@/component/Pagination';
+import Pagination from '@/components/Pagination';
+import Loading from '@/components/Loading';
 
 export const TodoList = memo(function TodoList({
   todoListData,
   handleChangeStatusTodoItem,
   askUpdate,
   askDelete,
+  itemsPerPage,
+  currentPage,
+  setCurrentPage,
+  isLoading,
+  totalTodos,
 }: TodoListProps) {
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
-
-  const currentTodos = useMemo(
-    () => todoListData.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage),
-    [currentPage, todoListData]
-  );
+  // const currentTodos = useMemo(
+  //   () => todoListData.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage),
+  //   [currentPage, itemsPerPage, todoListData]
+  // );
 
   return (
     <div className="overflow-hidden rounded-b-xl bg-white shadow-xl">
       <div className="divide-y divide-gray-100">
-        <EmptyState todos={todoListData} />
-
+        {isLoading ? <Loading className="h-96" /> : <EmptyState todos={todoListData} />}
         {todoListData.length > 0 &&
-          currentTodos.map((item: TodoValue) => (
+          todoListData.map((item: TodoValue) => (
             <TodoItem
-              key={item.id}
+              key={item._id}
               todoItem={item}
               handleChangeStatusTodoItemAction={handleChangeStatusTodoItem}
               askUpdateAction={askUpdate}
@@ -39,7 +41,7 @@ export const TodoList = memo(function TodoList({
       </div>
 
       <Pagination
-        totalItems={todoListData.length}
+        totalItems={totalTodos}
         itemsPerPage={itemsPerPage}
         currentPage={currentPage}
         onPageChange={page => setCurrentPage(page)}

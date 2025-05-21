@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import { ToastContainer } from '@src/components/toast';
+import { ToastContainer } from '@src/components/Toast';
 
 export const metadata: Metadata = {
   title: 'My App',

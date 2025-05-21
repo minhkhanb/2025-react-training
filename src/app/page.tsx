@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import { ToastButtons } from '@src/components/toast';
 
 export default function Home() {
   return (
@@ -23,10 +22,6 @@ export default function Home() {
         >
           Blog
         </Link>
-      </div>
-      <div className="flex flex-col gap-4 text-center">
-        <p className="font-bold">Toast Message using Singleton Function</p>
-        <ToastButtons />
       </div>
     </div>
   );

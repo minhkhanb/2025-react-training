@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Calendar } from '@src/components/ui/calendar';
+import { Button } from '@src/components/ui/button';
 
 export default function Home() {
   return (
@@ -24,7 +24,7 @@ export default function Home() {
           Blog
         </Link>
       </div>
-      <Calendar mode="single" className="rounded-md border" />
+      <Button>Test Button</Button>
     </div>
   );
 }

@@ -12,7 +12,7 @@ import CommunityUpdateSection from './components/CommunityUpdateSection';
 import GetDemoSection from './components/GetDemoSection';
 import { getListClientIcons } from './api/ClientService';
 import { getListcommunities } from './api/CommunityService';
-import Loading from '@/component/Loading';
+import Loading from '@/components/Loading';
 import { getListAchievements } from './api/AchievementService';
 import { getListCustomers } from './api/CustomerService';
 import { getListCommunitiesUpdate } from './api/CommunityUpdateService';

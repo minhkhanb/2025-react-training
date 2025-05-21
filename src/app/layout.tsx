@@ -21,14 +21,19 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  auth,
 }: Readonly<{
   children: React.ReactNode;
+  auth: React.ReactNode;
 }>) {
   return (
     <html lang="en" className="mdl-js">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <Layout>
-          <Providers>{children}</Providers>
+          <Providers>
+            {children}
+            {auth}
+          </Providers>
         </Layout>
       </body>
     </html>

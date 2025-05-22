@@ -1,9 +1,23 @@
-// src/config/axios/handler.ts
-import { AxiosInstance, InternalAxiosRequestConfig, AxiosResponse } from 'axios';
-import { jwtDecode, JwtPayload } from 'jwt-decode';
+import { AxiosInstance, InternalAxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
 import api from './setup';
 
-const refreshToken = async () => {
+interface CustomAxiosRequestConfig extends InternalAxiosRequestConfig {
+  _retry?: boolean;
+}
+
+let isRefreshing = false;
+let refreshSubscribers: ((token: string) => void)[] = [];
+
+const onRefreshed = (token: string) => {
+  refreshSubscribers.forEach(callback => callback(token));
+  refreshSubscribers = [];
+};
+
+const addSubscriber = (callback: (token: string) => void) => {
+  refreshSubscribers.push(callback);
+};
+
+const refreshToken = async (): Promise<string> => {
   try {
     const res = await api.post(
       'api/auth/refresh',
@@ -13,47 +27,69 @@ const refreshToken = async () => {
       }
     );
 
-    return res.data;
+    return res.data.accessToken;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
-    return error.response?.data;
+    return error?.response?.data;
   }
 };
 
 const applyInterceptors = (api: AxiosInstance) => {
   api.interceptors.request.use(
     async (config: InternalAxiosRequestConfig) => {
-      let token = localStorage.getItem('access_token');
+      const token = localStorage.getItem('access_token');
 
       if (token) {
-        const date = new Date();
-        const decodedToken: JwtPayload = jwtDecode(token);
-
-        if (decodedToken?.exp && decodedToken.exp < date.getTime() / 1000) {
-          const data = await refreshToken();
-
-          token = data.accessToken;
-        }
-
         config.headers.Authorization = `Bearer ${token}`;
       }
 
       return config;
     },
-
     error => Promise.reject(error)
   );
 
   api.interceptors.response.use(
     (response: AxiosResponse) => response,
-    error => {
-      const { response } = error;
+    async (error: AxiosError) => {
+      const originalRequest = error.config as CustomAxiosRequestConfig;
 
-      if (response?.status === 401) {
-        console.warn('🔒 Token is expired or invalid');
+      if (error.response?.status === 401 && !originalRequest._retry) {
+        originalRequest._retry = true;
+
+        if (!isRefreshing) {
+          isRefreshing = true;
+
+          try {
+            const newToken = await refreshToken();
+
+            localStorage.setItem('access_token', newToken);
+
+            onRefreshed(newToken);
+
+            isRefreshing = false;
+
+            originalRequest.headers.Authorization = `Bearer ${newToken}`;
+
+            return api(originalRequest);
+          } catch (refreshError) {
+            isRefreshing = false;
+            refreshSubscribers = [];
+
+            return Promise.reject(refreshError);
+          }
+        }
+
+        return new Promise(resolve => {
+          addSubscriber((token: string) => {
+            originalRequest.headers = originalRequest.headers || {};
+            originalRequest.headers['Authorization'] = `Bearer ${token}`;
+
+            resolve(api(originalRequest));
+          });
+        });
       }
 
-      return Promise.reject(response?.data || error);
+      return Promise.reject(error.response?.data || error);
     }
   );
 };

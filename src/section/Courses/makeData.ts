@@ -75,6 +75,8 @@ export const fetchData = async (start: number, size: number, sorting: SortingSta
 
   await new Promise(resolve => setTimeout(resolve, 200));
 
+  console.log('PDebug data: ', dbData.slice(start, start + size));
+
   return {
     data: dbData.slice(start, start + size),
     meta: {

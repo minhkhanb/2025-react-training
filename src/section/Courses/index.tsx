@@ -44,18 +44,22 @@ function Courses({ initialData, initialPage }: Props) {
     [pathname, router, searchParams]
   );
 
-  const fetchData = React.useCallback(async () => {
-    try {
-      setIsLoading(true);
-      const result = await fetchTableData(pagination.pageIndex, pagination.pageSize, sorting);
-      setTableData(result.data || []);
-      setTotalRowCount(result.meta.totalRowCount || 0);
-    } catch (err) {
-      console.error('Error fetching data:', err);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [pagination.pageIndex, pagination.pageSize, sorting]);
+  const fetchData = React.useCallback(
+    async (page: number) => {
+      try {
+        console.log('PDebug pagination: ', pagination);
+        setIsLoading(true);
+        const result = await fetchTableData(page, pagination.pageSize, sorting);
+        setTableData(result.data || []);
+        setTotalRowCount(result.meta.totalRowCount || 0);
+      } catch (err) {
+        console.error('Error fetching data:', err);
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [pagination.pageIndex, pagination.pageSize, sorting]
+  );
 
   React.useEffect(() => {
     updateUrl(pagination.pageIndex);
@@ -65,15 +69,15 @@ function Courses({ initialData, initialPage }: Props) {
     const isSortingChanged = sorting.length > 0;
 
     if (isSortingChanged) {
-      fetchData();
+      fetchData(pagination.pageIndex);
     }
-  }, [fetchData, sorting]);
+  }, [fetchData, sorting, pagination]);
 
   const handlePageChange = React.useCallback(
     (newPageIndex: number) => {
       setPagination(prev => ({ ...prev, pageIndex: newPageIndex }));
 
-      fetchData();
+      fetchData(newPageIndex);
     },
     [fetchData]
   );
@@ -100,8 +104,8 @@ function Courses({ initialData, initialPage }: Props) {
       pagination={pagination}
       sorting={sorting}
       isLoading={isLoading}
-      onPaginationChange={handlePageChange}
-      onSortingChange={handleSortingChange}
+      onPaginationChangeAction={handlePageChange}
+      onSortingChangeAction={handleSortingChange}
     />
   );
 }

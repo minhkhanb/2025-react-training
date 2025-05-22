@@ -23,6 +23,7 @@ import {
   TableRow,
 } from '@src/components/shadcn/ui/table';
 import { Loader2 } from 'lucide-react';
+import { css } from '@emotion/react';
 
 type Props = {
   data: Person[];
@@ -183,6 +184,14 @@ export default function CoursesTable({
             Đang tải...
           </span>
         )}
+      </div>
+
+      <div
+        css={css`
+          background: red;
+        `}
+      >
+        Test emotion
       </div>
 
       <div

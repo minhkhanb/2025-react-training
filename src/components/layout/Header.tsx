@@ -7,7 +7,7 @@ const Header = () => {
   return (
     <header className="line-b !fixed inset-x-0 top-0 z-20 h-32 flex items-center justify-between px-4 after:-bottom-px sm:px-6 lg:px-24 py-6 bg-[#49bbbd]">
       <Link className="shrink-0" href={'/'}>
-        <Image src={Logo} alt="Logo" />
+        <Image src={Logo} alt="Logo" priority className="w-auto h-auto" />
       </Link>
 
       <div className="flex items-center gap-5 max-md:hidden lg:gap-6">

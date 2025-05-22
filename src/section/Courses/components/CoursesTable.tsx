@@ -34,8 +34,8 @@ type Props = {
   };
   sorting: SortingState;
   isLoading: boolean;
-  onPaginationChange: (pageIndex: number) => void;
-  onSortingChange: (sorting: SortingState) => void;
+  onPaginationChangeAction: (pageIndex: number) => void;
+  onSortingChangeAction: (sorting: SortingState) => void;
 };
 
 const TABLE_HEIGHT = 450;
@@ -130,8 +130,8 @@ export default function CoursesTable({
   pagination,
   sorting,
   isLoading,
-  onPaginationChange,
-  onSortingChange,
+  onPaginationChangeAction,
+  onSortingChangeAction,
 }: Props) {
   const tableContainerRef = React.useRef<HTMLDivElement>(null);
   const columns = useTableColumns();
@@ -147,17 +147,17 @@ export default function CoursesTable({
     onPaginationChange: updater => {
       if (typeof updater === 'function') {
         const newPagination = updater(pagination);
-        onPaginationChange(newPagination.pageIndex);
+        onPaginationChangeAction(newPagination.pageIndex);
       } else {
-        onPaginationChange(updater.pageIndex);
+        onPaginationChangeAction(updater.pageIndex);
       }
     },
     onSortingChange: updater => {
       if (typeof updater === 'function') {
         const newSorting = updater(sorting);
-        onSortingChange(newSorting);
+        onSortingChangeAction(newSorting);
       } else {
-        onSortingChange(updater);
+        onSortingChangeAction(updater);
       }
     },
     getCoreRowModel: getCoreRowModel(),

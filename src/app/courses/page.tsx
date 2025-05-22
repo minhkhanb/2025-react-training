@@ -11,7 +11,7 @@ interface CourseSearchParams {
 }
 
 type Props = {
-  searchParams: CourseSearchParams | Promise<CourseSearchParams>;
+  searchParams: CourseSearchParams;
 };
 
 export default async function CoursesPage({ searchParams }: Props) {

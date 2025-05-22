@@ -10,9 +10,9 @@ export const useToggleTodoStatus = () => {
   return useMutation({
     mutationFn: updateStatusTodo,
 
-    onSuccess: (_, { _id }) => {
+    onSuccess: (_, { id }) => {
       queryClient.invalidateQueries({ queryKey: ['todos'] });
-      showToast(`Task ${_id} updated status successfully!`, ToastType.SUCCESS);
+      showToast(`Task ${id} updated status successfully!`, ToastType.SUCCESS);
     },
   });
 };

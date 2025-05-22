@@ -10,12 +10,7 @@ export interface FormProps<TValues extends FieldValues> {
   className?: string;
   children: React.ReactNode;
   submitMode?: SubmitMode;
-  onSubmit?: (
-    values: TValues,
-    defaultValues?: DefaultValues<TValues>,
-    formState?: FormState<TValues>,
-    formHandlers?: UseFormReturn<TValues>
-  ) => unknown;
+  onSubmit?: (...args: OnSubmitArgs<TValues>) => unknown;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   validationSchema?: yup.Lazy<any> | yup.ObjectSchema<any>;
   defaultValues?: DefaultValues<TValues>;
@@ -25,12 +20,7 @@ export interface FormProps<TValues extends FieldValues> {
 
 export interface FormOptions<TValues extends FieldValues> {
   submitMode?: SubmitMode;
-  onSubmit?: (
-    values: TValues,
-    defaultValues?: DefaultValues<TValues>,
-    formState?: FormState<TValues>,
-    formHandlers?: UseFormReturn<TValues>
-  ) => unknown;
+  onSubmit?: (...args: OnSubmitArgs<TValues>) => unknown;
   formId: string;
 }
 
@@ -38,3 +28,10 @@ export interface FormFieldProps {
   name: string;
   child: React.ReactElement<{ error?: string; onChange?: (e: unknown) => void }>;
 }
+
+export type OnSubmitArgs<TValues extends FieldValues> = [
+  values: TValues,
+  defaultValues?: DefaultValues<TValues>,
+  formState?: FormState<TValues>,
+  formHandlers?: UseFormReturn<TValues>,
+];

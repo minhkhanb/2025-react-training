@@ -24,7 +24,7 @@ export function useTodoOperations(initialTodos: TodoValue[] = []) {
 
   const handleDeleteTodoItem = useCallback(
     (id: string, message: string) => {
-      setTodoListData((pre: TodoValue[]) => pre.filter((item: TodoValue) => item._id !== id));
+      setTodoListData((pre: TodoValue[]) => pre.filter((item: TodoValue) => item.id !== id));
 
       showToast(`Task ${message} deleted successfully!`, ToastType.SUCCESS);
     },
@@ -37,7 +37,7 @@ export function useTodoOperations(initialTodos: TodoValue[] = []) {
 
       setTodoListData((pre: TodoValue[]) =>
         pre.map((item: TodoValue) => {
-          if (item._id === id) {
+          if (item.id === id) {
             message = item.message;
 
             return { ...item, isFinish: !item.isFinish };
@@ -56,7 +56,7 @@ export function useTodoOperations(initialTodos: TodoValue[] = []) {
     (message: string) => {
       setTodoListData((pre: TodoValue[]) =>
         pre.map((item: TodoValue) => {
-          if (item._id === todoToUpdate?._id) {
+          if (item.id === todoToUpdate?.id) {
             return { ...item, message };
           }
 
@@ -70,7 +70,7 @@ export function useTodoOperations(initialTodos: TodoValue[] = []) {
 
       setTodoToUpdate(null);
     },
-    [showToast, todoToUpdate?._id]
+    [showToast, todoToUpdate?.id]
   );
 
   return {

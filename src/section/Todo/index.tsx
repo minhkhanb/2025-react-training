@@ -3,7 +3,7 @@
 import React, { useCallback, useState } from 'react';
 import { TodoList } from './components/TodoList';
 // import { ToDoForm } from './components/TodoForm';
-import { useTodoOperations } from './hooks/useTodoOperations';
+// import { useTodoOperations } from './hooks/useTodoOperations';
 import { ConfirmModal } from '@/components/ConfirmModal';
 import { TodoValue } from './types/ITodoList';
 // import { useAddTodo } from './hooks/useAddTodo';
@@ -14,28 +14,29 @@ import { usePaginatedTodos } from './hooks/usePaginatedTodos';
 import Link from 'next/link';
 
 export default function Todo() {
-  const todoList: TodoValue[] = [
-    { _id: (Date.now() + 1).toString(), message: 'Learn ReactJS', isFinish: false },
-    { _id: (Date.now() + 2).toString(), message: 'Learn NextJS', isFinish: false },
-    { _id: (Date.now() + 3).toString(), message: 'Implement Todo List', isFinish: true },
-    {
-      _id: (Date.now() + 4).toString(),
-      message:
-        'Implement Todo Listâdssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss',
-      isFinish: false,
-    },
-  ];
+  // const todoList: TodoValue[] = [
+  //   { id: (Date.now() + 1).toString(), message: 'Learn ReactJS', isFinish: false },
+  //   { id: (Date.now() + 2).toString(), message: 'Learn NextJS', isFinish: false },
+  //   { id: (Date.now() + 3).toString(), message: 'Implement Todo List', isFinish: true },
+  //   {
+  //     id: (Date.now() + 4).toString(),
+  //     message:
+  //       'Implement Todo Listâdssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss',
+  //     isFinish: false,
+  //   },
+  // ];
 
-  const {
-    // todoListData,
-    // todoToUpdate,
-    todoToDelete,
-    // todoSelectedValue,
-    setTodoToUpdate,
-    setTodoToDelete,
-    setTodoSelectedValue,
-  } = useTodoOperations(todoList);
+  // const {
+  //   // todoListData,
+  //   // todoToUpdate,
+  //   todoToDelete,
+  //   // todoSelectedValue,
+  //   // setTodoToUpdate,
+  //   setTodoToDelete,
+  //   // setTodoSelectedValue,
+  // } = useTodoOperations(todoList);
 
+  const [todoToDelete, setTodoToDelete] = useState<TodoValue | null>(null);
   const [confirmVisible, setConfirmVisible] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -58,13 +59,13 @@ export default function Todo() {
   //   [addMutation, todoToUpdate, updateMutation]
   // );
 
-  const askUpdate = useCallback(
-    (todo: TodoValue) => {
-      setTodoToUpdate(todo);
-      setTodoSelectedValue(todo.message);
-    },
-    [setTodoSelectedValue, setTodoToUpdate]
-  );
+  // const askUpdate = useCallback(
+  //   (todo: TodoValue) => {
+  //     setTodoToUpdate(todo);
+  //     setTodoSelectedValue(todo.message);
+  //   },
+  //   [setTodoSelectedValue, setTodoToUpdate]
+  // );
 
   const askDelete = useCallback(
     (todo: TodoValue) => {
@@ -77,7 +78,7 @@ export default function Todo() {
 
   const confirmDelete = useCallback(() => {
     if (todoToDelete) {
-      deleteMutation.mutate({ _id: todoToDelete._id });
+      deleteMutation.mutate({ id: todoToDelete.id });
     }
 
     setConfirmVisible(false);
@@ -112,7 +113,7 @@ export default function Todo() {
 
         <TodoList
           todoListData={data?.data || []}
-          askUpdate={askUpdate}
+          // askUpdate={askUpdate}
           askDelete={askDelete}
           itemsPerPage={data?.pagination?.limit || 5}
           currentPage={currentPage}

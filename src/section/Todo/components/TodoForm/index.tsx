@@ -2,79 +2,39 @@
 
 import { memo, useMemo } from 'react';
 import { TodoFormProps, TodoValue } from '@/section/Todo/types/ITodoList';
-import { FormState, UseFormReturn } from 'react-hook-form';
 import Button from '@/components/ui/Button';
 import Form from '@/components/Form';
 import * as yup from 'yup';
 import Input from '@/components/ui/Input';
 import { useRouter } from 'next/navigation';
+import { OnSubmitArgs } from '@/components/Form/types/IForm';
 
-export const ToDoForm = memo(function TodoForm({
-  todoSelectedValue,
-  onSubmitAction,
-  todoToUpdate,
-  setTodoToUpdateAction,
-  setTodoSelectedValue,
-}: TodoFormProps) {
-  // const onSubmit:
-  //   | ((
-  //       values: TodoValue,
-  //       defaultValues?: TodoValue,
-  //       formState?: FormState<TodoValue>,
-  //       formHandlers?: UseFormReturn<TodoValue, unknown, TodoValue>
-  //     ) => unknown)
-  //   | undefined = (values, defaultValues, formState, formHandlers) => {
-  //   if (todoToUpdate) {
-  //     onSubmitAction({
-  //       ...todoToUpdate,
-  //       message: values.message as string,
-  //     });
-
-  //     formHandlers?.setValue('message', '');
-  //   } else {
-  //     const todoData: TodoValue = {
-  //       id: Date.now().toString(),
-  //       message: values.message as string,
-  //       isFinish: false,
-  //     };
-
-  //     onSubmitAction(todoData);
-
-  //     formHandlers?.reset();
-  //   }
-  // };
-
+export const ToDoForm = memo(function TodoForm({ onSubmitAction, todoToUpdate }: TodoFormProps) {
   const router = useRouter();
 
   type Todo = { message: string };
 
-  const onSubmit = (
-    values: Todo,
-    defaultValues?:
-      | {
-          message?: string | undefined;
-        }
-      | undefined,
-    formState?: FormState<Todo> | undefined,
-    formHandlers?: UseFormReturn<Todo> | undefined
-  ) => {
+  const onSubmit = (...args: OnSubmitArgs<Todo>): void => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [values, defaultValues, formState, formHandlers] = args;
+
     if (todoToUpdate) {
       onSubmitAction({
         ...todoToUpdate,
         message: values.message,
       });
 
-      formHandlers?.setValue('message', '');
+      // formHandlers?.setValue('message', '');
     } else {
       const todoData: TodoValue = {
-        _id: Date.now().toString(),
+        id: Date.now().toString(),
         message: values.message,
         isFinish: false,
       };
 
       onSubmitAction(todoData);
 
-      formHandlers?.reset();
+      // formHandlers?.reset();
     }
 
     router.back();
@@ -90,9 +50,9 @@ export const ToDoForm = memo(function TodoForm({
 
   const defaultValues = useMemo(
     () => ({
-      message: todoSelectedValue ?? '',
+      message: todoToUpdate?.message ?? '',
     }),
-    [todoSelectedValue]
+    [todoToUpdate]
   );
 
   return (
@@ -120,18 +80,12 @@ export const ToDoForm = memo(function TodoForm({
         <Button label={todoToUpdate ? 'Update' : 'Add'} />
       </Form>
 
-      {todoToUpdate && (
-        <Button
-          onClick={() => {
-            setTodoToUpdateAction(null);
-
-            setTodoSelectedValue('');
-
-            router.back();
-          }}
-          label="Cancel"
-        />
-      )}
+      <Button
+        onClick={() => {
+          router.back();
+        }}
+        label="Cancel"
+      />
     </div>
   );
 });

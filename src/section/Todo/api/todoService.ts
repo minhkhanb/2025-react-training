@@ -26,7 +26,7 @@ export const getTodoById = async (id: string) => {
 export const createTodo = async (newTodo: TodoValue) => {
   try {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { _id, isFinish, ...newObj } = newTodo;
+    const { id, isFinish, ...newObj } = newTodo;
 
     const res = await api.post<TodoValue>('/api/todos', newObj);
 
@@ -37,9 +37,9 @@ export const createTodo = async (newTodo: TodoValue) => {
   }
 };
 
-export const updateStatusTodo = async ({ _id }: { _id: string }) => {
+export const updateStatusTodo = async ({ id }: { id: string }) => {
   try {
-    const res = await api.patch<TodoValue>(`/api/todos/${_id}/status`);
+    const res = await api.patch<TodoValue>(`/api/todos/${id}/status`);
 
     return res.data;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -48,9 +48,9 @@ export const updateStatusTodo = async ({ _id }: { _id: string }) => {
   }
 };
 
-export const updateTodo = async ({ _id, message }: { _id: string; message: string }) => {
+export const updateTodo = async ({ id, message }: { id: string; message: string }) => {
   try {
-    const res = await api.patch<TodoValue>(`/api/todos/${_id}`, { message });
+    const res = await api.patch<TodoValue>(`/api/todos/${id}`, { message });
 
     return res.data;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -59,9 +59,9 @@ export const updateTodo = async ({ _id, message }: { _id: string; message: strin
   }
 };
 
-export const deleteTodo = async ({ _id }: { _id: string }) => {
+export const deleteTodo = async ({ id }: { id: string }) => {
   try {
-    const res = await api.delete<TodoValue>(`/api/todos/${_id}`);
+    const res = await api.delete<TodoValue>(`/api/todos/${id}`);
 
     return res.data;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -9,9 +9,9 @@ export const useDeleteTodo = () => {
 
   return useMutation({
     mutationFn: deleteTodo,
-    onSuccess: (_, { _id }) => {
+    onSuccess: (_, { id }) => {
       queryClient.invalidateQueries({ queryKey: ['todos'] });
-      showToast(`Task ${_id} deleted successfully!`, ToastType.SUCCESS);
+      showToast(`Task ${id} deleted successfully!`, ToastType.SUCCESS);
     },
   });
 };

@@ -10,7 +10,7 @@ import Loading from '@/components/Loading';
 
 export const TodoList = memo(function TodoList({
   todoListData,
-  askUpdate,
+  // askUpdate,
   askDelete,
   itemsPerPage,
   currentPage,
@@ -30,9 +30,9 @@ export const TodoList = memo(function TodoList({
         {todoListData.length > 0 &&
           todoListData.map((item: TodoValue) => (
             <TodoItem
-              key={item._id}
+              key={item.id}
               todoItem={item}
-              askUpdateAction={askUpdate}
+              // askUpdateAction={askUpdate}
               askDelete={askDelete}
             />
           ))}

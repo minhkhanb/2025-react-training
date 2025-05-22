@@ -1,26 +1,26 @@
 'use client';
 
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { ToDoForm } from '@/section/Todo/components/TodoForm';
-import { useTodoOperations } from '@/section/Todo/hooks/useTodoOperations';
 import { TodoValue } from '@/section/Todo/types/ITodoList';
 import { useUpdateTodo } from '../../hooks/useUpdateTodo';
 import { useGetTodoById } from '../../hooks/useGetTodoById';
+import Loading from '@/components/Loading';
 
 export default function UpdateTodo({ id }: { id: string }) {
-  const { todoToUpdate, todoSelectedValue, setTodoToUpdate, setTodoSelectedValue } =
-    useTodoOperations([]);
+  const [todoToUpdate, setTodoToUpdate] = useState<TodoValue>({
+    id: '',
+    message: '',
+    isFinish: false,
+  });
 
   const { data, isLoading } = useGetTodoById(id);
 
   useEffect(() => {
-    setTodoSelectedValue(data?.message);
     setTodoToUpdate(data);
-  }, [todoSelectedValue, data, setTodoSelectedValue, setTodoToUpdate]);
+  }, [data, setTodoToUpdate]);
 
-  console.log(data, isLoading);
-
-  const updateMutation = useUpdateTodo(setTodoToUpdate, setTodoSelectedValue);
+  const updateMutation = useUpdateTodo();
 
   const onSubmit = useCallback(
     (data: TodoValue) => {
@@ -29,13 +29,7 @@ export default function UpdateTodo({ id }: { id: string }) {
     [updateMutation]
   );
 
-  return (
-    <ToDoForm
-      onSubmitAction={onSubmit}
-      todoSelectedValue={todoSelectedValue}
-      todoToUpdate={todoToUpdate}
-      setTodoToUpdateAction={setTodoToUpdate}
-      setTodoSelectedValue={setTodoSelectedValue}
-    />
-  );
+  if (isLoading) return <Loading className="h-72" />;
+
+  return <ToDoForm onSubmitAction={onSubmit} todoToUpdate={todoToUpdate} />;
 }

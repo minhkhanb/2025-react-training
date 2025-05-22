@@ -12,6 +12,7 @@ import { useDeleteTodo } from './hooks/useDeleteTodo';
 import { usePaginatedTodos } from './hooks/usePaginatedTodos';
 // import { useToggleTodoStatus } from './hooks/useToggleTodoStatus';
 import Link from 'next/link';
+import { PlusOutlined } from '@ant-design/icons';
 
 export default function Todo() {
   // const todoList: TodoValue[] = [
@@ -40,7 +41,7 @@ export default function Todo() {
   const [confirmVisible, setConfirmVisible] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const { data, isLoading } = usePaginatedTodos(currentPage);
+  const { data, isLoading } = usePaginatedTodos(currentPage, 2);
 
   // const addMutation = useAddTodo();
 
@@ -90,16 +91,23 @@ export default function Todo() {
   const handleCancelDelete = useCallback(() => setConfirmVisible(false), []);
 
   return (
-    <div className="flex min-h-screen justify-center bg-gradient-to-br from-indigo-100 to-purple-100 p-6">
-      <div className="w-full max-w-2xl">
-        <h1 className="mb-8 text-center text-3xl font-bold text-gray-800">My Tasks</h1>
+    <div className="flex min-h-screen justify-center bg-gray-50 p-6">
+      <div className="w-full">
+        <div className="flex items-center justify-between p-6">
+          <div className="w-3/4">
+            <h1 className="mb-5 text-start text-2xl font-bold text-gray-800">Todo Management</h1>
+            <h3 className="text-start text-sm font-bold text-gray-400">
+              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Illo distinctio laboriosam
+              inventore quibusdam eligendi iste nesciunt consequuntur sint facilis. Vel doloremque
+              adipisci dignissimos, corrupti neque odit unde aperiam rem facere.
+            </h3>
+          </div>
 
-        <div className="flex items-center justify-end rounded-t-xl border-b border-gray-200 bg-white p-6">
           <Link
             className="mx-1 my-3 inline-flex h-10 w-48 items-center justify-center rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white transition-all hover:opacity-90 active:scale-105 active:opacity-100"
             href={'add-todo'}
           >
-            add todo
+            <PlusOutlined className="mr-2" /> Add new todo
           </Link>
         </div>
 
@@ -120,6 +128,7 @@ export default function Todo() {
           setCurrentPage={setCurrentPage}
           isLoading={isLoading}
           totalTodos={data?.pagination?.total || 0}
+          todosCompleted={data?.pagination?.totalFinish || 0}
         />
 
         <ConfirmModal

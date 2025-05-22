@@ -13,6 +13,7 @@ export interface TodoListProps {
   setCurrentPage: Dispatch<SetStateAction<number>>;
   isLoading: boolean;
   totalTodos: number;
+  todosCompleted: number;
 }
 
 export interface TodoValue {

@@ -246,7 +246,7 @@ export default function CoursesTable({
               disabled={!table.getCanPreviousPage() || isLoading}
               className="cursor-pointer"
             >
-              Đầu
+              Start
             </Button>
           </PaginationItem>
           <PaginationItem>
@@ -287,7 +287,7 @@ export default function CoursesTable({
               disabled={!table.getCanNextPage() || isLoading}
               className="cursor-pointer"
             >
-              Cuối
+              End
             </Button>
           </PaginationItem>
         </PaginationContent>

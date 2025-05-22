@@ -15,7 +15,7 @@ type Props = {
 };
 
 export default async function CoursesPage({ searchParams }: Props) {
-  const params = (await searchParams) as unknown as CourseSearchParams;
+  const params = await searchParams;
 
   const pageParam = params.page ? parseInt(params.page) : 1;
   const pageIndex = Math.max(0, pageParam - 1);

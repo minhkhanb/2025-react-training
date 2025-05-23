@@ -1,6 +1,6 @@
 'use client';
 
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import {
   Pagination as PaginationUI,
   PaginationContent,
@@ -12,13 +12,14 @@ import {
 
 export function Pagination({ pageCount }: { pageCount: number }) {
   const router = useRouter();
+  const pathname = usePathname();
   const searchParams = useSearchParams();
   const currentPage = Number(searchParams.get('page')) || 1;
 
   const setPageIndex = (page: number) => {
     const params = new URLSearchParams(searchParams.toString());
     params.set('page', String(page));
-    router.push(`?${params.toString()}`);
+    router.push(`${pathname}?${params.toString()}`);
   };
 
   const renderPageNumbers = () => {

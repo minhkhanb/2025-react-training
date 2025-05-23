@@ -13,6 +13,7 @@ interface StatusFieldProps {
   className?: string;
   disabled?: boolean;
   placeholder?: string;
+  options?: { value: string; label: string }[];
 }
 
 export const StatusField = React.forwardRef<HTMLButtonElement, StatusFieldProps>(
@@ -26,6 +27,7 @@ export const StatusField = React.forwardRef<HTMLButtonElement, StatusFieldProps>
       className,
       disabled,
       placeholder = 'Select status',
+      options,
     },
     ref
   ) => {
@@ -45,9 +47,11 @@ export const StatusField = React.forwardRef<HTMLButtonElement, StatusFieldProps>
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="pending">Pending</SelectItem>
-          <SelectItem value="in-progress">In Progress</SelectItem>
-          <SelectItem value="completed">Completed</SelectItem>
+          {options?.map(option => (
+            <SelectItem key={option.value} value={option.value}>
+              {option.label}
+            </SelectItem>
+          ))}
         </SelectContent>
       </Select>
     );

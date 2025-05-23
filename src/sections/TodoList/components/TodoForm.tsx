@@ -66,6 +66,11 @@ export const TodoForm = ({
                 component={StatusField}
                 label="Status"
                 required
+                options={[
+                  { value: 'pending', label: 'Pending' },
+                  { value: 'in-progress', label: 'In Progress' },
+                  { value: 'completed', label: 'Completed' },
+                ]}
               />
             </div>
             <div className="w-1/2">
@@ -74,6 +79,11 @@ export const TodoForm = ({
                 component={PriorityField}
                 label="Priority"
                 required
+                options={[
+                  { value: 'low', label: 'Low' },
+                  { value: 'medium', label: 'Medium' },
+                  { value: 'high', label: 'High' },
+                ]}
               />
             </div>
           </div>

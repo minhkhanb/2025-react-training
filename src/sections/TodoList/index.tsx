@@ -8,6 +8,7 @@ import { Trash2, Pencil } from 'lucide-react';
 import { Checkbox } from '@src/components/ui/checkbox';
 import { cn } from '@src/lib/utils';
 import { useTodo } from '@src/context/todoContext';
+import { useState } from 'react';
 import { EditTodoModal, ConfirmDeleteModal, TodoAction, HeaderSection } from './components';
 
 const typeStyles = {
@@ -21,6 +22,19 @@ const typeStyles = {
 
 export default function TodoListSection() {
   const { todos } = useTodo();
+  const [openEditModal, setOpenEditModal] = useState(false);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [selectedTodo, setSelectedTodo] = useState<Todo | null>(null);
+
+  const handleEditTodo = (todo: Todo) => {
+    setSelectedTodo(todo);
+    setOpenEditModal(true);
+  };
+
+  const handleDeleteTodo = (todo: Todo) => {
+    setSelectedTodo(todo);
+    setOpenDeleteModal(true);
+  };
 
   const columns: ColumnDef<Todo>[] = [
     {
@@ -76,22 +90,17 @@ export default function TodoListSection() {
       size: 120,
       cell: ({ row }) => (
         <div className="flex gap-2">
-          <EditTodoModal
-            data={row.original}
-            trigger={
-              <Button className="cursor-pointer" variant="outline" size="sm">
-                <Pencil strokeWidth={1.5} />
-              </Button>
-            }
-          />
-          <ConfirmDeleteModal
-            data={row.original}
-            trigger={
-              <Button variant="destructive" size="sm">
-                <Trash2 strokeWidth={1.5} />
-              </Button>
-            }
-          />
+          <Button
+            className="cursor-pointer"
+            variant="outline"
+            size="sm"
+            onClick={() => handleEditTodo(row.original)}
+          >
+            <Pencil strokeWidth={1.5} />
+          </Button>
+          <Button variant="destructive" size="sm" onClick={() => handleDeleteTodo(row.original)}>
+            <Trash2 strokeWidth={1.5} />
+          </Button>
         </div>
       ),
     },
@@ -113,6 +122,20 @@ export default function TodoListSection() {
         pageSize={3}
         pageCount={Math.ceil(todos.length / 3)}
       />
+      {selectedTodo && (
+        <>
+          <EditTodoModal
+            data={selectedTodo}
+            open={openEditModal}
+            onClose={() => setOpenEditModal(false)}
+          />
+          <ConfirmDeleteModal
+            data={selectedTodo}
+            isOpen={openDeleteModal}
+            onClose={() => setOpenDeleteModal(false)}
+          />
+        </>
+      )}
     </div>
   );
 }

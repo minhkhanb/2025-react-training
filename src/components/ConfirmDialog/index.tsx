@@ -7,11 +7,11 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from '@src/components/ui/alert-dialog';
 
 type ConfirmDialogProps = {
-  trigger: React.ReactNode;
+  isOpen: boolean;
+  onClose: () => void;
   title: string;
   description: string;
   confirmText?: string;
@@ -20,7 +20,8 @@ type ConfirmDialogProps = {
 };
 
 export default function ConfirmDialog({
-  trigger,
+  isOpen,
+  onClose,
   title,
   description,
   confirmText = 'Continue',
@@ -28,8 +29,7 @@ export default function ConfirmDialog({
   onConfirm,
 }: ConfirmDialogProps) {
   return (
-    <AlertDialog>
-      <AlertDialogTrigger asChild>{trigger}</AlertDialogTrigger>
+    <AlertDialog open={isOpen} onOpenChange={onClose}>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>{title}</AlertDialogTitle>

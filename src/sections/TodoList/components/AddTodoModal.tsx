@@ -1,28 +1,37 @@
 import { toastManager } from '@src/modules/toast';
-import { Button } from '@src/components/ui/button';
-import { Plus } from 'lucide-react';
-import TodoForm from '@src/components/TodoForm';
-import { useTodo } from '@src/contexts/todoContext';
+import { TodoForm } from './TodoForm';
+import { useTodo } from '@src/context/todoContext';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@src/components/ui/dialog';
+import { useState } from 'react';
+import { Todo } from '@src/types/todo';
 
-export default function AddTodoModal() {
+type TodoFormValues = Omit<Todo, 'id' | 'createdAt' | 'updatedAt'>;
+
+export const AddTodoModal = ({ trigger }: { trigger: React.ReactNode }) => {
+  const [open, setOpen] = useState(false);
   const { addTodo } = useTodo();
 
+  const handleSubmit = (values: TodoFormValues) => {
+    addTodo(values);
+    toastManager.addToast('Success', 'Added new todo', 'success');
+    setOpen(false);
+  };
+
   return (
-    <TodoForm
-      trigger={
-        <Button
-          variant="outline"
-          className="cursor-pointer text-white bg-blue-700 hover:bg-blue-800 hover:text-white"
-        >
-          <Plus strokeWidth={1} absoluteStrokeWidth />
-          Add new todo
-        </Button>
-      }
-      data={undefined}
-      onSubmitAction={values => {
-        addTodo(values);
-        toastManager.addToast('Success', `Added ${values.title}`, 'success');
-      }}
-    />
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>{trigger}</DialogTrigger>
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle>Add New Todo</DialogTitle>
+        </DialogHeader>
+        <TodoForm onSubmitAction={handleSubmit} />
+      </DialogContent>
+    </Dialog>
   );
-}
+};

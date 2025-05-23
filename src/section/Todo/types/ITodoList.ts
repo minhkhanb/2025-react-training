@@ -1,3 +1,4 @@
+import { SortingState } from '@tanstack/react-table';
 import { Dispatch, SetStateAction } from 'react';
 
 export interface TodoFormValues {
@@ -5,14 +6,7 @@ export interface TodoFormValues {
 }
 
 export interface TodoListProps {
-  todoListData: TodoValue[];
-  // askUpdate: (todo: TodoValue) => void;
   askDelete: (todo: TodoValue) => void;
-  itemsPerPage: number;
-  currentPage: number;
-  setCurrentPage: Dispatch<SetStateAction<number>>;
-  isLoading: boolean;
-  totalTodos: number;
 }
 
 export interface TodoValue {
@@ -29,8 +23,19 @@ export interface TodoItemProps {
 
 export interface TodoFormProps {
   onSubmitAction: (data: TodoValue) => void;
-  // todoSelectedValue: string;
   todoToUpdate: TodoValue | null;
-  // setTodoToUpdateAction: Dispatch<SetStateAction<TodoValue | null>>;
-  // setTodoSelectedValue: React.Dispatch<React.SetStateAction<string>>;
+}
+
+type pagination = {
+  pageIndex: number;
+  pageSize: number;
+};
+export interface TodosTableProps {
+  todoListData: TodoValue[];
+  askDelete: (todo: TodoValue) => void;
+  sorting: SortingState;
+  setSorting: Dispatch<SetStateAction<SortingState>>;
+  totalItems: number;
+  pagination: pagination;
+  setPagination: Dispatch<SetStateAction<pagination>>;
 }

@@ -12,7 +12,7 @@ import { getVisiblePages } from './utils/getVisiblePages';
 
 const Pagination = ({
   totalItems,
-  itemsPerPage = 10,
+  itemsPerPage = 2,
   currentPage,
   onPageChange,
 }: PaginationProps) => {
@@ -33,16 +33,35 @@ const Pagination = ({
     }
   };
 
+  const buttonClass = (disabled: boolean) =>
+    `min-w-[36px] font-semibold px-2 py-1 cursor-pointer rounded border text-sm transition 
+  ${disabled ? 'text-gray-400 border-gray-300 cursor-not-allowed' : 'text-gray-700 hover:bg-gray-100 border-gray-300'}`;
+
+  const pageButtonClass = (active: boolean) =>
+    `min-w-[36px] font-semibold px-2 py-1 rounded cursor-pointer  text-sm transition
+  ${active ? 'border-gray-500  border text-gray-600 bg-gray-50 font-medium' : 'text-gray-700 hover:bg-gray-100 border-gray-300'}`;
+
   return (
-    <div className="mt-4 flex w-full max-w-full flex-wrap items-center justify-center gap-1 overflow-hidden sm:gap-2">
+    <div className="mt-4 flex w-full flex-wrap items-center justify-center gap-1 sm:gap-2">
+      {/* First */}
+      <button
+        onClick={() => handleClick(1)}
+        disabled={currentPage === 1}
+        className={buttonClass(currentPage === 1)}
+      >
+        First
+      </button>
+
+      {/* Previous */}
       <button
         onClick={() => handleClick(currentPage - 1)}
         disabled={currentPage === 1}
-        className="cursor-pointer rounded px-2 py-1 transition-all hover:bg-gray-100 disabled:cursor-not-allowed disabled:bg-transparent disabled:opacity-50 sm:px-3"
+        className={pageButtonClass(currentPage === -1)}
       >
-        <LeftOutlined className="text-xs sm:text-sm" />
+        <LeftOutlined /> <span className="hidden md:inline-block">Previous</span>
       </button>
 
+      {/* Page Numbers */}
       {visiblePages.map((page, index) =>
         page === 'LEFT_ELLIPSIS' ? (
           <button
@@ -57,7 +76,7 @@ const Pagination = ({
             className="px-1 text-gray-500 transition-all sm:px-2"
             title="Go back 5 pages"
           >
-            <span className="group relative cursor-pointer hover:text-blue-500">
+            <span className="group relative cursor-pointer hover:text-gray-500">
               <span className="text-xs tracking-wide group-hover:opacity-0 sm:text-sm">•••</span>
 
               <span className="absolute inset-0 flex items-center justify-center opacity-0 transition group-hover:opacity-100">
@@ -78,7 +97,7 @@ const Pagination = ({
             className="px-1 text-gray-500 transition-all sm:px-2"
             title="Go forward 5 pages"
           >
-            <span className="group relative cursor-pointer hover:text-blue-500">
+            <span className="group relative cursor-pointer hover:text-gray-500">
               <span className="text-xs tracking-wide group-hover:opacity-0 sm:text-sm">•••</span>
 
               <span className="absolute inset-0 flex items-center justify-center opacity-0 transition group-hover:opacity-100">
@@ -90,24 +109,29 @@ const Pagination = ({
           <button
             key={page}
             onClick={() => handleClick(page)}
-            className={`cursor-pointer rounded px-2 py-1 text-xs transition-all sm:px-3 sm:text-sm ${
-              currentPage === page
-                ? 'border border-blue-500 text-blue-500 hover:opacity-80'
-                : 'hover:bg-gray-100'
-            }`}
-            title={page.toString()}
+            className={pageButtonClass(currentPage === page)}
           >
             {page}
           </button>
         )
       )}
 
+      {/* Next */}
       <button
         onClick={() => handleClick(currentPage + 1)}
         disabled={currentPage === totalPages}
-        className="cursor-pointer rounded px-2 py-1 transition-all hover:bg-gray-100 disabled:cursor-not-allowed disabled:bg-transparent disabled:opacity-50 sm:px-3"
+        className={pageButtonClass(currentPage === -1)}
       >
-        <RightOutlined className="text-xs sm:text-sm" />
+        <span className="hidden md:inline-block">Next</span> <RightOutlined />
+      </button>
+
+      {/* Last */}
+      <button
+        onClick={() => handleClick(totalPages)}
+        disabled={currentPage === totalPages}
+        className={buttonClass(currentPage === totalPages)}
+      >
+        Last
       </button>
     </div>
   );

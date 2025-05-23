@@ -2,7 +2,7 @@
 
 import { memo, useMemo } from 'react';
 import { TodoFormProps, TodoValue } from '@/section/Todo/types/ITodoList';
-import Button from '@/components/ui/Button';
+import MyButton from '@/components/ui/MyButton';
 import Form from '@/components/Form';
 import * as yup from 'yup';
 import Input from '@/components/ui/Input';
@@ -23,8 +23,6 @@ export const ToDoForm = memo(function TodoForm({ onSubmitAction, todoToUpdate }:
         ...todoToUpdate,
         message: values.message,
       });
-
-      // formHandlers?.setValue('message', '');
     } else {
       const todoData: TodoValue = {
         id: Date.now().toString(),
@@ -33,8 +31,6 @@ export const ToDoForm = memo(function TodoForm({ onSubmitAction, todoToUpdate }:
       };
 
       onSubmitAction(todoData);
-
-      // formHandlers?.reset();
     }
 
     router.back();
@@ -45,8 +41,6 @@ export const ToDoForm = memo(function TodoForm({ onSubmitAction, todoToUpdate }:
       message: yup.string().required(),
     })
     .required();
-
-  // console.log(todoSelectedValue);
 
   const defaultValues = useMemo(
     () => ({
@@ -68,7 +62,6 @@ export const ToDoForm = memo(function TodoForm({ onSubmitAction, todoToUpdate }:
           name={'message'}
           child={
             <Input
-              // label="message"
               placeholder="Enter your task"
               // onChange={e => {
               //   return console.log(e.target.value);
@@ -77,10 +70,10 @@ export const ToDoForm = memo(function TodoForm({ onSubmitAction, todoToUpdate }:
           }
         />
 
-        <Button label={todoToUpdate ? 'Update' : 'Add'} />
+        <MyButton label={todoToUpdate ? 'Update' : 'Add'} />
       </Form>
 
-      <Button
+      <MyButton
         onClick={() => {
           router.back();
         }}

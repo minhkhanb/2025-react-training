@@ -1,9 +1,16 @@
 import api from '@/config/axios/setup';
 import { TodoValue } from '../types/ITodoList';
 
-export const getAllTodo = async (page: number) => {
+export const getAllTodo = async (
+  page: number,
+  totalPerPage: number,
+  sortType: string,
+  sortColumn: string
+) => {
   try {
-    const res = await api.get<TodoValue>(`api/todos?page=${page}&limit=5`);
+    const res = await api.get<TodoValue>(
+      `api/todos?page=${page}&limit=${totalPerPage}&sortType=${sortType}&sortColumn=${sortColumn}`
+    );
 
     return res.data;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

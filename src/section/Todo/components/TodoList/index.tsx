@@ -1,51 +1,62 @@
 'use client';
 
-import { memo } from 'react';
-import { TodoItem } from '../TodoItem';
+import { memo, useState } from 'react';
+// import { TodoItem } from '../TodoItem';
 import { EmptyState } from '../EmptyState';
-import { TodoListProps, TodoValue } from '../../types/ITodoList';
+import { TodoListProps } from '../../types/ITodoList';
 import { Summary } from '../Summary';
-import Pagination from '@/components/Pagination';
+// import Pagination from '@/components/Pagination';
 import Loading from '@/components/Loading';
+import TodosPagination from '../Pagination';
+import { TodosTable } from '../TodosTable';
+import { SortingState } from '@tanstack/react-table';
+import { usePaginatedTodos } from '../../hooks/usePaginatedTodos';
 
-export const TodoList = memo(function TodoList({
-  todoListData,
-  // askUpdate,
-  askDelete,
-  itemsPerPage,
-  currentPage,
-  setCurrentPage,
-  isLoading,
-  totalTodos,
-}: TodoListProps) {
-  // const currentTodos = useMemo(
-  //   () => todoListData.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage),
-  //   [currentPage, itemsPerPage, todoListData]
-  // );
+const PAGE_SIZE = 5;
+
+export const TodoList = memo(function TodoList({ askDelete }: TodoListProps) {
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [pagination, setPagination] = useState({
+    pageIndex: 1,
+    pageSize: PAGE_SIZE,
+  });
+
+  const { data, isFetching } = usePaginatedTodos(
+    pagination.pageIndex,
+    pagination.pageSize,
+    sorting
+  );
+
+  const todoListData = data?.data || [];
+  const totalTodos = data?.pagination?.total || 0;
 
   return (
-    <div className="overflow-hidden rounded-b-xl bg-white shadow-xl">
-      <div className="divide-y divide-gray-100">
-        {isLoading ? <Loading className="h-96" /> : <EmptyState todos={todoListData} />}
-        {todoListData.length > 0 &&
-          todoListData.map((item: TodoValue) => (
-            <TodoItem
-              key={item.id}
-              todoItem={item}
-              // askUpdateAction={askUpdate}
-              askDelete={askDelete}
-            />
-          ))}
-      </div>
+    <div className="overflow-hidden rounded-xl bg-white shadow-xl">
+      {isFetching ? (
+        <Loading className="h-96" />
+      ) : !(todoListData.length > 0) ? (
+        <EmptyState todos={todoListData} />
+      ) : (
+        <TodosTable
+          todoListData={todoListData}
+          askDelete={askDelete}
+          sorting={sorting}
+          setSorting={setSorting}
+          totalItems={totalTodos}
+          pagination={pagination}
+          setPagination={setPagination}
+        />
+      )}
 
-      <Pagination
+      <TodosPagination
         totalItems={totalTodos}
-        itemsPerPage={itemsPerPage}
-        currentPage={currentPage}
-        onPageChange={page => setCurrentPage(page)}
+        itemsPerPage={pagination.pageSize || 5}
+        currentPage={pagination.pageIndex}
+        onPageChange={page => setPagination(prev => ({ ...prev, pageIndex: page }))}
+        isLoading={isFetching}
       />
 
-      <Summary todos={todoListData} />
+      <Summary totalTodos={totalTodos} todosCompleted={data?.pagination?.totalFinish || 0} />
     </div>
   );
 });

@@ -1,25 +1,37 @@
 import { toastManager } from '@src/modules/toast';
-import { Button } from '@src/components/ui/button';
-import { Pencil } from 'lucide-react';
-import TodoForm from '@src/components/TodoForm';
-import { useTodo } from '@src/contexts/todoContext';
-import { Todo } from '@src/types/todos';
+import { TodoForm } from './TodoForm';
+import { useTodo } from '@src/context/todoContext';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@src/components/ui/dialog';
+import { useState } from 'react';
+import { Todo } from '@src/types/todo';
 
-export default function EditTodoModal({ row }: { row: Todo }) {
+type TodoFormValues = Omit<Todo, 'id' | 'createdAt' | 'updatedAt'>;
+
+export const EditTodoModal = ({ data, trigger }: { data: Todo; trigger: React.ReactNode }) => {
+  const [open, setOpen] = useState(false);
   const { updateTodo } = useTodo();
 
+  const handleSubmit = (values: TodoFormValues) => {
+    updateTodo(data.id, values);
+    toastManager.addToast('Success', 'Updated todo', 'success');
+    setOpen(false);
+  };
+
   return (
-    <TodoForm
-      trigger={
-        <Button className="cursor-pointer" variant="outline" size="sm">
-          <Pencil strokeWidth={1.5} />
-        </Button>
-      }
-      data={row}
-      onSubmitAction={values => {
-        updateTodo(row.id, values);
-        toastManager.addToast('Success', `Edited ${row.title}`, 'success');
-      }}
-    />
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>{trigger}</DialogTrigger>
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle>Edit Todo</DialogTitle>
+        </DialogHeader>
+        <TodoForm onSubmitAction={handleSubmit} data={data} />
+      </DialogContent>
+    </Dialog>
   );
-}
+};

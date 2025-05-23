@@ -1,7 +1,7 @@
 'use client';
 
 import { createContext, useContext, useState } from 'react';
-import { Todo } from '@src/types/todos';
+import { Todo } from '@src/types/todo';
 import { todos as initialTodos } from '@src/data/todos';
 
 interface TodoContextType {

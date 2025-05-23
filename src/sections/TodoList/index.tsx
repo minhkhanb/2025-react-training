@@ -2,17 +2,13 @@
 
 import { ColumnDef } from '@tanstack/react-table';
 import { Button } from '@src/components/ui/button';
-import { toastManager } from '@src/modules/toast';
-import { Todo } from '@src/types/todos';
+import { Todo } from '@src/types/todo';
 import DataTable from '@src/components/DataTable';
-import { Trash2 } from 'lucide-react';
+import { Trash2, Pencil } from 'lucide-react';
 import { Checkbox } from '@src/components/ui/checkbox';
 import { cn } from '@src/lib/utils';
-import ConfirmDialog from '@src/components/ConfirmDialog';
-import { useTodo } from '@src/contexts/todoContext';
-import EditTodoModal from './components/EditTodoModal';
-import TodoAction from './components/TodoAction';
-import HeaderSection from './components/HeaderSection';
+import { useTodo } from '@src/context/todoContext';
+import { EditTodoModal, ConfirmDeleteModal, TodoAction, HeaderSection } from './components';
 
 const typeStyles = {
   pending: 'bg-blue-100 border-blue-500 text-blue-800',
@@ -24,7 +20,7 @@ const typeStyles = {
 };
 
 export default function TodoListSection() {
-  const { todos, removeTodo } = useTodo();
+  const { todos } = useTodo();
 
   const columns: ColumnDef<Todo>[] = [
     {
@@ -80,20 +76,21 @@ export default function TodoListSection() {
       size: 120,
       cell: ({ row }) => (
         <div className="flex gap-2">
-          <EditTodoModal row={row.original} />
-          <ConfirmDialog
+          <EditTodoModal
+            data={row.original}
             trigger={
-              <Button className="cursor-pointer" variant="destructive" size="sm">
+              <Button className="cursor-pointer" variant="outline" size="sm">
+                <Pencil strokeWidth={1.5} />
+              </Button>
+            }
+          />
+          <ConfirmDeleteModal
+            data={row.original}
+            trigger={
+              <Button variant="destructive" size="sm">
                 <Trash2 strokeWidth={1.5} />
               </Button>
             }
-            title="Delete Todo"
-            description="Are you sure you want to delete this todo?"
-            confirmText="Delete"
-            onConfirm={() => {
-              removeTodo(row.original.id);
-              toastManager.addToast('Success', `Deleted ${row.original.title}`, 'success');
-            }}
           />
         </div>
       ),
@@ -110,7 +107,12 @@ export default function TodoListSection() {
           <TodoAction />
         </div>
       </div>
-      <DataTable columns={columns} data={todos} pageSize={2} />
+      <DataTable
+        columns={columns}
+        data={todos}
+        pageSize={3}
+        pageCount={Math.ceil(todos.length / 3)}
+      />
     </div>
   );
 }

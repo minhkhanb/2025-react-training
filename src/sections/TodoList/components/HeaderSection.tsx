@@ -1,4 +1,4 @@
-export default function TitleSection() {
+export const HeaderSection = () => {
   return (
     <div className="mb-4">
       <h1 className="text-2xl font-bold mb-4">Todo Management</h1>
@@ -9,4 +9,4 @@ export default function TitleSection() {
       </p>
     </div>
   );
-}
+};

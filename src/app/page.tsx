@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { Button } from '@src/components/ui/button';
-import BlogTable from '@src/components/BlogTable';
 
 export default function Home() {
   return (
@@ -26,7 +25,6 @@ export default function Home() {
         </Link>
       </div>
       <Button className="mb-6">Test Button</Button>
-      <BlogTable />
     </div>
   );
 }

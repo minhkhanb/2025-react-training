@@ -34,7 +34,15 @@ export const ToastItem = ({ toast, onRemove }: ToastItemProps) => {
 
   return (
     <div
-      className={cn(styles.container, 'shadow-lg rounded-lg p-4 border-l-4 relative min-w-[300px]')}
+      className={cn(
+        styles.container,
+        'shadow-lg rounded-lg p-4 border-l-4 relative min-w-[300px]',
+        'animate-slideIn opacity-0',
+        'transition-all duration-300 ease-in-out'
+      )}
+      style={{
+        animation: 'slideIn 0.3s ease-out forwards',
+      }}
     >
       <h3 className={cn(styles.title, 'text-lg font-medium')}>{toast.title}</h3>
       <p className={cn(styles.message, 'mt-1 text-sm')}>{toast.message}</p>
@@ -44,6 +52,19 @@ export const ToastItem = ({ toast, onRemove }: ToastItemProps) => {
       >
         ✕
       </button>
+
+      <style jsx>{`
+        @keyframes slideIn {
+          from {
+            transform: translateX(100%);
+            opacity: 0;
+          }
+          to {
+            transform: translateX(0);
+            opacity: 1;
+          }
+        }
+      `}</style>
     </div>
   );
 };

@@ -5,16 +5,26 @@ interface CustomAxiosRequestConfig extends InternalAxiosRequestConfig {
   _retry?: boolean;
 }
 
+type Subscriber = {
+  resolve: (token: string) => void;
+  reject: (err: unknown) => void;
+};
+
 let isRefreshing = false;
-let refreshSubscribers: ((token: string) => void)[] = [];
+let refreshSubscribers: Subscriber[] = [];
 
 const onRefreshed = (token: string) => {
-  refreshSubscribers.forEach(callback => callback(token));
+  refreshSubscribers.forEach(({ resolve }) => resolve(token));
   refreshSubscribers = [];
 };
 
-const addSubscriber = (callback: (token: string) => void) => {
-  refreshSubscribers.push(callback);
+const onRefreshFailed = (error: unknown) => {
+  refreshSubscribers.forEach(({ reject }) => reject(error));
+  refreshSubscribers = [];
+};
+
+const addSubscriber = (subscriber: Subscriber) => {
+  refreshSubscribers.push(subscriber);
 };
 
 const refreshToken = async (): Promise<string> => {
@@ -74,17 +84,22 @@ const applyInterceptors = (api: AxiosInstance) => {
           } catch (refreshError) {
             isRefreshing = false;
             refreshSubscribers = [];
+            onRefreshFailed(refreshError);
 
             return Promise.reject(refreshError);
           }
         }
 
-        return new Promise(resolve => {
-          addSubscriber((token: string) => {
-            originalRequest.headers = originalRequest.headers || {};
-            originalRequest.headers['Authorization'] = `Bearer ${token}`;
-
-            resolve(api(originalRequest));
+        return new Promise((resolve, reject) => {
+          addSubscriber({
+            resolve: (token: string) => {
+              originalRequest.headers = originalRequest.headers || {};
+              originalRequest.headers['Authorization'] = `Bearer ${token}`;
+              resolve(api(originalRequest));
+            },
+            reject: (err: unknown) => {
+              reject(err);
+            },
           });
         });
       }

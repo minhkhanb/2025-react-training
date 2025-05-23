@@ -64,6 +64,7 @@ interface FieldComponentProps<T = string> {
   className?: string;
   disabled?: boolean;
   placeholder?: string;
+  options?: { value: string; label: string }[];
 }
 
 interface FieldProps<T extends FieldValues, C = string> {
@@ -74,6 +75,7 @@ interface FieldProps<T extends FieldValues, C = string> {
   className?: string;
   disabled?: boolean;
   placeholder?: string;
+  options?: { value: string; label: string }[];
 }
 
 function Field<T extends FieldValues, C = string>({
@@ -84,6 +86,7 @@ function Field<T extends FieldValues, C = string>({
   className,
   disabled,
   placeholder,
+  options,
   ...rest
 }: FieldProps<T, C>) {
   return (
@@ -107,6 +110,7 @@ function Field<T extends FieldValues, C = string>({
                 {...rest}
                 disabled={disabled}
                 placeholder={placeholder}
+                options={options}
                 className={cn(
                   'w-full transition-colors',
                   hasError && 'border-red-500 focus:border-red-500',

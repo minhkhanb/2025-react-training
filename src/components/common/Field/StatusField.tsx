@@ -4,7 +4,7 @@ import { Select } from '@src/components/ui/select';
 import { FieldError } from 'react-hook-form';
 import { cn } from '@src/lib/utils';
 
-interface PriorityFieldProps {
+interface StatusFieldProps {
   value: string;
   onChange: (value: string) => void;
   onBlur: () => void;
@@ -13,9 +13,10 @@ interface PriorityFieldProps {
   className?: string;
   disabled?: boolean;
   placeholder?: string;
+  options?: { value: string; label: string }[];
 }
 
-export const PriorityField = React.forwardRef<HTMLButtonElement, PriorityFieldProps>(
+export const StatusField = React.forwardRef<HTMLButtonElement, StatusFieldProps>(
   (
     {
       value,
@@ -25,7 +26,8 @@ export const PriorityField = React.forwardRef<HTMLButtonElement, PriorityFieldPr
       error,
       className,
       disabled,
-      placeholder = 'Select priority',
+      placeholder = 'Select status',
+      options,
     },
     ref
   ) => {
@@ -45,13 +47,15 @@ export const PriorityField = React.forwardRef<HTMLButtonElement, PriorityFieldPr
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="low">Low</SelectItem>
-          <SelectItem value="medium">Medium</SelectItem>
-          <SelectItem value="high">High</SelectItem>
+          {options?.map(option => (
+            <SelectItem key={option.value} value={option.value}>
+              {option.label}
+            </SelectItem>
+          ))}
         </SelectContent>
       </Select>
     );
   }
 );
 
-PriorityField.displayName = 'PriorityField';
+StatusField.displayName = 'StatusField';

@@ -1,6 +1,6 @@
 import { TodoProvider } from '@src/context/todoContext';
 
-export default function BlogLayout({ children }: { children: React.ReactNode }) {
+export default function TodoLayout({ children }: { children: React.ReactNode }) {
   return (
     <TodoProvider>
       <div className="flex min-h-screen">

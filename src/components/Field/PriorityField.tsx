@@ -13,6 +13,7 @@ interface PriorityFieldProps {
   className?: string;
   disabled?: boolean;
   placeholder?: string;
+  options?: { value: string; label: string }[];
 }
 
 export const PriorityField = React.forwardRef<HTMLButtonElement, PriorityFieldProps>(
@@ -26,6 +27,7 @@ export const PriorityField = React.forwardRef<HTMLButtonElement, PriorityFieldPr
       className,
       disabled,
       placeholder = 'Select priority',
+      options,
     },
     ref
   ) => {
@@ -45,9 +47,11 @@ export const PriorityField = React.forwardRef<HTMLButtonElement, PriorityFieldPr
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="low">Low</SelectItem>
-          <SelectItem value="medium">Medium</SelectItem>
-          <SelectItem value="high">High</SelectItem>
+          {options?.map(option => (
+            <SelectItem key={option.value} value={option.value}>
+              {option.label}
+            </SelectItem>
+          ))}
         </SelectContent>
       </Select>
     );

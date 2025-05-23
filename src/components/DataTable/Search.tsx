@@ -1,5 +1,6 @@
 import { Input } from '@src/components/ui/input';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams, usePathname } from 'next/navigation';
+import { useEffect, useCallback, useRef } from 'react';
 
 interface SearchProps {
   value: string;
@@ -8,18 +9,44 @@ interface SearchProps {
 
 export function Search({ value, onChange }: SearchProps) {
   const router = useRouter();
+  const pathname = usePathname();
   const searchParams = useSearchParams();
+  const debounceRef = useRef<NodeJS.Timeout | undefined>(undefined);
 
-  const handleSearch = (value: string) => {
-    const params = new URLSearchParams(searchParams.toString());
-    if (value.trim()) {
-      params.set('keyword', value);
-    } else {
-      params.delete('keyword');
+  const updateUrlParams = useCallback(
+    (searchValue: string) => {
+      const params = new URLSearchParams(searchParams.toString());
+      if (searchValue.trim()) {
+        params.set('keyword', searchValue);
+      } else {
+        params.delete('keyword');
+      }
+
+      params.delete('page');
+      router.push(`${pathname}?${params.toString()}`);
+    },
+    [pathname, searchParams, router]
+  );
+
+  const handleSearch = (newValue: string) => {
+    onChange(newValue);
+
+    if (debounceRef.current) {
+      clearTimeout(debounceRef.current);
     }
-    router.push(`?${params.toString()}`);
-    onChange(value);
+
+    debounceRef.current = setTimeout(() => {
+      updateUrlParams(newValue);
+    }, 300);
   };
+
+  useEffect(() => {
+    return () => {
+      if (debounceRef.current) {
+        clearTimeout(debounceRef.current);
+      }
+    };
+  }, []);
 
   return (
     <Input

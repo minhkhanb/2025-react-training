@@ -50,7 +50,7 @@ export default function Todo() {
 
           <Link
             className="mx-1 my-3 inline-flex h-10 w-48 items-center justify-center rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white transition-all hover:opacity-90 active:scale-105 active:opacity-100"
-            href={'add-todo'}
+            href={'todo-list/add'}
           >
             <PlusOutlined className="mr-2" /> Add new todo
           </Link>

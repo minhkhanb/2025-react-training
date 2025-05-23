@@ -19,7 +19,7 @@ export const TodoActions = memo(function TodoActions({
     <div className="my-3">
       <button
         onClick={() => {
-          router.push(`/update-todo/${info.row.original.id}`);
+          router.push(`/todo-list/update/${info.row.original.id}`);
           // askUpdateAction(todoItem);
         }}
         className="h-10 w-10 cursor-pointer rounded-full text-gray-400 transition-colors duration-200 hover:bg-blue-100 hover:text-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none"

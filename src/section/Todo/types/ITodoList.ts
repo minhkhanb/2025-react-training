@@ -1,13 +1,6 @@
 import { SortingState } from '@tanstack/react-table';
 import { Dispatch, SetStateAction } from 'react';
-
-export interface TodoFormValues {
-  taskName: string;
-}
-
-export interface TodoListProps {
-  onDeleteTodo: (todo: TodoValue) => void;
-}
+import { Pagination } from './common';
 
 export interface TodoValue {
   id: string;
@@ -15,10 +8,23 @@ export interface TodoValue {
   isFinish: boolean;
 }
 
-export interface TodoItemProps {
-  todoItem: TodoValue;
-  onDeleteTodo: (todo: TodoValue) => void;
-  // askUpdateAction: (todo: TodoValue) => void;
+export type TodoFormValues = Omit<TodoValue, 'id' | 'isFinish'>;
+
+export type TodoToDeleteValues = Omit<TodoValue, 'isFinish'>;
+
+export interface PaginatedTodosResponse {
+  data: TodoValue[];
+  pagination: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+  };
+}
+
+export interface getTotalTodosAndTotalFinishTodosResponse {
+  totalTodos: number;
+  totalFinishTodos: number;
 }
 
 export interface TodoFormProps {
@@ -26,16 +32,19 @@ export interface TodoFormProps {
   todoToUpdate: TodoValue | null;
 }
 
-type pagination = {
-  pageIndex: number;
-  pageSize: number;
-};
-export interface TodosTableProps {
+export interface TodoListProps {
+  onDeleteTodo: (todo: TodoToDeleteValues) => void;
+}
+
+export interface TodoItemProps extends TodoListProps {
+  todoItem: TodoValue;
+}
+
+export interface TodosTableProps extends TodoListProps {
   todoListData: TodoValue[];
-  onDeleteTodo: (todo: TodoValue) => void;
   sorting: SortingState;
   setSorting: Dispatch<SetStateAction<SortingState>>;
   totalItems: number;
-  pagination: pagination;
-  setPagination: Dispatch<SetStateAction<pagination>>;
+  pagination: Pagination;
+  setPagination: Dispatch<SetStateAction<Pagination>>;
 }

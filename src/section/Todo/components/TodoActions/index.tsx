@@ -1,17 +1,16 @@
 'use client';
 
 import React, { memo } from 'react';
-import { CellContext } from '@tanstack/react-table';
-import { TodoValue } from '../../types/ITodoList';
+import { TodoToDeleteValues } from '../../types/ITodoList';
 import { CloseOutlined, EditOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/navigation';
 
 function TodoActions({
-  info,
+  todoToDelete,
   onDeleteTodo,
 }: {
-  info: CellContext<TodoValue, unknown>;
-  onDeleteTodo: (todo: TodoValue) => void;
+  todoToDelete: TodoToDeleteValues;
+  onDeleteTodo: (todo: TodoToDeleteValues) => void;
 }) {
   const router = useRouter();
 
@@ -19,7 +18,7 @@ function TodoActions({
     <div className="my-3">
       <button
         onClick={() => {
-          router.push(`/todo-list/update/${info.row.original.id}`);
+          router.push(`/todo-list/update/${todoToDelete.id}`);
           // askUpdateAction(todoItem);
         }}
         className="h-10 w-10 cursor-pointer rounded-full text-gray-400 transition-colors duration-200 hover:bg-blue-100 hover:text-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none"
@@ -28,7 +27,7 @@ function TodoActions({
       </button>
 
       <button
-        onClick={() => onDeleteTodo?.(info.row.original)}
+        onClick={() => onDeleteTodo?.(todoToDelete)}
         className="ml-2 h-10 w-10 cursor-pointer rounded-full text-gray-400 transition-colors duration-200 hover:bg-red-100 hover:text-red-500 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:outline-none"
       >
         <CloseOutlined className="flex h-5 w-5 justify-center rounded-b-full text-xs" />

@@ -7,6 +7,7 @@ import { SortingState } from '@tanstack/table-core';
 import { fetchTableData } from '@src/server/actions/courses';
 import { Loader2 } from 'lucide-react';
 import CoursesTable from '@src/section/Courses/components/CoursesTable';
+import { useGetCourses } from '@src/api/courses/queries';
 
 type Props = {
   initialData: {
@@ -26,6 +27,10 @@ function Courses({ initialData, initialPage }: Props) {
   const [isLoading, setIsLoading] = React.useState(false);
   const [tableData, setTableData] = React.useState<Person[]>(initialData.data);
   const [totalRowCount, setTotalRowCount] = React.useState<number>(initialData.meta.totalRowCount);
+
+  const getCourses = useGetCourses();
+
+  console.log('PDebug getCourses: ', getCourses.data);
 
   const PAGE_SIZE = 10;
 

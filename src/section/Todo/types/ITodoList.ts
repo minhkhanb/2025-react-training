@@ -6,7 +6,7 @@ export interface TodoFormValues {
 }
 
 export interface TodoListProps {
-  askDelete: (todo: TodoValue) => void;
+  onDeleteTodo: (todo: TodoValue) => void;
 }
 
 export interface TodoValue {

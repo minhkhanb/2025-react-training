@@ -6,7 +6,7 @@ import { TodoValue } from '../../types/ITodoList';
 import { CloseOutlined, EditOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/navigation';
 
-export const TodoActions = memo(function TodoActions({
+function TodoActions({
   info,
   askDelete,
 }: {
@@ -35,4 +35,6 @@ export const TodoActions = memo(function TodoActions({
       </button>
     </div>
   );
-});
+}
+
+export default memo(TodoActions);

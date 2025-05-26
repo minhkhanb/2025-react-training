@@ -17,11 +17,11 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import { ToggleTodoStatus } from '../ToggleTodoStatus';
-import { TodoActions } from '../TodoActions';
+import ToggleTodoStatus from '../ToggleTodoStatus';
+import TodoActions from '../TodoActions';
 import { TodosTableProps, TodoValue } from '../../types/ITodoList';
 
-export const TodosTable = memo(function TodosTable({
+function TodosTable({
   todoListData,
   askDelete,
   sorting,
@@ -207,4 +207,6 @@ export const TodosTable = memo(function TodosTable({
       </TableBody>
     </Table>
   );
-});
+}
+
+export default memo(TodosTable);

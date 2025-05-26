@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useCallback, useState } from 'react';
-import { TodoList } from './components/TodoList';
-import { ConfirmModal } from '@/components/ConfirmModal';
+import TodoList from './components/TodoList';
+import ConfirmModal from '@/components/ConfirmModal';
 import { TodoValue } from './types/ITodoList';
 import { useDeleteTodo } from './hooks/useDeleteTodo';
 import Link from 'next/link';

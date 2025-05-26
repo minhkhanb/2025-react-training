@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useCallback } from 'react';
-import { ToDoForm } from '@/section/Todo/components/TodoForm';
+import ToDoForm from '@/section/Todo/components/TodoForm';
 import { useAddTodo } from '@/section/Todo/hooks/useAddTodo';
 import { TodoValue } from '@/section/Todo/types/ITodoList';
 

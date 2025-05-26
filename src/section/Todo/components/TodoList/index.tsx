@@ -14,7 +14,7 @@ import { usePaginatedTodos } from '../../hooks/usePaginatedTodos';
 
 const PAGE_SIZE = 5;
 
-function TodoList({ askDelete }: TodoListProps) {
+function TodoList({ onDeleteTodo }: TodoListProps) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [pagination, setPagination] = useState({
     pageIndex: 1,
@@ -39,7 +39,7 @@ function TodoList({ askDelete }: TodoListProps) {
       ) : (
         <TodosTable
           todoListData={todoListData}
-          askDelete={askDelete}
+          askDelete={onDeleteTodo}
           sorting={sorting}
           setSorting={setSorting}
           totalItems={totalTodos}

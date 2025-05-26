@@ -14,7 +14,7 @@ export default function Todo() {
 
   const deleteMutation = useDeleteTodo();
 
-  const askDelete = useCallback(
+  const onDeleteTodo = useCallback(
     (todo: TodoValue) => {
       setTodoToDelete(todo);
 
@@ -64,14 +64,13 @@ export default function Todo() {
           setTodoSelectedValue={setTodoSelectedValue}
         /> */}
 
-        <TodoList askDelete={askDelete} />
+        <TodoList onDeleteTodo={onDeleteTodo} />
 
         <ConfirmModal
           visible={confirmVisible}
-          title={`Delete "${todoToDelete?.message}"?`}
+          todoName={todoToDelete?.message || ''}
           onConfirm={confirmDelete}
           onCancel={handleCancelDelete}
-          message="Are you sure you want to delete this task?"
         />
       </div>
     </div>

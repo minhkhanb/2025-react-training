@@ -2,5 +2,5 @@ export interface ConfirmModalProps {
   visible: boolean;
   onConfirm: () => void;
   onCancel: () => void;
-  todoName: string;
+  todoTaskName: string;
 }

@@ -8,10 +8,10 @@ import { useRouter } from 'next/navigation';
 
 function TodoActions({
   info,
-  askDelete,
+  onDeleteTodo,
 }: {
   info: CellContext<TodoValue, unknown>;
-  askDelete: (todo: TodoValue) => void;
+  onDeleteTodo: (todo: TodoValue) => void;
 }) {
   const router = useRouter();
 
@@ -28,7 +28,7 @@ function TodoActions({
       </button>
 
       <button
-        onClick={() => askDelete?.(info.row.original)}
+        onClick={() => onDeleteTodo?.(info.row.original)}
         className="ml-2 h-10 w-10 cursor-pointer rounded-full text-gray-400 transition-colors duration-200 hover:bg-red-100 hover:text-red-500 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:outline-none"
       >
         <CloseOutlined className="flex h-5 w-5 justify-center rounded-b-full text-xs" />

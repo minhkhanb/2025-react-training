@@ -23,7 +23,7 @@ import { TodosTableProps, TodoValue } from '../../types/ITodoList';
 
 function TodosTable({
   todoListData,
-  askDelete,
+  onDeleteTodo,
   sorting,
   setSorting,
   totalItems,
@@ -46,8 +46,8 @@ function TodosTable({
         enableSorting: false,
       },
       {
-        accessorKey: 'message',
-        header: 'Message',
+        accessorKey: 'taskName',
+        header: 'Task Name',
         size: 400,
         cell: info => info.getValue(),
       },
@@ -56,10 +56,10 @@ function TodosTable({
         header: 'Action',
         size: 200,
         enableSorting: false,
-        cell: info => <TodoActions info={info} askDelete={askDelete} />,
+        cell: info => <TodoActions info={info} onDeleteTodo={onDeleteTodo} />,
       },
     ],
-    [askDelete]
+    [onDeleteTodo]
   );
 
   const table = useReactTable({

@@ -17,28 +17,28 @@ export function useTodoOperations(initialTodos: TodoValue[] = []) {
     (todoItem: TodoValue) => {
       setTodoListData((pre: TodoValue[]) => [...pre, todoItem]);
 
-      showToast(`Task ${todoItem.message} added successfully!`, ToastType.SUCCESS);
+      showToast(`Task ${todoItem.taskName} added successfully!`, ToastType.SUCCESS);
     },
     [showToast]
   );
 
   const handleDeleteTodoItem = useCallback(
-    (id: string, message: string) => {
+    (id: string, taskName: string) => {
       setTodoListData((pre: TodoValue[]) => pre.filter((item: TodoValue) => item.id !== id));
 
-      showToast(`Task ${message} deleted successfully!`, ToastType.SUCCESS);
+      showToast(`Task ${taskName} deleted successfully!`, ToastType.SUCCESS);
     },
     [showToast]
   );
 
   const handleChangeStatusTodoItem = useCallback(
     (id: string) => {
-      let message = '';
+      let taskName = '';
 
       setTodoListData((pre: TodoValue[]) =>
         pre.map((item: TodoValue) => {
           if (item.id === id) {
-            message = item.message;
+            taskName = item.taskName;
 
             return { ...item, isFinish: !item.isFinish };
           }
@@ -47,24 +47,24 @@ export function useTodoOperations(initialTodos: TodoValue[] = []) {
         })
       );
 
-      showToast(`Task ${message} updated status successfully!`, ToastType.SUCCESS);
+      showToast(`Task ${taskName} updated status successfully!`, ToastType.SUCCESS);
     },
     [showToast]
   );
 
   const handleUpdateTodoItem = useCallback(
-    (message: string) => {
+    (taskName: string) => {
       setTodoListData((pre: TodoValue[]) =>
         pre.map((item: TodoValue) => {
           if (item.id === todoToUpdate?.id) {
-            return { ...item, message };
+            return { ...item, taskName };
           }
 
           return item;
         })
       );
 
-      showToast(`Task ${message} updated successfully!`, ToastType.SUCCESS);
+      showToast(`Task ${taskName} updated successfully!`, ToastType.SUCCESS);
 
       setTodoSelectedValue('');
 

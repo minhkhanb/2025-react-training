@@ -10,7 +10,7 @@ import { useRouter } from 'next/navigation';
 function TodoItem({
   todoItem,
   // askUpdateAction,
-  askDelete,
+  onDeleteTodo,
 }: TodoItemProps) {
   // useEffect(() => console.log('render'));
   const updateStatusMutation = useToggleTodoStatus();
@@ -34,7 +34,7 @@ function TodoItem({
             todoItem.isFinish && 'text-gray-400 line-through'
           )}
         >
-          {todoItem.message}
+          {todoItem.taskName}
         </h2>
       </div>
 
@@ -49,7 +49,7 @@ function TodoItem({
       </button>
 
       <button
-        onClick={() => askDelete(todoItem)}
+        onClick={() => onDeleteTodo(todoItem)}
         className="ml-2 h-10 w-10 cursor-pointer rounded-full p-1 text-gray-400 opacity-0 transition-colors duration-200 group-hover:opacity-100 hover:bg-red-100 hover:text-red-500 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:outline-none"
       >
         <CloseOutlined className="flex h-5 w-5 justify-center rounded-b-full text-xs" />

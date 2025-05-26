@@ -66,12 +66,14 @@ export default function Todo() {
 
         <TodoList onDeleteTodo={onDeleteTodo} />
 
-        <ConfirmModal
-          visible={confirmVisible}
-          todoName={todoToDelete?.message || ''}
-          onConfirm={confirmDelete}
-          onCancel={handleCancelDelete}
-        />
+        {todoToDelete && (
+          <ConfirmModal
+            visible={confirmVisible}
+            todoTaskName={todoToDelete.taskName}
+            onConfirm={confirmDelete}
+            onCancel={handleCancelDelete}
+          />
+        )}
       </div>
     </div>
   );

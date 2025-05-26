@@ -10,7 +10,7 @@ import Loading from '@/components/Loading';
 export default function UpdateTodo({ id }: { id: string }) {
   const [todoToUpdate, setTodoToUpdate] = useState<TodoValue>({
     id: '',
-    message: '',
+    taskName: '',
     isFinish: false,
   });
 

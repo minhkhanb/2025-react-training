@@ -55,9 +55,9 @@ export const updateStatusTodo = async ({ id }: { id: string }) => {
   }
 };
 
-export const updateTodo = async ({ id, message }: { id: string; message: string }) => {
+export const updateTodo = async ({ id, taskName }: { id: string; taskName: string }) => {
   try {
-    const res = await api.patch<TodoValue>(`/api/todos/${id}`, { message });
+    const res = await api.patch<TodoValue>(`/api/todos/${id}`, { taskName });
 
     return res.data;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

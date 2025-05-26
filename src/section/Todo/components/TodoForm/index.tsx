@@ -12,7 +12,7 @@ import { OnSubmitArgs } from '@/components/Form/types/IForm';
 function TodoForm({ onSubmitAction, todoToUpdate }: TodoFormProps) {
   const router = useRouter();
 
-  type Todo = { message: string };
+  type Todo = { taskName: string };
 
   const onSubmit = (...args: OnSubmitArgs<Todo>): void => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -21,12 +21,12 @@ function TodoForm({ onSubmitAction, todoToUpdate }: TodoFormProps) {
     if (todoToUpdate) {
       onSubmitAction({
         ...todoToUpdate,
-        message: values.message,
+        taskName: values.taskName,
       });
     } else {
       const todoData: TodoValue = {
         id: Date.now().toString(),
-        message: values.message,
+        taskName: values.taskName,
         isFinish: false,
       };
 
@@ -38,13 +38,13 @@ function TodoForm({ onSubmitAction, todoToUpdate }: TodoFormProps) {
 
   const schema = yup
     .object({
-      message: yup.string().required(),
+      taskName: yup.string().required(),
     })
     .required();
 
   const defaultValues = useMemo(
     () => ({
-      message: todoToUpdate?.message ?? '',
+      taskName: todoToUpdate?.taskName ?? '',
     }),
     [todoToUpdate]
   );
@@ -59,7 +59,7 @@ function TodoForm({ onSubmitAction, todoToUpdate }: TodoFormProps) {
         className="flex w-full"
       >
         <Form.FormField
-          name={'message'}
+          name={'taskName'}
           child={
             <Input
               placeholder="Enter your task"

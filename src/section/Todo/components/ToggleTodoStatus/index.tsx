@@ -6,9 +6,7 @@ import { useToggleTodoStatus } from '../../hooks/useToggleTodoStatus';
 import { CellContext } from '@tanstack/react-table';
 import { TodoValue } from '../../types/ITodoList';
 
-export const ToggleTodoStatus = memo(function ToggleTodoStatus(
-  info: CellContext<TodoValue, unknown>
-) {
+function ToggleTodoStatus(info: CellContext<TodoValue, unknown>) {
   const updateStatusMutation = useToggleTodoStatus();
 
   return (
@@ -18,4 +16,6 @@ export const ToggleTodoStatus = memo(function ToggleTodoStatus(
       onChange={() => updateStatusMutation.mutate({ id: info.row.original.id })}
     />
   );
-});
+}
+
+export default memo(ToggleTodoStatus);

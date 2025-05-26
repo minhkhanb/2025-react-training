@@ -8,13 +8,13 @@ import { Summary } from '../Summary';
 // import Pagination from '@/components/Pagination';
 import Loading from '@/components/Loading';
 import TodosPagination from '../Pagination';
-import { TodosTable } from '../TodosTable';
+import TodosTable from '../TodosTable';
 import { SortingState } from '@tanstack/react-table';
 import { usePaginatedTodos } from '../../hooks/usePaginatedTodos';
 
 const PAGE_SIZE = 5;
 
-export const TodoList = memo(function TodoList({ askDelete }: TodoListProps) {
+function TodoList({ askDelete }: TodoListProps) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [pagination, setPagination] = useState({
     pageIndex: 1,
@@ -59,4 +59,6 @@ export const TodoList = memo(function TodoList({ askDelete }: TodoListProps) {
       <Summary totalTodos={totalTodos} todosCompleted={data?.pagination?.totalFinish || 0} />
     </div>
   );
-});
+}
+
+export default memo(TodoList);

@@ -7,7 +7,7 @@ import { TodoItemProps } from '../../types/ITodoList';
 import { useToggleTodoStatus } from '../../hooks/useToggleTodoStatus';
 import { useRouter } from 'next/navigation';
 
-export const TodoItem = memo(function TodoItem({
+function TodoItem({
   todoItem,
   // askUpdateAction,
   askDelete,
@@ -56,4 +56,6 @@ export const TodoItem = memo(function TodoItem({
       </button>
     </div>
   );
-});
+}
+
+export default memo(TodoItem);

@@ -9,7 +9,7 @@ import Input from '@/components/ui/Input';
 import { useRouter } from 'next/navigation';
 import { OnSubmitArgs } from '@/components/Form/types/IForm';
 
-export const ToDoForm = memo(function TodoForm({ onSubmitAction, todoToUpdate }: TodoFormProps) {
+function TodoForm({ onSubmitAction, todoToUpdate }: TodoFormProps) {
   const router = useRouter();
 
   type Todo = { message: string };
@@ -81,4 +81,6 @@ export const ToDoForm = memo(function TodoForm({ onSubmitAction, todoToUpdate }:
       />
     </div>
   );
-});
+}
+
+export default memo(TodoForm);

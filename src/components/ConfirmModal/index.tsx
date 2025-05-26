@@ -3,13 +3,7 @@
 import { memo } from 'react';
 import { ConfirmModalProps } from './types/IConfirm';
 
-export const ConfirmModal = memo(function ConfirmModal({
-  visible,
-  title,
-  onConfirm,
-  onCancel,
-  message = '',
-}: ConfirmModalProps) {
+function ConfirmModal({ visible, title, onConfirm, onCancel, message = '' }: ConfirmModalProps) {
   // if (!visible) return null;
 
   return (
@@ -62,4 +56,6 @@ export const ConfirmModal = memo(function ConfirmModal({
       </div>
     </div>
   );
-});
+}
+
+export default memo(ConfirmModal);

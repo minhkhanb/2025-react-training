@@ -79,8 +79,8 @@ export const fetchData = async (start: number, size: number, sorting: SortingSta
 
   return {
     data: dbData.slice(start, start + size),
-    meta: {
-      totalRowCount: dbData.length,
+    pagination: {
+      total: dbData.length,
     },
   };
 };

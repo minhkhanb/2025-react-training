@@ -1,4 +1,4 @@
-import axios from './axios/setup';
+import * as axios from './axios/setup';
 
 const configureAxios = () => {
   axios.configure();

@@ -1,1 +1,5 @@
-export const endpoints = {};
+export const endpoints = {
+  courses: {
+    list: '/api/courses',
+  },
+};

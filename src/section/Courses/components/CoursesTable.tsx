@@ -25,6 +25,7 @@ import {
 import { Loader2 } from 'lucide-react';
 import { css } from '@emotion/react';
 import { useCourseStore } from '@src/stores';
+import { useListCourse } from '@src/api/courses/queries';
 
 type Props = {
   data: Person[];
@@ -176,6 +177,9 @@ export default function CoursesTable({
   const paginationRange = usePaginationRange(currentPage, pageCount);
 
   const courseState = useCourseStore(state => state);
+  const listCourse = useListCourse();
+
+  console.log('PDebug listCourse:', listCourse);
 
   return (
     <div className="space-y-4">

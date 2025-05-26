@@ -12,8 +12,8 @@ import { useGetCourses } from '@src/api/courses/queries';
 type Props = {
   initialData: {
     data: Person[];
-    meta: {
-      totalRowCount: number;
+    pagination: {
+      total: number;
     };
   };
   initialPage: number;
@@ -26,7 +26,7 @@ function Courses({ initialData, initialPage }: Props) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [isLoading, setIsLoading] = React.useState(false);
   const [tableData, setTableData] = React.useState<Person[]>(initialData.data);
-  const [totalRowCount, setTotalRowCount] = React.useState<number>(initialData.meta.totalRowCount);
+  const [totalRowCount, setTotalRowCount] = React.useState<number>(initialData.pagination.total);
 
   const getCourses = useGetCourses();
 
@@ -56,7 +56,7 @@ function Courses({ initialData, initialPage }: Props) {
         setIsLoading(true);
         const result = await fetchTableData(page, pagination.pageSize, sorting);
         setTableData(result.data || []);
-        setTotalRowCount(result.meta.totalRowCount || 0);
+        setTotalRowCount(result.pagination.total || 0);
       } catch (err) {
         console.error('Error fetching data:', err);
       } finally {

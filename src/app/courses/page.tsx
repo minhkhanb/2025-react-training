@@ -24,7 +24,7 @@ export default async function CoursesPage({ searchParams }: Props) {
 
   const initialData = await fetchInitialData(pageIndex);
 
-  const response = await fetch('http://localhost:3500/images', { cache: 'no-store' });
+  const response = await fetch('http://localhost:3500/api/courses', { cache: 'no-store' });
 
   const images: PhotoData[] = await response.json();
 

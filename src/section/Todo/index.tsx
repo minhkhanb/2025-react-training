@@ -3,7 +3,7 @@
 import { ColumnDef } from '@tanstack/react-table';
 import { Button } from '@src/components/ui/button';
 import { Todo } from '@src/types/todo';
-import DataTable from '@src/components/DataTable';
+import DataTable from '@src/components/common/DataTable';
 import { Trash2, Pencil } from 'lucide-react';
 import { Checkbox } from '@src/components/ui/checkbox';
 import { cn } from '@src/lib/utils';

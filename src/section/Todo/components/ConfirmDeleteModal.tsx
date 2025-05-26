@@ -1,4 +1,4 @@
-import ConfirmDialog from '@src/components/ConfirmDialog';
+import ConfirmDialog from '@src/components/common/ConfirmDialog';
 import { toastManager } from '@src/modules/toast';
 import { useTodo } from '@src/context/todoContext';
 import { Todo } from '@src/types/todo';

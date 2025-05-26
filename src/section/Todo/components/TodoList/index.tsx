@@ -39,7 +39,7 @@ function TodoList({ onDeleteTodo }: TodoListProps) {
       ) : (
         <TodosTable
           todoListData={todoListData}
-          askDelete={onDeleteTodo}
+          onDeleteTodo={onDeleteTodo}
           sorting={sorting}
           setSorting={setSorting}
           totalItems={totalTodos}

@@ -3,7 +3,7 @@
 import { memo } from 'react';
 import { ConfirmModalProps } from './types/IConfirm';
 
-function ConfirmModal({ visible, onConfirm, onCancel, todoName = '' }: ConfirmModalProps) {
+function ConfirmModal({ visible, onConfirm, onCancel, todoTaskName }: ConfirmModalProps) {
   // if (!visible) return null;
 
   return (
@@ -29,11 +29,11 @@ function ConfirmModal({ visible, onConfirm, onCancel, todoName = '' }: ConfirmMo
         } relative`}
       >
         <div className="border-b border-gray-200 px-6 py-4">
-          <h3 className="truncate text-lg font-medium text-gray-900">{`Delete ${todoName}`}</h3>
+          <h3 className="truncate text-lg font-medium text-gray-900">{`Delete ${todoTaskName}`}</h3>
         </div>
 
         <div className="px-6 py-4">
-          <p className="text-sm text-gray-600">{`Are you sure you want to delete ${todoName}?`}</p>
+          <p className="text-sm text-gray-600">{`Are you sure you want to delete ${todoTaskName}?`}</p>
         </div>
 
         <div className="flex justify-end space-x-3 rounded-b-lg bg-gray-50 px-6 py-4">

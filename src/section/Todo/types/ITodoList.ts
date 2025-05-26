@@ -2,7 +2,7 @@ import { SortingState } from '@tanstack/react-table';
 import { Dispatch, SetStateAction } from 'react';
 
 export interface TodoFormValues {
-  message: string;
+  taskName: string;
 }
 
 export interface TodoListProps {
@@ -11,13 +11,13 @@ export interface TodoListProps {
 
 export interface TodoValue {
   id: string;
-  message: string;
+  taskName: string;
   isFinish: boolean;
 }
 
 export interface TodoItemProps {
   todoItem: TodoValue;
-  askDelete: (todo: TodoValue) => void;
+  onDeleteTodo: (todo: TodoValue) => void;
   // askUpdateAction: (todo: TodoValue) => void;
 }
 
@@ -32,7 +32,7 @@ type pagination = {
 };
 export interface TodosTableProps {
   todoListData: TodoValue[];
-  askDelete: (todo: TodoValue) => void;
+  onDeleteTodo: (todo: TodoValue) => void;
   sorting: SortingState;
   setSorting: Dispatch<SetStateAction<SortingState>>;
   totalItems: number;

@@ -5,7 +5,7 @@ import { FormState, UseFormReturn } from 'react-hook-form';
 import { IFormInput } from '../../types/IFormInput';
 import { ToastType } from '@/components/Toast/types/IToast';
 import { useToast } from '@/components/Toast/hooks/useToast';
-import Button from '@/components/ui/Button';
+import MyButton from '@/components/ui/MyButton';
 import Form from '@/components/Form';
 import * as yup from 'yup';
 import Input from '@/components/ui/Input';
@@ -87,7 +87,7 @@ export default function TestForm() {
 
       {/* <Form.FormField name={'submit'} child={} /> */}
 
-      <Button onClick={() => showToast('Submit!', ToastType.SUCCESS)} label="Submit" />
+      <MyButton onClick={() => showToast('Submit!', ToastType.SUCCESS)} label="Submit" />
     </Form>
   );
 }

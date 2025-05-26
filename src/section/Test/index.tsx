@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { useToast } from '@/components/Toast/hooks/useToast';
 import { ToastType } from '@/components/Toast/types/IToast';
-import Button from '@/components/ui/Button';
+import MyButton from '@/components/ui/MyButton';
 import Checkbox from '@/components/ui/Checkbox';
 import Radio from '@/components/ui/Radio';
 import Dropdown from '@/components/ui/Dropdown';
@@ -36,7 +36,7 @@ export default function Test() {
       >
         Show Toast Info
       </button>
-      <Button
+      <MyButton
         onClick={() => showToast('Test hiển thị toast warning!', ToastType.WARNING)}
         label="Show Toast Warning"
       />

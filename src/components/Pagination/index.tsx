@@ -1,6 +1,6 @@
 'use client';
 
-import { Table } from '@tanstack/react-table';
+import { useRouter, useSearchParams } from 'next/navigation';
 import {
   Pagination as PaginationUI,
   PaginationContent,
@@ -10,13 +10,16 @@ import {
   PaginationPrevious,
 } from '@src/components/ui/pagination';
 
-interface PaginationProps<TData> {
-  table: Table<TData>;
-}
+export function Pagination({ pageCount }: { pageCount: number }) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const currentPage = Number(searchParams.get('page')) || 1;
 
-export function Pagination<TData>({ table }: PaginationProps<TData>) {
-  const pageCount = table.getPageCount();
-  const currentPage = table.getState().pagination.pageIndex + 1;
+  const setPageIndex = (page: number) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set('page', String(page));
+    router.push(`?${params.toString()}`);
+  };
 
   const renderPageNumbers = () => {
     const items = [];
@@ -36,7 +39,7 @@ export function Pagination<TData>({ table }: PaginationProps<TData>) {
       items.push(
         <PaginationItem key={1}>
           <PaginationLink
-            onClick={() => table.setPageIndex(0)}
+            onClick={() => setPageIndex(1)}
             isActive={currentPage === 1}
             className="h-9 w-9 cursor-pointer"
           >
@@ -58,7 +61,7 @@ export function Pagination<TData>({ table }: PaginationProps<TData>) {
       items.push(
         <PaginationItem key={i}>
           <PaginationLink
-            onClick={() => table.setPageIndex(i - 1)}
+            onClick={() => setPageIndex(i)}
             isActive={currentPage === i}
             className="h-9 w-9 cursor-pointer"
           >
@@ -80,7 +83,7 @@ export function Pagination<TData>({ table }: PaginationProps<TData>) {
       items.push(
         <PaginationItem key={pageCount}>
           <PaginationLink
-            onClick={() => table.setPageIndex(pageCount - 1)}
+            onClick={() => setPageIndex(pageCount)}
             isActive={currentPage === pageCount}
             className="h-9 w-9 cursor-pointer"
           >
@@ -99,7 +102,8 @@ export function Pagination<TData>({ table }: PaginationProps<TData>) {
         <PaginationContent>
           <PaginationItem>
             <PaginationLink
-              onClick={() => table.setPageIndex(0)}
+              onClick={() => setPageIndex(1)}
+              isActive={currentPage === 1}
               aria-disabled={currentPage === 1}
               className={`h-9 ${currentPage === 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}`}
             >
@@ -109,10 +113,10 @@ export function Pagination<TData>({ table }: PaginationProps<TData>) {
 
           <PaginationItem>
             <PaginationPrevious
-              onClick={() => table.previousPage()}
-              aria-disabled={!table.getCanPreviousPage()}
+              onClick={() => setPageIndex(currentPage - 1)}
+              aria-disabled={currentPage === 1}
               className={`h-9 ${
-                !table.getCanPreviousPage() ? 'pointer-events-none opacity-50' : 'cursor-pointer'
+                currentPage === 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'
               }`}
             />
           </PaginationItem>
@@ -121,17 +125,18 @@ export function Pagination<TData>({ table }: PaginationProps<TData>) {
 
           <PaginationItem>
             <PaginationNext
-              onClick={() => table.nextPage()}
-              aria-disabled={!table.getCanNextPage()}
+              onClick={() => setPageIndex(currentPage + 1)}
+              aria-disabled={currentPage === pageCount}
               className={`h-9 ${
-                !table.getCanNextPage() ? 'pointer-events-none opacity-50' : 'cursor-pointer'
+                currentPage === pageCount ? 'pointer-events-none opacity-50' : 'cursor-pointer'
               }`}
             />
           </PaginationItem>
 
           <PaginationItem>
             <PaginationLink
-              onClick={() => table.setPageIndex(pageCount - 1)}
+              onClick={() => setPageIndex(pageCount)}
+              isActive={currentPage === pageCount}
               aria-disabled={currentPage === pageCount}
               className={`h-9 ${currentPage === pageCount ? 'pointer-events-none opacity-50' : 'cursor-pointer'}`}
             >

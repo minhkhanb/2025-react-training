@@ -1,4 +1,4 @@
-import { TodoProvider } from '@src/contexts/todoContext';
+import { TodoProvider } from '@src/context/todoContext';
 
 export default function BlogLayout({ children }: { children: React.ReactNode }) {
   return (

@@ -20,20 +20,26 @@ import {
   TableRow,
 } from '@src/components/ui/table';
 import { Search } from './Search';
-import { Pagination } from './Pagination';
+import { Pagination } from '../Pagination';
+import { useSearchParams } from 'next/navigation';
+import { useEffect } from 'react';
 
 export default function DataTable<TData>({
   columns,
   pageSize = 5,
   data,
+  pageCount,
 }: {
   columns: ColumnDef<TData>[];
   pageSize?: number;
   data: TData[];
+  pageCount: number;
 }) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [filtering, setFiltering] = useState<string>('');
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
+  const searchParams = useSearchParams();
+  const page = Number(searchParams.get('page')) || 1;
 
   const table = useReactTable({
     data: data,
@@ -56,6 +62,10 @@ export default function DataTable<TData>({
       },
     },
   });
+
+  useEffect(() => {
+    table.setPageIndex(page - 1);
+  }, [table, page]);
 
   return (
     <div className="space-y-4">
@@ -101,7 +111,7 @@ export default function DataTable<TData>({
         </p>
       </div>
 
-      <Pagination table={table} />
+      <Pagination pageCount={pageCount} />
     </div>
   );
 }

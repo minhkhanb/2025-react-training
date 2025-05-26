@@ -24,6 +24,7 @@ import {
 } from '@src/components/shadcn/ui/table';
 import { Loader2 } from 'lucide-react';
 import { css } from '@emotion/react';
+import { useCourseStore } from '@src/stores';
 
 type Props = {
   data: Person[];
@@ -174,6 +175,8 @@ export default function CoursesTable({
   const pageCount = table.getPageCount();
   const paginationRange = usePaginationRange(currentPage, pageCount);
 
+  const courseState = useCourseStore(state => state);
+
   return (
     <div className="space-y-4">
       <div className="text-sm text-muted-foreground">
@@ -191,7 +194,7 @@ export default function CoursesTable({
           background: red;
         `}
       >
-        Test emotion
+        Test emotion {JSON.stringify(courseState)}
       </div>
 
       <div

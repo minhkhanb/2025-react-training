@@ -57,7 +57,14 @@ function TodoList({ onDeleteTodo }: TodoListProps) {
         isLoading={isFetching}
       />
 
-      <Summary />
+      <Summary>
+        {() => (
+          <>
+            <span>Total: {totalTodos} tasks</span>
+            <span>Completed: {data?.pagination?.totalFinish || 0}</span>
+          </>
+        )}
+      </Summary>
     </div>
   );
 }

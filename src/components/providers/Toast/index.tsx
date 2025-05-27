@@ -1,6 +1,6 @@
 'use client';
 
-import { toastManager, Toast } from '../../modules/toast';
+import { toastManager, Toast } from '../../../modules/toast';
 import { useEffect, useState } from 'react';
 import { ToastItem } from './ToastItem';
 

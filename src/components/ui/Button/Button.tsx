@@ -1,26 +1,25 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { FunctionComponent, MouseEventHandler } from 'react';
+import React, { MouseEventHandler } from 'react';
 import { cn } from '@src/utils/cn';
 
-export interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
+export type ButtonProps<T extends React.ElementType = 'button'> = React.ComponentProps<T> & {
   className?: string;
   inverted?: boolean;
   disabled?: boolean;
   type?: 'button' | 'submit' | 'reset';
   form?: string;
-  as?: React.FunctionComponent | string;
+  as?: T;
   onClick?: MouseEventHandler;
   children?: React.ReactNode;
-}
+};
 
-const Button: FunctionComponent<ButtonProps> = ({
-  as = 'button',
+const Button = <T extends React.ElementType = 'button'>({
+  as,
   inverted,
   children,
   className,
   ...props
-}) => {
-  const Btn = as as any;
+}: ButtonProps<T>) => {
+  const Btn = as || 'button';
 
   return (
     <Btn

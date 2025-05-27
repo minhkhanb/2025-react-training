@@ -2,6 +2,8 @@ import Courses from '@src/section/Courses';
 import { fetchInitialData } from '@src/server/actions/courses';
 import { Suspense } from 'react';
 import { Loader2 } from 'lucide-react';
+import { PhotoData } from '@src/app/orders/photo/[photoId]/page';
+import PhotoDisplay from '@src/app/orders/photo/[photoId]/PhotoDisplay';
 
 export const dynamic = 'force-dynamic';
 
@@ -22,8 +24,14 @@ export default async function CoursesPage({ searchParams }: Props) {
 
   const initialData = await fetchInitialData(pageIndex);
 
+  const response = await fetch('http://localhost:3500/api/courses', { cache: 'no-store' });
+
+  const images: PhotoData[] = await response.json();
+
   return (
-    <>
+    <div className="container py-6">
+      <h1 className="text-2xl font-bold mb-6">Courses</h1>
+
       <Suspense
         fallback={
           <div className="flex justify-center items-center h-[450px]">
@@ -33,7 +41,10 @@ export default async function CoursesPage({ searchParams }: Props) {
         }
       >
         <Courses initialData={initialData} initialPage={pageIndex} />
+        {images.map(photoData => (
+          <PhotoDisplay key={photoData.id} photoData={photoData} />
+        ))}
       </Suspense>
-    </>
+    </div>
   );
 }

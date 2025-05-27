@@ -7,7 +7,7 @@ import { CalendarIcon } from 'lucide-react';
 import { cn } from '@src/lib/utils';
 import { FieldComponentProps } from '@src/components/common/Form';
 
-export const DateField = React.forwardRef<HTMLButtonElement, FieldComponentProps>(
+export const DateField = React.forwardRef<HTMLButtonElement, FieldComponentProps<Date>>(
   ({ value, onChange, onBlur, name: _name, error, className, disabled, placeholder }, ref) => {
     const hasError = !!error;
 
@@ -43,12 +43,10 @@ export const DateField = React.forwardRef<HTMLButtonElement, FieldComponentProps
             mode="single"
             selected={selectedDate}
             onSelect={date => {
-              if (date) {
-                onChange(date.toISOString());
-                onBlur();
-              }
+              if (date) onChange(date);
+              onBlur();
             }}
-            disabled={date => date < new Date(new Date().setHours(0, 0, 0, 0))}
+            disabled={disabled}
             initialFocus
           />
         </PopoverContent>

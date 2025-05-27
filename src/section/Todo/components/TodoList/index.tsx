@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useState } from 'react';
+import { memo, useMemo, useState } from 'react';
 // import { TodoItem } from '../TodoItem';
 import { EmptyState } from '../EmptyState';
 import { TodoListProps } from '../../types/ITodoList';
@@ -31,6 +31,15 @@ function TodoList({ onDeleteTodo }: TodoListProps) {
   const todoListData = data?.data || [];
   const totalTodos = data?.pagination?.total || 0;
 
+  const summaryData = useMemo(
+    () => ({
+      totalTodos,
+      totalFinishTodos: data?.pagination?.totalFinish || 0,
+      isFetching,
+    }),
+    [data, totalTodos, isFetching]
+  );
+
   return (
     <div className="overflow-hidden rounded-xl bg-white shadow-xl">
       {isFetching ? (
@@ -57,7 +66,7 @@ function TodoList({ onDeleteTodo }: TodoListProps) {
         isLoading={isFetching}
       />
 
-      <Summary />
+      <Summary>{summaryData}</Summary>
     </div>
   );
 }

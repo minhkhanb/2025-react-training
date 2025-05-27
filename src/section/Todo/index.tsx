@@ -3,19 +3,19 @@
 import React, { useCallback, useState } from 'react';
 import TodoList from './components/TodoList';
 import ConfirmModal from '@/components/ConfirmModal';
-import { TodoValue } from './types/ITodoList';
+import { TodoToDeleteValues } from './types/ITodoList';
 import { useDeleteTodo } from './hooks/useDeleteTodo';
 import Link from 'next/link';
 import { PlusOutlined } from '@ant-design/icons';
 
 export default function Todo() {
-  const [todoToDelete, setTodoToDelete] = useState<TodoValue | null>(null);
+  const [todoToDelete, setTodoToDelete] = useState<TodoToDeleteValues | null>(null);
   const [confirmVisible, setConfirmVisible] = useState(false);
 
   const deleteMutation = useDeleteTodo();
 
   const onDeleteTodo = useCallback(
-    (todo: TodoValue) => {
+    (todo: TodoToDeleteValues) => {
       setTodoToDelete(todo);
 
       setConfirmVisible(true);

@@ -1,5 +1,9 @@
 import api from '@/config/axios/setup';
-import { TodoValue } from '../types/ITodoList';
+import {
+  getTotalTodosAndTotalFinishTodosResponse,
+  PaginatedTodosResponse,
+  TodoValue,
+} from '../types/ITodoList';
 
 export const getAllTodo = async (
   page: number,
@@ -8,9 +12,20 @@ export const getAllTodo = async (
   sortColumn: string
 ) => {
   try {
-    const res = await api.get<TodoValue>(
+    const res = await api.get<PaginatedTodosResponse>(
       `api/todos?page=${page}&limit=${totalPerPage}&sortType=${sortType}&sortColumn=${sortColumn}`
     );
+
+    return res.data;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    return error?.message || error;
+  }
+};
+
+export const getTotalTodosAndTotalFinishTodos = async () => {
+  try {
+    const res = await api.get<getTotalTodosAndTotalFinishTodosResponse>(`api/todos/total`);
 
     return res.data;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

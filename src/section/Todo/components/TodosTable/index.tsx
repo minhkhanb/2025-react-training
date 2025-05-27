@@ -19,7 +19,7 @@ import {
 } from '@tanstack/react-table';
 import ToggleTodoStatus from '../ToggleTodoStatus';
 import TodoActions from '../TodoActions';
-import { TodosTableProps, TodoValue } from '../../types/ITodoList';
+import { TodosTableProps, TodoToDeleteValues, TodoValue } from '../../types/ITodoList';
 
 function TodosTable({
   todoListData,
@@ -56,7 +56,20 @@ function TodosTable({
         header: 'Action',
         size: 200,
         enableSorting: false,
-        cell: info => <TodoActions info={info} onDeleteTodo={onDeleteTodo} />,
+        cell: info => {
+          const original = info.row.original;
+
+          if (!original) {
+            return null;
+          }
+
+          const todoToDelete: TodoToDeleteValues = {
+            id: original.id,
+            taskName: original.taskName,
+          };
+
+          return <TodoActions todoToDelete={todoToDelete} onDeleteTodo={onDeleteTodo} />;
+        },
       },
     ],
     [onDeleteTodo]
@@ -105,7 +118,7 @@ function TodosTable({
           display: 'grid',
           position: 'sticky',
           top: 0,
-          zIndex: 10,
+          zIndex: 2,
           background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
           borderBottom: '2px solid #e2e8f0',
         }}

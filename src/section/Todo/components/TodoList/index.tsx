@@ -11,12 +11,13 @@ import TodosPagination from '../Pagination';
 import TodosTable from '../TodosTable';
 import { SortingState } from '@tanstack/react-table';
 import { usePaginatedTodos } from '../../hooks/usePaginatedTodos';
+import { Pagination } from '../../types/common';
 
 const PAGE_SIZE = 5;
 
 function TodoList({ onDeleteTodo }: TodoListProps) {
   const [sorting, setSorting] = useState<SortingState>([]);
-  const [pagination, setPagination] = useState({
+  const [pagination, setPagination] = useState<Pagination>({
     pageIndex: 1,
     pageSize: PAGE_SIZE,
   });
@@ -35,7 +36,7 @@ function TodoList({ onDeleteTodo }: TodoListProps) {
       {isFetching ? (
         <Loading className="h-96" />
       ) : !(todoListData.length > 0) ? (
-        <EmptyState todos={todoListData} />
+        <EmptyState />
       ) : (
         <TodosTable
           todoListData={todoListData}
@@ -56,7 +57,7 @@ function TodoList({ onDeleteTodo }: TodoListProps) {
         isLoading={isFetching}
       />
 
-      <Summary totalTodos={totalTodos} todosCompleted={data?.pagination?.totalFinish || 0} />
+      <Summary />
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Button } from '@src/components/ui/button';
+import { Button } from '@src/components/shadcn/ui/button';
 
 export default function Home() {
   return (

@@ -6,8 +6,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@src/components/shadcn/ui/dialog';
-import { PhotoData } from '@src/app/courses/photo/[photoId]/page';
-import PhotoDisplay from '@src/app/courses/photo/[photoId]/PhotoDisplay';
+import { PhotoData } from '@src/app/orders/photo/[photoId]/page';
+import PhotoDisplay from '@src/app/orders/photo/[photoId]/PhotoDisplay';
 
 type Props = {
   params: {

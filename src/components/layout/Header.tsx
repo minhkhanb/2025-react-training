@@ -5,9 +5,9 @@ import { Button } from '@src/components/ui';
 
 const Header = () => {
   return (
-    <header className="line-b !fixed inset-x-0 top-0 z-20 h-32 flex items-center justify-between px-4 after:-bottom-px sm:px-6 lg:px-24 py-6 bg-[#49bbbd]">
+    <header className="line-b !fixed inset-x-0 top-0 z-20 h-20 flex items-center justify-between px-4 after:-bottom-px sm:px-6 lg:px-24 py-6 bg-[#49bbbd]">
       <Link className="shrink-0" href={'/'}>
-        <Image src={Logo} alt="Logo" priority className="w-auto h-auto" />
+        <Image src={Logo} alt="Logo" priority className="w-20 h-auto" />
       </Link>
 
       <div className="flex items-center gap-5 max-md:hidden lg:gap-6">
@@ -26,10 +26,10 @@ const Header = () => {
         <Link href={'/about-us'} className="text-sm/6 text-white">
           About Us
         </Link>
-        <Button className="px-6 rounded-[80px] w-28 justify-center text-sm/6 font-normal bg-white hover:bg-white/90 text-[#5B5B5B]">
+        <Button className="px-6 rounded-[80px] w-24 py-1.5 justify-center text-sm/6 font-normal bg-white hover:bg-white/90 text-[#5B5B5B]">
           Login
         </Button>
-        <Button className="px-6 rounded-[80px] w-28 justify-center text-sm/6 font-normal bg-white/30 hover:bg-white/20 text-[#FFFFFF]">
+        <Button className="px-6 rounded-[80px] w-24 py-1.5 justify-center text-sm/6 font-normal bg-white/30 hover:bg-white/20 text-[#FFFFFF]">
           Sign Up
         </Button>
       </div>

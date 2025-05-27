@@ -3,16 +3,7 @@
 import { MainForm, Form } from '@src/components/common/Form';
 import * as z from 'zod';
 import { Todo } from '@src/types/todo';
-import {
-  TitleField,
-  DescriptionField,
-  PriorityField,
-  StatusField,
-  DueDateField,
-} from '@src/components/common/Field';
-import { useState, useEffect } from 'react';
-
-type TodoFormValues = Omit<Todo, 'id' | 'createdAt' | 'updatedAt'>;
+import { InputField, SelectField, TextareaField, DateField } from '@src/components/ui';
 
 const validationSchema = z.object({
   title: z
@@ -48,79 +39,74 @@ export const TodoForm = ({
   onSubmitAction,
 }: {
   data?: Todo;
-  onSubmitAction: (values: TodoFormValues) => void;
+  onSubmitAction: (values: Omit<Todo, 'id' | 'createdAt' | 'updatedAt'>) => void;
 }) => {
-  const [formValues, setFormValues] = useState<TodoFormValues>(
-    data || {
-      title: '',
-      description: '',
-      status: 'pending',
-      priority: 'low',
-      dueDate: new Date(new Date().setDate(new Date().getDate() + 1)),
-    }
-  );
-
-  useEffect(() => {
-    if (data) {
-      setFormValues(data);
-    }
-  }, [data]);
-
   return (
-    <MainForm<TodoFormValues>
-      defaultValues={formValues}
+    <MainForm
+      defaultValues={
+        data || {
+          title: '',
+          description: '',
+          status: 'pending',
+          priority: 'low',
+          dueDate: new Date(new Date().setDate(new Date().getDate() + 1)),
+        }
+      }
       validationSchema={validationSchema}
       onSubmit={onSubmitAction}
     >
       <div className="space-y-8">
         <div className="grid grid-cols-1 gap-4">
-          <Form.Field<TodoFormValues, string>
+          <Form.Field
             name="title"
-            component={TitleField}
+            component={InputField}
             label="Title"
+            placeholder="Enter todo title"
             required
           />
 
-          <Form.Field<TodoFormValues, string>
+          <Form.Field
             name="description"
-            component={DescriptionField}
+            component={TextareaField}
             label="Description"
+            placeholder="Enter todo description"
             required
           />
 
           <div className="flex justify-between gap-4">
             <div className="w-1/2">
-              <Form.Field<TodoFormValues, string>
+              <Form.Field
                 name="status"
-                component={StatusField}
+                component={SelectField}
                 label="Status"
-                required
                 options={[
                   { value: 'pending', label: 'Pending' },
                   { value: 'in-progress', label: 'In Progress' },
                   { value: 'completed', label: 'Completed' },
                 ]}
+                required
               />
             </div>
             <div className="w-1/2">
-              <Form.Field<TodoFormValues, string>
+              <Form.Field
                 name="priority"
-                component={PriorityField}
+                component={SelectField}
                 label="Priority"
-                required
                 options={[
                   { value: 'low', label: 'Low' },
                   { value: 'medium', label: 'Medium' },
                   { value: 'high', label: 'High' },
                 ]}
+                required
               />
             </div>
           </div>
 
-          <Form.Field<TodoFormValues, Date>
+          <Form.Field
             name="dueDate"
-            component={DueDateField}
+            component={DateField}
             label="Due Date"
+            placeholder="Pick a date"
             required
           />
         </div>

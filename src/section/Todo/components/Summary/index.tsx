@@ -1,9 +1,17 @@
 'use client';
 
-import { useGetTotalAndTotalFinishTodos } from '../../hooks/useGetTotalAndTotalFinishTodos';
+import React from 'react';
 
-export const Summary = () => {
-  const { data, isFetching } = useGetTotalAndTotalFinishTodos();
+type SummaryProps = {
+  children?: {
+    totalTodos?: number;
+    totalFinishTodos?: number;
+    isFetching?: boolean;
+  };
+};
+
+export const Summary = ({ children }: SummaryProps) => {
+  const { totalTodos, totalFinishTodos, isFetching } = children || {};
 
   if (isFetching) {
     return (
@@ -13,14 +21,11 @@ export const Summary = () => {
     );
   }
 
-  const todosCompleted = data?.totalFinishTodos || 0;
-  const totalTodos = data?.totalTodos || 0;
-
   return (
     <div className="flex justify-between bg-gray-50 p-4 text-sm text-gray-600">
       <span>Total: {totalTodos} tasks</span>
 
-      <span>Completed: {todosCompleted}</span>
+      <span>Completed: {totalFinishTodos}</span>
     </div>
   );
 };

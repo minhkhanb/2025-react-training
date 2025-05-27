@@ -11,8 +11,8 @@ import {
 } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { FormItem, FormLabel, FormControl, FormMessage } from '@src/components/ui/form';
-import { Button } from '@src/components/ui/button';
+import { FormItem, FormLabel, FormControl, FormMessage } from '@src/components/shadcn/ui/form';
+import { Button } from '@src/components/shadcn/ui/button';
 import { cn } from '@src/lib/utils';
 
 interface MainFormProps<T extends FieldValues> {
@@ -55,7 +55,12 @@ export function MainForm<T extends FieldValues>({
   );
 }
 
-interface FieldComponentProps<T = string> {
+interface OptionType<V = string> {
+  value: V;
+  label: string;
+}
+
+export interface FieldComponentProps<T = string> {
   value: T;
   onChange: (value: T) => void;
   onBlur: () => void;
@@ -64,7 +69,7 @@ interface FieldComponentProps<T = string> {
   className?: string;
   disabled?: boolean;
   placeholder?: string;
-  options?: { value: string; label: string }[];
+  options?: OptionType[];
 }
 
 interface FieldProps<T extends FieldValues, C = string> {
@@ -75,7 +80,7 @@ interface FieldProps<T extends FieldValues, C = string> {
   className?: string;
   disabled?: boolean;
   placeholder?: string;
-  options?: { value: string; label: string }[];
+  options?: OptionType[];
 }
 
 function Field<T extends FieldValues, C = string>({
@@ -107,6 +112,7 @@ function Field<T extends FieldValues, C = string>({
             <FormControl>
               <Component
                 {...field}
+                error={fieldState.error}
                 {...rest}
                 disabled={disabled}
                 placeholder={placeholder}

@@ -18,9 +18,9 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@src/components/ui/table';
+} from '@src/components/shadcn/ui/table';
 import { Search } from './Search';
-import { Pagination } from '../Pagination';
+import { Pagination } from './Pagination';
 import { useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
 

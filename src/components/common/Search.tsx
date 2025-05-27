@@ -1,10 +1,10 @@
-import { Input } from '@src/components/ui/input';
+import { Input } from '@src/components/shadcn/ui/input';
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import { useEffect, useCallback, useRef } from 'react';
 
 interface SearchProps {
   value: string;
-  onChange: (value: string) => void;
+  onChange?: (value: string) => void;
 }
 
 export function Search({ value, onChange }: SearchProps) {
@@ -29,7 +29,7 @@ export function Search({ value, onChange }: SearchProps) {
   );
 
   const handleSearch = (newValue: string) => {
-    onChange(newValue);
+    onChange?.(newValue);
 
     if (debounceRef.current) {
       clearTimeout(debounceRef.current);

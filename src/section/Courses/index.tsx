@@ -106,7 +106,7 @@ function Courses({ initialData, initialPage }: Props) {
 
   return (
     <div className="container py-6">
-      <p className="flex items-center gap-2 font-mono text-xs/6 font-medium tracking-tight-widest text-gray-600 uppercase dark:text-gray-400">
+      <p className="sr-only flex items-center gap-2 font-mono text-xs/6 font-medium tracking-tight-widest text-gray-600 uppercase dark:text-gray-400">
         Layout
       </p>
       <h1 className="mt-2 text-3xl font-medium tracking-tight text-gray-950 dark:text-white">

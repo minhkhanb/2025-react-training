@@ -166,8 +166,10 @@ const Field = <T extends React.ElementType>({
 };
 
 const FieldInput = <T extends React.ElementType>({
+  name,
   component: Component,
   inputRef,
+  onChange: onChangeProp,
   ...props
 }: FieldProps<T>) => {
   const { onSubmit, submitMode } = React.useContext(FormOptionsContext);
@@ -181,10 +183,11 @@ const FieldInput = <T extends React.ElementType>({
 
   const { control } = formHandlers;
 
-  const onChange = (args: any[]) => {
+  const onChange = (...args: any[]) => {
     const evt = args[0];
     const data = args[1];
     let value;
+
     if (data) {
       value = data.value;
     } else {
@@ -194,8 +197,8 @@ const FieldInput = <T extends React.ElementType>({
 
     onSubmitDebounced();
 
-    if (props.onChange) {
-      props.onChange(value);
+    if (onChangeProp) {
+      onChangeProp(value);
     }
 
     return value;
@@ -203,10 +206,11 @@ const FieldInput = <T extends React.ElementType>({
 
   return (
     <Controller
-      name={props.name}
+      name={name}
       control={control}
       render={({ field }) => (
         <Component
+          {...props}
           {...field}
           onChange={(evt: any[]) => {
             field.onChange(evt);

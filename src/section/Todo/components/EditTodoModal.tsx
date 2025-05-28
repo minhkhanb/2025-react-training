@@ -1,7 +1,7 @@
 import { toastManager } from '@src/modules/toast';
 import { TodoForm } from './TodoForm';
 import { useTodo } from '@src/context/todoContext';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@src/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@src/components/shadcn/ui/dialog';
 import { Todo } from '@src/types/todo';
 
 type TodoFormValues = Omit<Todo, 'id' | 'createdAt' | 'updatedAt'>;

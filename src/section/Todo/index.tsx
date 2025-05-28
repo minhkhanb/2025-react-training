@@ -1,11 +1,11 @@
 'use client';
 
 import { ColumnDef } from '@tanstack/react-table';
-import { Button } from '@src/components/ui/button';
+import { Button } from '@src/components/shadcn/ui/button';
 import { Todo } from '@src/types/todo';
 import DataTable from '@src/components/common/DataTable';
 import { Trash2, Pencil } from 'lucide-react';
-import { Checkbox } from '@src/components/ui/checkbox';
+import { Checkbox } from '@src/components/shadcn/ui/checkbox';
 import { cn } from '@src/lib/utils';
 import { useTodo } from '@src/context/todoContext';
 import { useState } from 'react';

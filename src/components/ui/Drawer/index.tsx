@@ -10,17 +10,15 @@ import { X } from 'lucide-react';
 interface Props {
   visible: boolean;
   onClose?: () => void;
-  onAnimationEnd?: () => void;
   children: React.ReactNode;
 }
 
-const Drawer = ({ visible = true, children, onClose, onAnimationEnd }: Props) => {
+const Drawer = ({ visible = true, children, onClose }: Props) => {
   return (
     <DrawerCn
       direction="right"
       open={visible}
       onClose={onClose}
-      onAnimationEnd={onAnimationEnd}
       onOpenChange={open => !open && onClose?.()}
     >
       <DrawerContent>

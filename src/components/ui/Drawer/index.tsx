@@ -1,3 +1,7 @@
+'use client';
+
+import React from 'react';
+import { useRouter } from 'next/navigation';
 import {
   Drawer as DrawerCn,
   DrawerClose,
@@ -13,14 +17,23 @@ interface Props {
   children: React.ReactNode;
 }
 
-const Drawer = ({ visible = true, children, onClose }: Props) => {
+const Drawer = ({ visible = false, children, onClose }: Props) => {
+  const router = useRouter();
+
+  React.useEffect(() => {
+    const handleEsc = (evt: KeyboardEvent) => {
+      if (evt.key === 'Escape' && visible) {
+        router.back();
+      }
+    };
+
+    window.addEventListener('keydown', handleEsc);
+
+    return () => window.removeEventListener('keydown', handleEsc);
+  }, [visible, router]);
+
   return (
-    <DrawerCn
-      direction="right"
-      open={visible}
-      onClose={onClose}
-      onOpenChange={open => !open && onClose?.()}
-    >
+    <DrawerCn direction="right" open={visible} onClose={onClose} onOpenChange={() => router.back()}>
       <DrawerContent>
         <DrawerHeader className="absolute top-0 right-0 flex flex-row justify-end">
           <DrawerTitle className="hidden">Title</DrawerTitle>

@@ -6,13 +6,24 @@ import { useRouter } from 'next/navigation';
 
 export default function Page() {
   const [visible, setVisible] = React.useState(true);
+  const [shouldRedirect, setShouldRedirect] = React.useState(false);
   const router = useRouter();
 
-  return (
-    <AddCourseDrawer
-      visible={visible}
-      onClose={() => setVisible(false)}
-      onAnimationEnd={() => router.push('/courses')}
-    />
-  );
+  React.useEffect(() => {
+    if (!visible && shouldRedirect) {
+      const timeout = setTimeout(() => {
+        router.refresh();
+        router.push('/courses');
+      }, 300);
+
+      return () => clearTimeout(timeout);
+    }
+  }, [visible, shouldRedirect, router]);
+
+  const onClose = () => {
+    setVisible(false);
+    setShouldRedirect(true);
+  };
+
+  return <AddCourseDrawer visible={visible} onClose={onClose} />;
 }

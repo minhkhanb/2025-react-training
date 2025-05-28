@@ -25,13 +25,13 @@ const Button = <T extends React.ElementType = 'button'>({
     <Btn
       {...props}
       className={cn(
-        'rounded-md bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow hover:bg-sky-500',
+        'rounded-md bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow',
         'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600',
         'ring ring-inset',
         'inline-flex flex-row items-center cursor-pointer appearance-none outline-0 whitespace-nowrap',
         inverted
-          ? 'bg-white text-gray-900 ring-gray-300'
-          : 'bg-sky-600 text-white ring-transparent',
+          ? 'bg-white text-gray-900 ring-gray-300 hover:bg-transparent'
+          : 'bg-sky-600 text-white ring-transparent hover:bg-sky-500',
         className
       )}
       type={props.type || 'button'}

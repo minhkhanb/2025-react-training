@@ -10,12 +10,13 @@ import { PhotoData } from '@src/app/orders/photo/[photoId]/page';
 import PhotoDisplay from '@src/app/orders/photo/[photoId]/PhotoDisplay';
 
 type Props = {
-  params: {
+  params: Promise<{
     photoId: string;
-  };
+  }>;
 };
 
-export default async function Photo({ params: { photoId } }: Props) {
+export default async function Photo({ params }: Props) {
+  const { photoId } = await params;
   const response = await fetch(`http://localhost:3500/api/courses/${photoId}`, {
     cache: 'no-store',
   });

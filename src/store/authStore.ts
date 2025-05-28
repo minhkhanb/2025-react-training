@@ -1,36 +1,49 @@
 import { LoginResponseValues } from '@/section/Login/types/ILogin';
 import { create } from 'zustand';
-import { createJSONStorage, persist } from 'zustand/middleware';
+import { createJSONStorage, devtools, persist } from 'zustand/middleware';
 
 type AuthStoreActions = {
-  setAuth: (auth: LoginResponseValues) => void;
+  setAuth: (auth: Omit<AuthStoreValues, 'isLoggedIn'>) => void;
   setToken: (token: string) => void;
   clearAuth: () => void;
 };
 
-const authStore = create<LoginResponseValues & AuthStoreActions>()(
-  persist(
-    set => ({
-      _id: '',
-      email: '',
-      phoneNumber: '',
-      username: '',
-      accessToken: '',
-      setAuth: auth => set(() => auth),
-      setToken: token => set(state => ({ ...state, accessToken: token })),
-      clearAuth: () =>
-        set(() => ({
-          _id: '',
-          email: '',
-          phoneNumber: '',
-          username: '',
-          accessToken: '',
-        })),
-    }),
-    {
-      name: 'auth-storage',
-      storage: createJSONStorage(() => localStorage), // Use localStorage for persistence
-    }
+type AuthStoreValues = {
+  user: Omit<LoginResponseValues, 'accessToken'> | null;
+  accessToken?: string | null;
+  isLoggedIn: boolean;
+};
+
+type AuthStore = AuthStoreValues & AuthStoreActions;
+
+const initialState: AuthStoreValues = {
+  user: null,
+  accessToken: null,
+  isLoggedIn: false,
+};
+
+const authStore = create<AuthStore>()(
+  devtools(
+    persist(
+      set => ({
+        ...initialState,
+        setAuth: auth =>
+          set(() => ({
+            user: auth.user,
+            accessToken: auth.accessToken,
+            isLoggedIn: !!auth.accessToken,
+          })),
+        setToken: token => set(state => ({ ...state, accessToken: token })),
+        clearAuth: () =>
+          set(() => ({
+            ...initialState,
+          })),
+      }),
+      {
+        name: 'auth-storage',
+        storage: createJSONStorage(() => localStorage), // Use localStorage for persistence
+      }
+    )
   )
 );
 

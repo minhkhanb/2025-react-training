@@ -18,6 +18,7 @@ export interface PaginatedTodosResponse {
     page: number;
     limit: number;
     total: number;
+    totalFinish: number;
     totalPages: number;
   };
 }
@@ -41,10 +42,10 @@ export interface TodoItemProps extends TodoListProps {
 }
 
 export interface TodosTableProps extends TodoListProps {
-  todoListData: TodoValue[];
+  // todoListData: TodoValue[];
   sorting: SortingState;
   setSorting: Dispatch<SetStateAction<SortingState>>;
-  totalItems: number;
+  // totalItems: number;
   pagination: Pagination;
   setPagination: Dispatch<SetStateAction<Pagination>>;
 }

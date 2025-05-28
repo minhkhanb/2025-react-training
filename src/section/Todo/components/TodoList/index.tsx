@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 // import { TodoItem } from '../TodoItem';
 import { EmptyState } from '../EmptyState';
 import { TodoListProps } from '../../types/ITodoList';
@@ -12,6 +12,7 @@ import TodosTable from '../TodosTable';
 import { SortingState } from '@tanstack/react-table';
 import { usePaginatedTodos } from '../../hooks/usePaginatedTodos';
 import { Pagination } from '../../types/common';
+import { useTodosStore } from '@/store/todosStore';
 
 const PAGE_SIZE = 5;
 
@@ -28,8 +29,16 @@ function TodoList({ onDeleteTodo }: TodoListProps) {
     sorting
   );
 
+  const { setTodos } = useTodosStore();
+
+  useEffect(() => {
+    if (data) {
+      setTodos(data);
+    }
+  }, [data, setTodos]);
+
   const todoListData = data?.data || [];
-  const totalTodos = data?.pagination?.total || 0;
+  // const totalTodos = data?.pagination?.total || 0;
 
   return (
     <div className="overflow-hidden rounded-xl bg-white shadow-xl">
@@ -39,18 +48,18 @@ function TodoList({ onDeleteTodo }: TodoListProps) {
         <EmptyState />
       ) : (
         <TodosTable
-          todoListData={todoListData}
+          // todoListData={todoListData}
           onDeleteTodo={onDeleteTodo}
           sorting={sorting}
           setSorting={setSorting}
-          totalItems={totalTodos}
+          // totalItems={totalTodos}
           pagination={pagination}
           setPagination={setPagination}
         />
       )}
 
       <TodosPagination
-        totalItems={totalTodos}
+        // totalItems={totalTodos}
         itemsPerPage={pagination.pageSize || 5}
         currentPage={pagination.pageIndex}
         onPageChange={page => setPagination(prev => ({ ...prev, pageIndex: page }))}

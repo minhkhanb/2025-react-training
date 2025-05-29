@@ -12,9 +12,10 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '@/components/ui/pagination';
+import { useTodosStore } from '@/store/todosStore';
 
 interface PaginationProps {
-  totalItems: number;
+  // totalItems: number;
   itemsPerPage?: number;
   currentPage: number;
   onPageChange: (page: number) => void;
@@ -22,16 +23,20 @@ interface PaginationProps {
 }
 
 const TodosPagination = ({
-  totalItems,
+  // totalItems,
   itemsPerPage = 2,
   currentPage,
   onPageChange,
   isLoading,
 }: PaginationProps) => {
+  const TotalTodos = useTodosStore(state => state.todos.pagination.total);
+
   const totalPages = useMemo(
-    () => Math.ceil(totalItems / itemsPerPage),
-    [itemsPerPage, totalItems]
+    () => Math.ceil(TotalTodos / itemsPerPage),
+    [itemsPerPage, TotalTodos]
   );
+
+  // console.log('Totaltodos', Totaltodos);
 
   const visiblePages = useMemo(() => {
     return getVisiblePages(currentPage, totalPages);

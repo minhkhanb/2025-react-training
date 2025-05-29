@@ -20,13 +20,14 @@ import {
 import ToggleTodoStatus from '../ToggleTodoStatus';
 import TodoActions from '../TodoActions';
 import { TodosTableProps, TodoToDeleteValues, TodoValue } from '../../types/ITodoList';
+import { useTodosStore } from '@/store/todosStore';
 
 function TodosTable({
-  todoListData,
+  // todoListData,
   onDeleteTodo,
   sorting,
   setSorting,
-  totalItems,
+  // totalItems,
   pagination,
   setPagination,
 }: TodosTableProps) {
@@ -75,10 +76,16 @@ function TodosTable({
     [onDeleteTodo]
   );
 
+  const todos = useTodosStore(state => state.todos.data);
+
+  const TotalTodos = useTodosStore(state => state.todos.pagination.total);
+
+  const data = useMemo(() => todos, [todos]);
+
   const table = useReactTable({
     columns,
-    data: todoListData,
-    pageCount: Math.ceil(totalItems / pagination.pageSize),
+    data: data,
+    pageCount: Math.ceil(TotalTodos / pagination.pageSize),
     state: { sorting, pagination },
     onPaginationChange: updater => {
       if (typeof updater === 'function') {

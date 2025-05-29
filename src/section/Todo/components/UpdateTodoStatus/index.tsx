@@ -12,19 +12,35 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { useToast } from '@/components/Toast/hooks/useToast';
+import { ToastType } from '@/components/Toast/types/IToast';
+import { useRouter } from 'next/navigation';
 
 function SelectTodoStatus({ original }: { original: TodoValue }) {
   const updateStatusMutation = useUpdateTodoStatus();
 
   const currentStatus = original.status;
 
+  const router = useRouter();
+
+  const { showToast } = useToast();
+
+  const handleUpdateStatusTodo = async (id: string, status: 'todo' | 'in-progress' | 'done') => {
+    try {
+      await updateStatusMutation.mutateAsync({ id, status });
+      showToast('Todo status updated successfully!', ToastType.SUCCESS);
+      router.push('/todo-list');
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      showToast('Failed to update status todo. Please try again.' + error, ToastType.ERROR);
+    }
+  };
+
   const handleChange = (value: string) => {
     const newStatus = value;
     if (newStatus !== currentStatus) {
-      updateStatusMutation.mutate({
-        id: original.id,
-        status: newStatus as 'todo' | 'in-progress' | 'done',
-      });
+      handleUpdateStatusTodo(original.id, newStatus as 'todo' | 'in-progress' | 'done');
     }
   };
 

@@ -7,10 +7,14 @@ import { TodoToDeleteValues } from './types/ITodoList';
 import { useDeleteTodo } from './hooks/useDeleteTodo';
 import Link from 'next/link';
 import { PlusOutlined } from '@ant-design/icons';
+import { ToastType } from '@/components/Toast/types/IToast';
+import { useToast } from '@/components/Toast/hooks/useToast';
 
 export default function Todo() {
   const [todoToDelete, setTodoToDelete] = useState<TodoToDeleteValues | null>(null);
   const [confirmVisible, setConfirmVisible] = useState(false);
+
+  const { showToast } = useToast();
 
   const deleteMutation = useDeleteTodo();
 
@@ -23,15 +27,21 @@ export default function Todo() {
     [setTodoToDelete]
   );
 
-  const confirmDelete = useCallback(() => {
+  const confirmDelete = useCallback(async () => {
     if (todoToDelete) {
-      deleteMutation.mutate({ id: todoToDelete.id });
+      try {
+        await deleteMutation.mutateAsync({ id: todoToDelete.id });
+        showToast('Todo deleted successfully!', ToastType.SUCCESS);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (error: any) {
+        showToast('Failed to delete todo. Please try again.' + error, ToastType.ERROR);
+      }
+
+      setConfirmVisible(false);
+
+      setTodoToDelete(null);
     }
-
-    setConfirmVisible(false);
-
-    setTodoToDelete(null);
-  }, [deleteMutation, setTodoToDelete, todoToDelete]);
+  }, [deleteMutation, showToast, todoToDelete]);
 
   const handleCancelDelete = useCallback(() => setConfirmVisible(false), []);
 

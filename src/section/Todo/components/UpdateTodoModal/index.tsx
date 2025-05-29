@@ -13,7 +13,9 @@ export default function UpdateTodoModal({ id }: { id: string }) {
   const { data, isFetching } = useGetTodoById(id);
 
   useEffect(() => {
-    setTodoToUpdate(data);
+    if (data) {
+      setTodoToUpdate(data);
+    }
   }, [data, setTodoToUpdate]);
 
   return (

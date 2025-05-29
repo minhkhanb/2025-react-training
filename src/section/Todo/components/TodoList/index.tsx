@@ -38,7 +38,7 @@ function TodoList({ onDeleteTodo }: TodoListProps) {
   }, [data, setTodos]);
 
   const todoListData = data?.data || [];
-  // const totalTodos = data?.pagination?.total || 0;
+  const totalTodos = data?.pagination?.total || 0;
 
   return (
     <div className="overflow-hidden rounded-xl bg-white shadow-xl">

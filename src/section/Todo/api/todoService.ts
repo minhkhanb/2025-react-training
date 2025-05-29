@@ -19,7 +19,7 @@ export const getAllTodo = async (
     return res.data;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
-    return error?.message || error;
+    throw new Error(error.response?.data?.message || error.message || 'Unknown Axios error');
   }
 };
 
@@ -30,7 +30,7 @@ export const getTotalTodosAndTotalFinishTodos = async () => {
     return res.data;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
-    return error?.message || error;
+    throw new Error(error.response?.data?.message || error.message || 'Unknown Axios error');
   }
 };
 
@@ -41,7 +41,7 @@ export const getTodoById = async (id: string) => {
     return res.data;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
-    return error?.message || error;
+    throw new Error(error.response?.data?.message || error.message || 'Unknown Axios error');
   }
 };
 
@@ -55,7 +55,7 @@ export const createTodo = async (newTodo: TodoValue) => {
     return res.data;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
-    return error?.message || error;
+    throw new Error(error.response?.data?.message || error.message || 'Unknown Axios error');
   }
 };
 
@@ -66,18 +66,18 @@ export const updateStatusTodo = async ({ id }: { id: string }) => {
     return res.data;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
-    return error?.message || error;
+    throw new Error(error.response?.data?.message || error.message || 'Unknown Axios error');
   }
 };
 
 export const updateTodo = async ({ id, taskName }: { id: string; taskName: string }) => {
   try {
-    const res = await api.patch<TodoValue>(`/api/todos/${id}`, { taskName });
+    const res = await api.put<TodoValue>(`/api/todos/${id}`, { taskName });
 
     return res.data;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
-    return error?.message || error;
+    throw new Error(error.response?.data?.message || error.message || 'Unknown Axios error');
   }
 };
 
@@ -88,6 +88,6 @@ export const deleteTodo = async ({ id }: { id: string }) => {
     return res.data;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
-    return error?.message || error;
+    throw new Error(error.response?.data?.message || error.message || 'Unknown Axios error');
   }
 };

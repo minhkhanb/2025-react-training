@@ -6,6 +6,8 @@ import { TodoValue } from '@/section/Todo/types/ITodoList';
 import { useUpdateTodo } from '../../hooks/useUpdateTodo';
 import { useGetTodoById } from '../../hooks/useGetTodoById';
 import Loading from '@/components/Loading';
+import { useToast } from '@/components/Toast/hooks/useToast';
+import { ToastType } from '@/components/Toast/types/IToast';
 
 export default function UpdateTodo({ id }: { id: string }) {
   const [todoToUpdate, setTodoToUpdate] = useState<TodoValue>({
@@ -16,17 +18,27 @@ export default function UpdateTodo({ id }: { id: string }) {
 
   const { data, isLoading } = useGetTodoById(id);
 
+  const { showToast } = useToast();
+
   useEffect(() => {
-    setTodoToUpdate(data);
+    if (data) {
+      setTodoToUpdate(data);
+    }
   }, [data, setTodoToUpdate]);
 
   const updateMutation = useUpdateTodo();
 
   const onSubmit = useCallback(
-    (data: TodoValue) => {
-      updateMutation.mutate(data);
+    async (data: TodoValue) => {
+      try {
+        await updateMutation.mutateAsync(data);
+        showToast('Todo updated successfully!', ToastType.SUCCESS);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (error: any) {
+        showToast('Failed to update todo. Please try again.' + error, ToastType.ERROR);
+      }
     },
-    [updateMutation]
+    [showToast, updateMutation]
   );
 
   if (isLoading) return <Loading className="h-72" />;

@@ -8,14 +8,7 @@ import { useGetTodoById } from '../../hooks/useGetTodoById';
 import Loading from '@/components/Loading';
 
 export default function UpdateTodo({ id }: { id: string }) {
-  const [todoToUpdate, setTodoToUpdate] = useState<TodoValue>({
-    id: '',
-    title: '',
-    description: '',
-    dueDate: new Date(),
-    priority: 'low',
-    status: 'todo',
-  });
+  const [todoToUpdate, setTodoToUpdate] = useState<TodoValue | null>(null);
 
   const { data, isFetching } = useGetTodoById(id);
 

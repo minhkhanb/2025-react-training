@@ -20,7 +20,14 @@ export default function PrioritySelect({
   onChange?: (value: string) => void;
 }) {
   return (
-    <Select value={value} onValueChange={onChange}>
+    <Select
+      value={value ?? 'low'}
+      onValueChange={val => {
+        if (val === 'low' || val === 'medium' || val === 'high') {
+          onChange?.(val);
+        }
+      }}
+    >
       <label className="mx-1 text-sm font-semibold text-gray-800"> Task Priority</label>
       <SelectTrigger
         style={{ outline: 'none!important' }}

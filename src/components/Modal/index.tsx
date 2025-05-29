@@ -78,7 +78,9 @@ export default function Modal({
       isVisible && !isClosing
         ? 'opacity-100 scale-100 translate-y-0'
         : 'opacity-0 scale-95 translate-y-8'
-    }
+    } 
+    overflow-auto
+    max-h-[95vh]
   `;
 
   return (

@@ -3,7 +3,7 @@ import { ToastType } from '@/components/Toast/types/IToast';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { updateStatusTodo } from '../api/todoService';
 
-export const useToggleTodoStatus = () => {
+export const useUpdateTodoStatus = () => {
   const queryClient = useQueryClient();
   const { showToast } = useToast();
 

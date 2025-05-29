@@ -4,7 +4,7 @@ import { memo } from 'react';
 import { CloseOutlined, EditOutlined } from '@ant-design/icons';
 import { cn } from '@/utils/cn';
 import { TodoItemProps } from '../../types/ITodoList';
-import { useToggleTodoStatus } from '../../hooks/useToggleTodoStatus';
+import { useUpdateTodoStatus } from '../../hooks/useUpdateTodoStatus';
 import { useRouter } from 'next/navigation';
 
 function TodoItem({
@@ -13,7 +13,7 @@ function TodoItem({
   onDeleteTodo,
 }: TodoItemProps) {
   // useEffect(() => console.log('render'));
-  const updateStatusMutation = useToggleTodoStatus();
+  const updateStatusMutation = useUpdateTodoStatus();
   const router = useRouter();
 
   return (
@@ -22,8 +22,8 @@ function TodoItem({
         <div className="relative">
           <input
             type="checkbox"
-            checked={todoItem.isFinish}
-            onChange={() => updateStatusMutation.mutate({ id: todoItem.id })}
+            checked={todoItem.status === 'done'}
+            onChange={() => updateStatusMutation.mutate({ id: todoItem.id, status: 'done' })}
             className="h-5 w-5 cursor-pointer rounded-md border-gray-300 text-indigo-600 focus:ring-indigo-500"
           />
         </div>
@@ -31,10 +31,10 @@ function TodoItem({
         <h2
           className={cn(
             'ml-3 truncate whitespace-nowrap text-gray-800',
-            todoItem.isFinish && 'text-gray-400 line-through'
+            todoItem.status === 'done' && 'text-gray-400 line-through'
           )}
         >
-          {todoItem.taskName}
+          {todoItem.title}
         </h2>
       </div>
 

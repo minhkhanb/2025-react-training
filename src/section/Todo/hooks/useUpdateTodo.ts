@@ -9,10 +9,10 @@ export const useUpdateTodo = () => {
 
   return useMutation({
     mutationFn: updateTodo,
-    onSuccess: (_, { taskName }) => {
+    onSuccess: (_, { todo }) => {
       queryClient.invalidateQueries({ queryKey: ['todos'] });
 
-      showToast(`Task ${taskName} updated successfully!`, ToastType.SUCCESS);
+      showToast(`Task ${todo.title} updated successfully!`, ToastType.SUCCESS);
     },
   });
 };

@@ -13,4 +13,5 @@ export interface DropdownProps {
   onChange?: (value: string) => void;
   error?: string;
   disabled?: boolean;
+  className?: string;
 }

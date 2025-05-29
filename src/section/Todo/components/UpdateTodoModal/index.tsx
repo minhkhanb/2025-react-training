@@ -10,11 +10,14 @@ import Loading from '@/components/Loading';
 export default function UpdateTodo({ id }: { id: string }) {
   const [todoToUpdate, setTodoToUpdate] = useState<TodoValue>({
     id: '',
-    taskName: '',
-    isFinish: false,
+    title: '',
+    description: '',
+    dueDate: new Date(),
+    priority: 'low',
+    status: 'todo',
   });
 
-  const { data, isLoading } = useGetTodoById(id);
+  const { data, isFetching } = useGetTodoById(id);
 
   useEffect(() => {
     setTodoToUpdate(data);
@@ -24,12 +27,12 @@ export default function UpdateTodo({ id }: { id: string }) {
 
   const onSubmit = useCallback(
     (data: TodoValue) => {
-      updateMutation.mutate(data);
+      updateMutation.mutate({ todo: data });
     },
     [updateMutation]
   );
 
-  if (isLoading) return <Loading className="h-72" />;
+  if (isFetching) return <Loading className="h-72" />;
 
   return <ToDoForm onSubmitAction={onSubmit} todoToUpdate={todoToUpdate} />;
 }

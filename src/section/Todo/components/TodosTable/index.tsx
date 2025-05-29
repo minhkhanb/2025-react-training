@@ -17,10 +17,11 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import ToggleTodoStatus from '../ToggleTodoStatus';
+import SelectTodoStatus from '../UpdateTodoStatus';
 import TodoActions from '../TodoActions';
 import { TodosTableProps, TodoToDeleteValues, TodoValue } from '../../types/ITodoList';
 import { useTodosStore } from '@/store/todosStore';
+import { getTriggerBg } from '../../utils/getTriggerBg';
 
 function TodosTable({
   // todoListData,
@@ -34,23 +35,57 @@ function TodosTable({
   const columns = useMemo<ColumnDef<TodoValue>[]>(
     () => [
       {
-        accessorKey: 'isFinish',
-        header: 'Is Finish',
-        size: 100,
-        cell: ToggleTodoStatus,
-        enableSorting: false,
-      },
-      {
         accessorKey: 'id',
         header: 'ID',
         size: 200,
         enableSorting: false,
       },
       {
-        accessorKey: 'taskName',
-        header: 'Task Name',
-        size: 400,
+        accessorKey: 'title',
+        header: 'Title',
+        size: 200,
         cell: info => info.getValue(),
+      },
+      {
+        accessorKey: 'description',
+        header: 'Description',
+        size: 300,
+        cell: info => info.getValue(),
+      },
+      {
+        accessorKey: 'dueDate',
+        header: 'Due Date',
+        size: 180,
+        cell: info => {
+          const value = info.getValue() as string;
+          return new Date(value).toLocaleDateString();
+        },
+      },
+      {
+        accessorKey: 'priority',
+        header: 'Priority',
+        size: 120,
+        cell: info => (
+          <div
+            className={`flex h-9 w-full items-center justify-center rounded-lg font-semibold ${getTriggerBg(info.getValue() as string)}`}
+          >
+            {info.getValue() === 'low' && '🟢 Low'}
+            {info.getValue() === 'medium' && '🟡 Medium'}
+            {info.getValue() === 'high' && '🔴 High'}
+          </div>
+        ),
+      },
+      {
+        accessorKey: 'status',
+        header: 'Status',
+        size: 150,
+        cell: info => {
+          const original = info.row.original;
+
+          if (!original) return null;
+
+          return <SelectTodoStatus original={original} />;
+        },
       },
       {
         accessorKey: 'action',
@@ -60,13 +95,11 @@ function TodosTable({
         cell: info => {
           const original = info.row.original;
 
-          if (!original) {
-            return null;
-          }
+          if (!original) return null;
 
           const todoToDelete: TodoToDeleteValues = {
             id: original.id,
-            taskName: original.taskName,
+            title: original.title,
           };
 
           return <TodoActions todoToDelete={todoToDelete} onDeleteTodo={onDeleteTodo} />;
@@ -117,7 +150,7 @@ function TodosTable({
         display: 'grid',
         width: '100%',
         borderRadius: '12px',
-        overflow: 'hidden',
+        overflow: 'auto',
       }}
     >
       <TableHeader

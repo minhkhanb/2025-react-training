@@ -1,33 +1,42 @@
 'use client';
 
 import { memo, useMemo } from 'react';
-import { TodoFormProps, TodoValue } from '@/section/Todo/types/ITodoList';
+import { TodoFormProps, TodoFormValues, TodoValue } from '@/section/Todo/types/ITodoList';
 import MyButton from '@/components/ui/MyButton';
 import Form from '@/components/Form';
 import * as yup from 'yup';
 import Input from '@/components/ui/Input';
 import { useRouter } from 'next/navigation';
 import { OnSubmitArgs } from '@/components/Form/types/IForm';
+// import Dropdown from '@/components/ui/Dropdown';
+import PrioritySelect from '../PrioritySelect';
 
 function TodoForm({ onSubmitAction, todoToUpdate }: TodoFormProps) {
   const router = useRouter();
 
-  type Todo = { taskName: string };
-
-  const onSubmit = (...args: OnSubmitArgs<Todo>): void => {
+  const onSubmit = (...args: OnSubmitArgs<TodoFormValues>): void => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [values, defaultValues, formState, formHandlers] = args;
+
+    const fixedDate = new Date(values.dueDate);
+    fixedDate.setHours(12);
 
     if (todoToUpdate) {
       onSubmitAction({
         ...todoToUpdate,
-        taskName: values.taskName,
+        title: values.title,
+        description: values.description || '',
+        dueDate: fixedDate,
+        priority: values.priority,
       });
     } else {
       const todoData: TodoValue = {
         id: Date.now().toString(),
-        taskName: values.taskName,
-        isFinish: false,
+        title: values.title,
+        description: values.description || '',
+        dueDate: fixedDate,
+        priority: values.priority,
+        status: 'todo',
       };
 
       onSubmitAction(todoData);
@@ -36,49 +45,122 @@ function TodoForm({ onSubmitAction, todoToUpdate }: TodoFormProps) {
     router.back();
   };
 
-  const schema = yup
-    .object({
-      taskName: yup.string().required(),
-    })
-    .required();
+  const schema = yup.object({
+    title: yup.string().required('Title is required'),
+
+    description: yup.string().nullable(),
+
+    dueDate: yup
+      .date()
+      .min(new Date(), 'Due date must be in the future')
+      .required('Due date is required'),
+
+    priority: yup
+      .string()
+      .oneOf(['low', 'medium', 'high'], 'Priority must be one of: low, medium, high')
+      .required('Priority is required'),
+  });
 
   const defaultValues = useMemo(
     () => ({
-      taskName: todoToUpdate?.taskName ?? '',
+      title: todoToUpdate?.title || '',
+      description: todoToUpdate?.description || '',
+      dueDate: todoToUpdate?.dueDate
+        ? new Date(todoToUpdate.dueDate).toISOString().split('T')[0]
+        : new Date().toISOString().split('T')[0],
+      priority: todoToUpdate?.priority || 'low',
     }),
     [todoToUpdate]
   );
 
   return (
-    <div className="flex items-center rounded-t-xl border-b border-gray-200 bg-white p-6">
-      <Form
-        onSubmit={onSubmit}
-        defaultValues={defaultValues}
-        validationSchema={schema}
-        // mode="onChange"
-        className="flex w-full"
-      >
-        <Form.FormField
-          name={'taskName'}
-          child={
-            <Input
-              placeholder="Enter your task"
-              // onChange={e => {
-              //   return console.log(e.target.value);
-              // }}
+    <div className="rounded-t-xl border border-gray-200 bg-gradient-to-r from-blue-50 to-indigo-50 shadow-sm">
+      <div className="p-6">
+        <Form
+          onSubmit={onSubmit}
+          defaultValues={defaultValues}
+          validationSchema={schema}
+          className="space-y-4"
+        >
+          <div className="mb-4">
+            <p className="mt-1 text-sm text-gray-600">
+              {todoToUpdate ? 'Edit your existing task' : 'Create a new task to get started'}
+            </p>
+          </div>
+
+          <div className="space-y-4">
+            <Form.FormField
+              name={'title'}
+              child={
+                <Input
+                  label="Todo Title"
+                  placeholder="Enter your task title..."
+                  className="px-4 py-3 text-sm placeholder-gray-400"
+                />
+              }
             />
-          }
-        />
+            <Form.FormField
+              name={'description'}
+              child={
+                <Input
+                  label="Todo Description"
+                  placeholder="Enter your task description..."
+                  className="px-4 py-3 text-sm placeholder-gray-400"
+                />
+              }
+            />
 
-        <MyButton label={todoToUpdate ? 'Update' : 'Add'} />
-      </Form>
+            <Form.FormField
+              name={'dueDate'}
+              child={
+                <Input
+                  label="Todo Due Date"
+                  type="date"
+                  className="px-4 py-3 text-sm placeholder-gray-400"
+                />
+              }
+            />
 
-      <MyButton
-        onClick={() => {
-          router.back();
-        }}
-        label="Cancel"
-      />
+            <Form.FormField
+              name={'priority'}
+              child={
+                // <Dropdown
+                //   label="Todo Priority"
+                //   className="w-full px-4 py-3.5 text-sm placeholder-gray-400"
+                //   options={[
+                //     { value: 'low', label: 'Low' },
+                //     { value: 'medium', label: 'Medium' },
+                //     { value: 'high', label: 'High' },
+                //   ]}
+                //   name={'priority'}
+                // />
+                <PrioritySelect />
+              }
+            />
+
+            <div className="flex items-center justify-between pt-2">
+              <div className="flex space-x-3">
+                <MyButton
+                  label={todoToUpdate ? 'Update Task' : 'Add Task'}
+                  className="rounded-lg bg-blue-600 px-6 py-2.5 font-medium text-white shadow-sm transition-colors duration-200 hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none"
+                />
+
+                {/* <MyButton
+              onClick={() => {
+                router.back();
+              }}
+              label="Cancel"
+              className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-6 py-2.5 
+                       rounded-lg font-medium transition-colors duration-200 
+                       focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
+            /> */}
+              </div>
+
+              <div className="text-xs text-gray-500">Press Enter to submit</div>
+            </div>
+          </div>
+        </Form>
+      </div>
     </div>
   );
 }

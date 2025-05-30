@@ -9,6 +9,7 @@ import { HeaderContent } from '../../api/headerServices';
 const RedirectLink = function RedirectLink({ link, title }: HeaderContent) {
   return (
     <Link
+      aria-label={title}
       href={link}
       className="px-3 py-2 text-base font-medium text-gray-600 transition duration-150 hover:text-gray-900"
     >
@@ -20,6 +21,7 @@ const RedirectLink = function RedirectLink({ link, title }: HeaderContent) {
 const RedirectLinkOnMobile = function RedirectLinkOnMobile({ link, title }: HeaderContent) {
   return (
     <Link
+      aria-label={title}
       href={link}
       className="block rounded-md px-3 py-2 text-base font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-900"
     >
@@ -43,6 +45,7 @@ export const Header = function Header({
         <div className="flex h-16 items-center justify-between lg:justify-evenly">
           <div className="flex flex-shrink-0 items-center">
             <Link
+              aria-label="Home"
               href="/"
               className="text-xl font-bold text-blue-600 transition duration-150 hover:text-blue-800"
             >
@@ -58,12 +61,14 @@ export const Header = function Header({
 
           <div className="hidden gap-2 lg:flex">
             <button
+              aria-label="Login"
               type="button"
               className="h-10 w-20 cursor-pointer rounded-md font-medium text-[#4CAF4F] transition-all hover:bg-gray-100 hover:text-[#2c862f]"
             >
               login
             </button>
             <button
+              aria-label="Signup"
               type="button"
               className="h-10 w-24 cursor-pointer rounded-md bg-[#4CAF4F] font-medium text-white transition-all hover:bg-[#2c862f]"
             >
@@ -89,12 +94,14 @@ export const Header = function Header({
               ))}
               <div className="flex flex-wrap gap-2">
                 <button
+                  aria-label="Login"
                   type="button"
                   className="h-10 w-full cursor-pointer rounded-md font-medium text-[#4CAF4F] transition-all hover:bg-gray-100 hover:text-[#2c862f]"
                 >
                   login
                 </button>
                 <button
+                  aria-label="Signup"
                   type="button"
                   className="h-10 w-full cursor-pointer rounded-md bg-[#4CAF4F] font-medium text-white transition-all hover:bg-[#2c862f]"
                 >

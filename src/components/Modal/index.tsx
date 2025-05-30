@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { X } from 'lucide-react';
 
@@ -22,17 +22,24 @@ export default function Modal({
   size = 'medium',
 }: ModalProps) {
   const router = useRouter();
+  const [isVisible, setIsVisible] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
 
-  // Handle close modal
+  useEffect(() => {
+    setIsVisible(true);
+  }, []);
+
   const handleClose = useCallback((): void => {
-    if (onClose) {
-      onClose();
-    } else {
-      router.back();
-    }
+    setIsClosing(true);
+    setTimeout(() => {
+      if (onClose) {
+        onClose();
+      } else {
+        router.back();
+      }
+    }, 200);
   }, [onClose, router]);
 
-  // Close modal when pressing Escape key
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent): void => {
       if (e.key === 'Escape') {
@@ -44,55 +51,70 @@ export default function Modal({
     return () => document.removeEventListener('keydown', handleEscape);
   }, [handleClose]);
 
-  // Determine modal size class
   const sizeClasses: Record<ModalSize, string> = {
-    small: 'max-w-md',
-    medium: 'max-w-lg',
-    large: 'max-w-2xl',
+    small: 'max-w-sm',
+    medium: 'max-w-md',
+    large: 'max-w-lg',
     fullscreen: 'max-w-full m-6',
   };
 
   const modalSizeClass = sizeClasses[size] || sizeClasses.medium;
 
-  // Prevent clicks within the modal from bubbling to the backdrop
   const handleModalClick = (e: React.MouseEvent<HTMLDivElement>): void => {
     e.stopPropagation();
   };
 
+  const backdropClass = `
+    fixed inset-0 z-50 flex items-center justify-center p-4
+    transition-all duration-300 ease-out
+    ${isVisible && !isClosing ? 'bg-black/60 backdrop-blur-sm opacity-100' : 'bg-black/0 opacity-0'}
+  `;
+
+  const modalClass = `
+    relative ${modalSizeClass} w-full
+    bg-white rounded-2xl shadow-2xl border border-gray-200/50
+    transition-all duration-300 ease-out transform-gpu
+    ${
+      isVisible && !isClosing
+        ? 'opacity-100 scale-100 translate-y-0'
+        : 'opacity-0 scale-95 translate-y-8'
+    } 
+    overflow-auto
+    max-h-[95vh]
+  `;
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[rgba(99,98,98,0.4)] backdrop-blur-sm">
+    <div className={backdropClass}>
       <div className="fixed inset-0" onClick={handleClose} aria-hidden="true" />
 
       <div
-        className={`relative ${modalSizeClass} m-4 max-h-screen w-full overflow-auto rounded-lg bg-white p-6 shadow-xl dark:bg-gray-800`}
+        className={modalClass}
         onClick={handleModalClick}
         role="dialog"
         aria-modal="true"
         aria-labelledby={title ? 'modal-title' : undefined}
       >
-        {/* Modal Header */}
-        {(title || showCloseButton) && (
-          <div className="mb-4 flex items-center justify-between border-b border-gray-200 pb-3 dark:border-gray-700">
-            {title && (
-              <h3 id="modal-title" className="text-xl font-semibold text-gray-900 dark:text-white">
+        <div className="flex items-center justify-between border-b border-gray-100 p-6">
+          <div className="flex items-center gap-3">
+            <div>
+              <h2 id="modal-title" className="text-xl font-semibold text-gray-900">
                 {title}
-              </h3>
-            )}
-
-            {showCloseButton && (
-              <button
-                onClick={handleClose}
-                className="cursor-pointer rounded-full p-1 text-gray-500 transition-colors hover:text-gray-800 focus:ring-2 focus:ring-gray-300 focus:outline-none dark:text-gray-400 dark:hover:text-white"
-                aria-label="Close modal"
-              >
-                <X size={24} />
-              </button>
-            )}
+              </h2>
+            </div>
           </div>
-        )}
 
-        {/* Modal Content */}
-        <div className="relative">{children}</div>
+          {showCloseButton && (
+            <button
+              onClick={handleClose}
+              className="group cursor-pointer rounded-xl p-2 transition-colors hover:bg-gray-100"
+              aria-label="Close modal"
+            >
+              <X className="h-5 w-5 text-gray-400 transition-colors group-hover:text-gray-600" />
+            </button>
+          )}
+        </div>
+
+        <div className="p-6">{children}</div>
       </div>
     </div>
   );

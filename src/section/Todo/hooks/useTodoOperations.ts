@@ -17,7 +17,7 @@ export function useTodoOperations(initialTodos: TodoValue[] = []) {
     (todoItem: TodoValue) => {
       setTodoListData((pre: TodoValue[]) => [...pre, todoItem]);
 
-      showToast(`Task ${todoItem.taskName} added successfully!`, ToastType.SUCCESS);
+      showToast(`Task ${todoItem.title} added successfully!`, ToastType.SUCCESS);
     },
     [showToast]
   );
@@ -38,9 +38,9 @@ export function useTodoOperations(initialTodos: TodoValue[] = []) {
       setTodoListData((pre: TodoValue[]) =>
         pre.map((item: TodoValue) => {
           if (item.id === id) {
-            taskName = item.taskName;
+            taskName = item.title;
 
-            return { ...item, isFinish: !item.isFinish };
+            return { ...item, isFinish: !item.status };
           }
 
           return item;

@@ -4,13 +4,18 @@ import { Pagination } from './common';
 
 export interface TodoValue {
   id: string;
-  taskName: string;
-  isFinish: boolean;
+  title: string;
+  description: string;
+  dueDate: Date;
+  priority: 'low' | 'medium' | 'high' | '';
+  status: 'todo' | 'in-progress' | 'done';
 }
 
-export type TodoFormValues = Omit<TodoValue, 'id' | 'isFinish'>;
+export type TodoFormValues = Omit<TodoValue, 'id' | 'dueDate' | 'status'> & {
+  dueDate: string;
+};
 
-export type TodoToDeleteValues = Omit<TodoValue, 'isFinish'>;
+export type TodoToDeleteValues = Omit<TodoValue, 'status' | 'dueDate' | 'priority' | 'description'>;
 
 export interface PaginatedTodosResponse {
   data: TodoValue[];
@@ -20,6 +25,8 @@ export interface PaginatedTodosResponse {
     total: number;
     totalFinish: number;
     totalPages: number;
+    sortType: number | undefined;
+    sortColumn: string;
   };
 }
 
@@ -29,7 +36,6 @@ export interface getTotalTodosAndTotalFinishTodosResponse {
 }
 
 export interface TodoFormProps {
-  onSubmitAction: (data: TodoValue) => void;
   todoToUpdate: TodoValue | null;
 }
 

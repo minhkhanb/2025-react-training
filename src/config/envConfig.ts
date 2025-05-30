@@ -12,8 +12,6 @@ export const config = {
   },
 };
 
-console.log('PDebug cf: ', config);
-
 const getVal = <T = string>(key: keyof typeof envConfig, transform?: (val: string) => T) => {
   const val = envConfig[key];
 

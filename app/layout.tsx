@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Layout from "@/components/Layout/page";
 import { Toaster } from "@/components/ui/sonner";
+import React from "react";
+import LayoutWrapper from "@/components/LayoutWrapper";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -16,7 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Layout>{children}</Layout>
+        <LayoutWrapper>{children}</LayoutWrapper>
         <Toaster />
       </body>
     </html>

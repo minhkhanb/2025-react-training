@@ -8,27 +8,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Star, Bell, LogOut, User2 } from "lucide-react";
+import { LogOut } from "lucide-react";
+import { menuUserItems } from "@/core/constants/common";
 
 const UserMenu = () => {
-  const menuItems = [
-    {
-      title: "Upgrade to Pro",
-      url: "#",
-      icon: Star,
-    },
-    {
-      title: "Account",
-      url: "#",
-      icon: User2,
-    },
-    {
-      title: "Notifications",
-      url: "#",
-      icon: Bell,
-    },
-  ];
-
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
@@ -73,7 +56,7 @@ const UserMenu = () => {
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        {menuItems.map((item, index) => (
+        {menuUserItems.map((item, index) => (
           <DropdownMenuItem key={item.title + index} className="mt-1">
             <a href={item.url} className="flex items-center gap-2">
               <item.icon className="transition-all duration-500" />

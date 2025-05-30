@@ -1,80 +1,54 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import { TaskFormValues, taskSchema } from "@/validations/taskSchema";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
+import {
+  DefaultValues,
+  FormProvider as FormProviderContext,
+  useForm,
+  UseFormReturn,
+} from "react-hook-form";
 
 export interface Handler {
   title: string;
   fn?: any;
   type: "button" | "submit";
+  className?: string;
+  isPending?: boolean;
 }
 
 interface Props {
-  visible: boolean;
-  onClose: () => void;
   children: React.ReactNode;
-  title: string;
-  subtitle?: string;
-  handlers: Handler[];
+  defaultValues: DefaultValues<any>;
+  validationSchema: any;
+  onSubmit: (data: any, fields: UseFormReturn) => void;
+  mode: "onBlur" | "onChange" | "onSubmit" | "onTouched" | "all";
 }
 
-export function FormProviderContext({
+export function FormProvider({
   children,
-  visible,
-  onClose,
-  title,
-  handlers,
-  subtitle,
+  defaultValues,
+  mode,
+  validationSchema,
+  onSubmit,
 }: Props) {
-  const fields = useForm<TaskFormValues>({
-    resolver: taskSchema && yupResolver(taskSchema),
-    defaultValues: {
-      title: "",
-      subtitle: "",
-    },
+  const fields = useForm({
+    resolver: validationSchema && yupResolver(validationSchema),
+    defaultValues: defaultValues,
+    mode,
   });
 
-  const onSubmit: SubmitHandler<TaskFormValues> = (data) => {
-    console.log(data);
+  const handleSubmit = (data: any, fields: UseFormReturn) => {
+    return onSubmit(data, fields);
   };
+
   return (
-    <FormProvider {...fields}>
-      <Dialog
-        open={visible}
-        onOpenChange={(open) => {
-          if (!open) onClose();
-        }}
+    <FormProviderContext {...fields}>
+      <form
+        onSubmit={fields.handleSubmit((data: any) =>
+          handleSubmit(data, fields)
+        )}
       >
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle>{title}</DialogTitle>
-            {subtitle && <DialogDescription>{subtitle}</DialogDescription>}
-          </DialogHeader>
-          <form onSubmit={fields.handleSubmit(onSubmit)}>
-            {children}
-            <DialogFooter>
-              {handlers.map((handler) => (
-                <Button
-                  onClick={handler.fn}
-                  key={handler.title}
-                  type={handler.type}
-                >
-                  {handler.title}
-                </Button>
-              ))}
-            </DialogFooter>
-          </form>
-        </DialogContent>
-      </Dialog>
-    </FormProvider>
+        {children}
+      </form>
+    </FormProviderContext>
   );
 }

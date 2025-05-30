@@ -113,11 +113,11 @@ function TodosTable({
 
   const TotalTodos = useTodosStore(state => state.todos.pagination.total);
 
-  const data = useMemo(() => todos, [todos]);
+  // const data = useMemo(() => todos, [todos]);
 
   const table = useReactTable({
     columns,
-    data: data,
+    data: todos,
     pageCount: Math.ceil(TotalTodos / pagination.pageSize),
     state: { sorting, pagination },
     onPaginationChange: updater => {
@@ -145,116 +145,51 @@ function TodosTable({
   });
 
   return (
-    <Table
-      style={{
-        display: 'grid',
-        width: '100%',
-        borderRadius: '12px',
-        overflow: 'auto',
-      }}
-    >
-      <TableHeader
-        style={{
-          display: 'grid',
-          position: 'sticky',
-          top: 0,
-          zIndex: 2,
-          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-          borderBottom: '2px solid #e2e8f0',
-        }}
-      >
+    <Table className="grid w-full overflow-auto rounded-xl">
+      <TableHeader className="sticky top-0 z-[1] grid border-b-2 border-slate-200 bg-gradient-to-r from-indigo-500 to-purple-600">
         {table.getHeaderGroups().map(headerGroup => (
-          <TableRow
-            key={headerGroup.id}
-            style={{
-              display: 'flex',
-              width: '100%',
-            }}
-          >
-            {headerGroup.headers.map(header => {
-              return (
-                <TableHead
-                  key={header.id}
-                  style={{
-                    display: 'flex',
-                    width: header.getSize(),
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    padding: '16px 12px',
-                    color: '#ffffff',
-                    fontWeight: '600',
-                    fontSize: '14px',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.05em',
-                    borderRight: '1px solid rgba(255, 255, 255, 0.1)',
-                    transition: 'all 0.2s ease',
-                    position: 'relative',
-                    flexGrow: 1,
-                  }}
-                >
-                  <div style={{ textAlign: 'center', width: '100%' }}>
-                    {flexRender(header.column.columnDef.header, header.getContext())}
+          <TableRow key={headerGroup.id} className="flex w-full">
+            {headerGroup.headers.map(header => (
+              <TableHead
+                key={header.id}
+                className="relative flex flex-grow items-center justify-center border-r border-white/10 px-3 py-4 text-sm font-semibold tracking-wider text-white uppercase transition-all"
+                style={{ width: header.getSize() }} // giữ lại width dynamic
+              >
+                <div className="w-full text-center">
+                  {flexRender(header.column.columnDef.header, header.getContext())}
+                </div>
+                {header.column.getCanSort() && (
+                  <div onClick={header.column.getToggleSortingHandler()}>
+                    {header.column.getIsSorted() === 'asc' && <CaretUpOutlined />}
+                    {header.column.getIsSorted() === 'desc' && <CaretDownOutlined />}
+                    {!header.column.getIsSorted() && <SwapOutlined className="rotate-90" />}
                   </div>
-                  {header.column.getCanSort() && (
-                    <div onClick={header.column.getToggleSortingHandler()}>
-                      {header.column.getIsSorted() === 'asc' && <CaretUpOutlined />}
-                      {header.column.getIsSorted() === 'desc' && <CaretDownOutlined />}
-                      {header.column.getIsSorted() !== 'desc' &&
-                        header.column.getIsSorted() !== 'asc' && (
-                          <SwapOutlined className="rotate-90" />
-                        )}
-                    </div>
-                  )}
-                </TableHead>
-              );
-            })}
+                )}
+              </TableHead>
+            ))}
           </TableRow>
         ))}
       </TableHeader>
 
-      <TableBody style={{ backgroundColor: '#ffffff' }}>
+      <TableBody className="bg-white">
         {table.getRowModel().rows.map((row, index) => (
           <TableRow
             key={row.id}
-            style={{
-              display: 'flex',
-
-              backgroundColor: index % 2 !== 0 ? '#ffffff' : '#f8fafc',
-              borderBottom: '1px solid #e2e8f0',
-              transition: 'all 0.2s ease',
-            }}
+            className={`flex border-b border-slate-200 transition-all ${
+              index % 2 !== 0 ? 'bg-white' : 'bg-slate-50'
+            }`}
           >
-            {row.getVisibleCells().map(cell => {
-              return (
-                <TableCell
-                  key={cell.id}
-                  style={{
-                    width: cell.column.getSize(),
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    padding: '12px 16px',
-                    fontSize: '14px',
-                    color: '#374151',
-                    borderRight: '1px solid #e2e8f0',
-                    lineHeight: '1.5',
-                    flexGrow: 1,
-                  }}
-                >
-                  <div
-                    style={{
-                      textAlign: 'center',
-                      width: '100%',
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                      whiteSpace: 'nowrap',
-                    }}
-                  >
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </div>
-                </TableCell>
-              );
-            })}
+            {row.getVisibleCells().map(cell => (
+              <TableCell
+                key={cell.id}
+                className="flex flex-grow items-center justify-center border-r border-slate-200 px-4 py-3 text-sm leading-snug text-slate-700"
+                style={{ width: cell.column.getSize() }} // giữ lại width dynamic
+              >
+                <div className="w-full truncate overflow-hidden text-center whitespace-nowrap">
+                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                </div>
+              </TableCell>
+            ))}
           </TableRow>
         ))}
       </TableBody>

@@ -79,7 +79,6 @@ export const updateStatusTodo = async ({
 export const updateTodo = async ({ todo }: { todo: TodoValue }) => {
   try {
     const { id, ...newObj } = todo;
-    console.log('updateTodo', newObj);
 
     const res = await api.put<TodoValue>(`/api/todos/${id}`, { ...newObj });
 

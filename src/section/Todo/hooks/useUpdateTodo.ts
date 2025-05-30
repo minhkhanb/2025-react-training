@@ -1,18 +1,29 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { updateTodo } from '../api/todoService';
-import { useToast } from '@/components/Toast/hooks/useToast';
-import { ToastType } from '@/components/Toast/types/IToast';
+
+import { PaginatedTodosResponse } from '../types/ITodoList';
+import { getQueryKey } from '../utils/getQuerykey';
 
 export const useUpdateTodo = () => {
   const queryClient = useQueryClient();
-  const { showToast } = useToast();
+
+  const key = getQueryKey();
 
   return useMutation({
     mutationFn: updateTodo,
     onSuccess: (_, { todo }) => {
-      queryClient.invalidateQueries({ queryKey: ['todos'] });
+      queryClient.setQueryData<PaginatedTodosResponse>(key, oldData => {
+        if (!oldData) return oldData;
 
-      showToast(`Task ${todo.title} updated successfully!`, ToastType.SUCCESS);
+        const updatedTodos = oldData.data.map(item =>
+          item.id === todo.id ? { ...item, ...todo } : item
+        );
+
+        return {
+          ...oldData,
+          data: updatedTodos,
+        };
+      });
     },
   });
 };

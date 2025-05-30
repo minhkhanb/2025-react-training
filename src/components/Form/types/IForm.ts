@@ -26,7 +26,10 @@ export interface FormOptions<TValues extends FieldValues> {
 
 export interface FormFieldProps {
   name: string;
-  child: React.ReactElement<{ error?: string; onChange?: (e: unknown) => void }>;
+  child: React.ElementType;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onChange?: (evt: any) => void;
+  childProps?: Record<string, unknown>;
 }
 
 export type OnSubmitArgs<TValues extends FieldValues> = [

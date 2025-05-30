@@ -74,29 +74,12 @@ export default function Login() {
         // mode="onChange"
         className="flex w-1/2 flex-col items-center justify-center gap-4"
       >
-        <Form.FormField
-          name={'email'}
-          child={
-            <Input
-              placeholder="Email"
-              // onChange={e => {
-              //   return console.log(e.target.value);
-              // }}
-            />
-          }
-        />
+        <Form.FormField name={'email'} child={Input} childProps={{ placeholder: 'Email' }} />
 
         <Form.FormField
           name={'password'}
-          child={
-            <Input
-              placeholder="Password"
-              type="password"
-              // onChange={e => {
-              //   return console.log(e.target.value);
-              // }}
-            />
-          }
+          child={Input}
+          childProps={{ placeholder: 'Password', type: 'password' }}
         />
 
         <MyButton label={'login'} />

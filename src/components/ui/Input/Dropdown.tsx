@@ -21,9 +21,16 @@ interface DropdownProps {
   value?: string;
   options: DropdownOption[];
   onChange?: (evt: ChangeEvent<HTMLButtonElement>) => void;
+  placeholder?: string;
 }
 
-const Dropdown = ({ inputRef, value, options, ...props }: DropdownProps) => {
+const Dropdown = ({
+  inputRef,
+  value,
+  options,
+  placeholder = 'Select an option',
+  ...props
+}: DropdownProps) => {
   const [open, setOpen] = React.useState(false);
 
   const onChange = (selectedValue: string) => {
@@ -41,7 +48,7 @@ const Dropdown = ({ inputRef, value, options, ...props }: DropdownProps) => {
           <span
             className={cn('font-normal', selectedOption ? 'text-gray-900' : 'text-gray-900/40')}
           >
-            {selectedOption ? selectedOption.label : `Select an option`}
+            {selectedOption ? selectedOption.label : placeholder}
           </span>
 
           <ChevronsUpDown className="h-4 w-4 opacity-50" />

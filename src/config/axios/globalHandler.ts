@@ -1,4 +1,4 @@
-import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
+import { AxiosError, InternalAxiosRequestConfig } from 'axios';
 import { useAuthStore } from '@src/stores';
 
 const handlers = {
@@ -17,15 +17,16 @@ const handlers = {
     }
 
     const authStore = useAuthStore.getState();
-    let accessToken = await authStore.getAccessToken();
+    const accessToken = await authStore.getAccessToken();
 
-    if (!accessToken) {
-      throw new axios.Cancel('No access token available');
-    }
-
-    if (request.url?.startsWith('http://api')) {
-      accessToken = 'Bearer ' + accessToken;
-    }
+    console.log('AccessToken:', accessToken);
+    // if (!accessToken) {
+    //   throw new axios.Cancel('No access token available');
+    // }
+    //
+    // if (request.url?.startsWith('http://api')) {
+    //   accessToken = 'Bearer ' + accessToken;
+    // }
 
     return request;
   },

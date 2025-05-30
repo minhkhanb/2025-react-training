@@ -1,6 +1,5 @@
 'use client';
 
-import { Person } from '@src/section/Courses/makeData';
 import { ColumnDef, getCoreRowModel, getSortedRowModel, SortingState } from '@tanstack/table-core';
 import React from 'react';
 import { flexRender, useReactTable } from '@tanstack/react-table';
@@ -25,10 +24,10 @@ import {
 import { Loader2 } from 'lucide-react';
 import { css } from '@emotion/react';
 import { useCourseStore } from '@src/stores';
-import { useListCourse } from '@src/api/courses/queries';
+import { User } from '@src/section/Courses';
 
 type Props = {
-  data: Person[];
+  data: User[];
   totalRowCount: number;
   pagination: {
     pageIndex: number;
@@ -44,46 +43,26 @@ const TABLE_HEIGHT = 450;
 
 // Custom hook for table columns
 function useTableColumns() {
-  return React.useMemo<ColumnDef<Person>[]>(
+  return React.useMemo<ColumnDef<User>[]>(
     () => [
       {
-        accessorKey: 'id',
-        header: 'ID',
-        size: 60,
-      },
-      {
-        accessorKey: 'firstName',
-        header: 'Tên',
+        accessorKey: 'name',
+        header: 'Name',
         cell: info => info.getValue(),
       },
       {
-        accessorFn: row => row.lastName,
-        id: 'lastName',
+        accessorKey: 'email',
+        header: 'Email',
         cell: info => info.getValue(),
-        header: () => <span>Họ</span>,
-      },
-      {
-        accessorKey: 'age',
-        header: () => 'Tuổi',
-        size: 50,
-      },
-      {
-        accessorKey: 'visits',
-        header: () => <span>Lượt truy cập</span>,
-        size: 50,
-      },
-      {
-        accessorKey: 'status',
-        header: 'Trạng thái',
-      },
-      {
-        accessorKey: 'progress',
-        header: 'Tiến độ',
-        size: 80,
       },
       {
         accessorKey: 'createdAt',
-        header: 'Ngày tạo',
+        header: 'Created At',
+        size: 200,
+      },
+      {
+        accessorKey: 'updatedAt',
+        header: 'Updated At',
         cell: info => info.getValue<Date>().toLocaleString(),
         size: 200,
       },
@@ -177,9 +156,6 @@ export default function CoursesTable({
   const paginationRange = usePaginationRange(currentPage, pageCount);
 
   const courseState = useCourseStore(state => state);
-  const listCourse = useListCourse();
-
-  console.log('PDebug listCourse:', listCourse);
 
   return (
     <div className="space-y-4">

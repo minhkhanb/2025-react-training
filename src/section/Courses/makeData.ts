@@ -1,5 +1,6 @@
 import { faker } from '@faker-js/faker';
 import { ColumnSort, SortingState } from '@tanstack/table-core';
+import axios from 'axios';
 
 export type Person = {
   id: number;
@@ -75,12 +76,46 @@ export const fetchData = async (start: number, size: number, sorting: SortingSta
 
   await new Promise(resolve => setTimeout(resolve, 200));
 
-  console.log('PDebug data: ', dbData.slice(start, start + size));
-
   return {
     data: dbData.slice(start, start + size),
     pagination: {
       total: dbData.length,
     },
   };
+};
+
+type CoursesDataWithSortingParams = {
+  filters: {
+    page?: number;
+    limit?: number;
+    offset?: number;
+    sort?: SortingState;
+  };
+};
+
+type PaginatedResult<T> = {
+  data: T[];
+  meta: {
+    total: number;
+    page: number;
+    limit: number;
+    lastPage: number;
+  };
+};
+
+type User = {
+  id: string;
+  name: string;
+  email: string;
+  password: string;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
+export const fetchCourseApi = async ({
+  filters: { page, limit },
+}: CoursesDataWithSortingParams) => {
+  return axios.get<PaginatedResult<User>>('http://localhost:3002/api/v1/users', {
+    params: { page: typeof page !== 'undefined' ? (page < 1 ? 1 : page) : 1, limit },
+  });
 };

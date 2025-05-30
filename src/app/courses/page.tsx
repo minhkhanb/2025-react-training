@@ -1,38 +1,61 @@
 import Courses from '@src/section/Courses';
-import { fetchInitialData } from '@src/server/actions/courses';
+import { fetchUsersDataWithSorting } from '@src/server/actions/courses';
 import { Suspense } from 'react';
 import { Loader2 } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
-interface CourseSearchParams {
+interface UserSearchParams {
   page?: string;
   sort?: string;
+  limit?: string;
 }
 
-type Props = {
-  searchParams: Promise<CourseSearchParams>;
-};
+interface Props {
+  searchParams: Promise<UserSearchParams>;
+}
 
-export default async function CoursesPage({ searchParams }: Props) {
-  const params = await searchParams;
+const CoursesLoading = () => (
+  <div className="flex justify-center items-center h-[450px]">
+    <Loader2 className="h-8 w-8 animate-spin" />
+    <span className="ml-2">Loading...</span>
+  </div>
+);
 
-  const pageParam = params.page ? parseInt(params.page) : 1;
-  const pageIndex = Math.max(0, pageParam - 1);
+async function getUsersData(searchParams: UserSearchParams) {
+  try {
+    const pageParam = searchParams.page ? parseInt(searchParams.page) : 1;
+    const page = Math.max(0, pageParam - 1);
+    const limit = searchParams.limit ? parseInt(searchParams.limit) : 10;
 
-  const initialData = await fetchInitialData(pageIndex);
+    const response = await fetchUsersDataWithSorting({
+      filters: { page, limit, offset: page * limit, sort: [] },
+    });
+
+    if (!response) {
+      throw new Error('No data returned from the server');
+    }
+
+    const { data, meta } = response.data;
+
+    return {
+      user: data,
+      pagination: meta,
+    };
+  } catch (err) {
+    console.error('Error fetching user data:', err);
+    throw new Error('Failed to fetch user data');
+  }
+}
+
+export default async function UsersPage({ searchParams }: Props) {
+  const usersData = await getUsersData(await searchParams);
 
   return (
     <>
-      <Suspense
-        fallback={
-          <div className="flex justify-center items-center h-[450px]">
-            <Loader2 className="h-8 w-8 animate-spin" />
-            <span className="ml-2">Loading...</span>
-          </div>
-        }
-      >
-        <Courses initialData={initialData} initialPage={pageIndex} />
+      <Suspense fallback={<CoursesLoading />}>
+        <Courses data={usersData} />
       </Suspense>
     </>
   );

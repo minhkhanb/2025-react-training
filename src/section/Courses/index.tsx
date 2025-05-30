@@ -1,43 +1,46 @@
 'use client';
 
 import React from 'react';
-import { Person } from './makeData';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { SortingState } from '@tanstack/table-core';
-import { fetchTableData } from '@src/server/actions/courses';
+import { fetchUsersDataWithSorting } from '@src/server/actions/courses';
 import { Loader2 } from 'lucide-react';
 import CoursesTable from '@src/section/Courses/components/CoursesTable';
-import { useGetCourses } from '@src/api/courses/queries';
 import { Button } from '@src/components/ui';
 import Link from 'next/link';
 
+export type User = {
+  id: string;
+  name: string;
+  email: string;
+  password: string;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
 type Props = {
-  initialData: {
-    data: Person[];
+  data: {
+    user: User[];
     pagination: {
+      page: number;
       total: number;
     };
   };
-  initialPage: number;
 };
 
-function Courses({ initialData, initialPage }: Props) {
+function Courses({ data }: Props) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [isLoading, setIsLoading] = React.useState(false);
-  const [tableData, setTableData] = React.useState<Person[]>(initialData.data);
-  const [totalRowCount, setTotalRowCount] = React.useState<number>(initialData.pagination.total);
-
-  const getCourses = useGetCourses();
-
-  console.log('PDebug getCourses: ', getCourses.data);
+  const [tableData, setTableData] = React.useState<User[]>(data.user);
+  const [totalRowCount, setTotalRowCount] = React.useState<number>(data.pagination.total);
 
   const PAGE_SIZE = 10;
 
   const [pagination, setPagination] = React.useState({
-    pageIndex: initialPage,
+    pageIndex: data.pagination.page,
     pageSize: PAGE_SIZE,
   });
 
@@ -54,11 +57,12 @@ function Courses({ initialData, initialPage }: Props) {
   const fetchData = React.useCallback(
     async (page: number) => {
       try {
-        console.log('PDebug pagination: ', pagination);
         setIsLoading(true);
-        const result = await fetchTableData(page, pagination.pageSize, sorting);
-        setTableData(result.data || []);
-        setTotalRowCount(result.pagination.total || 0);
+        const result = await fetchUsersDataWithSorting({
+          filters: { page, limit: pagination.pageSize, offset: pagination.pageSize, sort: sorting },
+        });
+        setTableData(result?.data.data || []);
+        setTotalRowCount(result?.data.meta.total || 0);
       } catch (err) {
         console.error('Error fetching data:', err);
       } finally {
@@ -95,7 +99,7 @@ function Courses({ initialData, initialPage }: Props) {
     setPagination(prev => ({ ...prev, pageIndex: 0 }));
   }, []);
 
-  if (!initialData && isLoading) {
+  if (isLoading) {
     return (
       <div className="flex justify-center items-center h-[450px">
         <Loader2 className="h-8 w-8 animate-spin" />
@@ -120,7 +124,7 @@ function Courses({ initialData, initialPage }: Props) {
         <div className="not-prose relative isolate scroll-mt-16">
           <div className="flex justify-end">
             <Button as={Link} href="/courses/add">
-              Add new course
+              Add User
             </Button>
           </div>
           <div className="w-full overflow-x-auto whitespace-nowrap">

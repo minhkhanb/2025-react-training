@@ -16,7 +16,7 @@ interface NavItem {
 
 const nav: NavItem[] = [
   { name: 'Dashboard', icon: LayoutDashboardIcon, route: '/' },
-  { name: 'Courses', icon: Layers2, route: '/courses' },
+  { name: 'Courses', icon: Layers2, route: '/user' },
 ];
 
 const MainLayout = ({ children }: Props) => {
@@ -92,7 +92,7 @@ const MainLayout = ({ children }: Props) => {
         </div>
         <div className="col-start-2 row-span-5 row-start-1 border-l" />
         <div className="relative row-start-1 grid grid-cols-subgrid lg:col-start-3">
-          <div className="mx-auto grid w-full max-w-2xl grid-cols-1 gap-2 xl:max-w-full xl:grid-cols-[minmax(0,1fr)_var(--container)]">
+          <div className="mx-auto grid w-full max-w-4xl grid-cols-1 gap-2 xl:max-w-full xl:grid-cols-[minmax(0,1fr)_var(--container)]">
             <div className="px-4 pt-10 pb-24 sm:px-6 xl:px-0">{children}</div>
           </div>
         </div>

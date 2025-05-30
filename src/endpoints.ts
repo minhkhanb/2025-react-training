@@ -1,5 +1,6 @@
 export const endpoints = {
-  courses: {
-    list: '/api/courses',
+  user: {
+    list: '/users',
+    create: () => '/users',
   },
 };

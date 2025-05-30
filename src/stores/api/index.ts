@@ -19,7 +19,7 @@ const defaultInitState: ApiState = {
 
 const isClient = typeof window !== 'undefined';
 
-const REST_DOMAIN = `//localhost:3500`;
+const REST_DOMAIN = `//localhost:3002/api/v1`;
 
 const createApiStore = (initState: ApiState = defaultInitState) =>
   create<ApiStore>()(

@@ -9,7 +9,7 @@ export const useGetCourses = () => {
   return useQuery({
     queryKey: [tags.rest.courses],
     queryFn: async () => {
-      const response = await fetch('http://localhost:3500/api/courses/');
+      const response = await fetch('http://localhost:3002/api/v1/users/');
 
       console.log('PDebug response:', response);
 
@@ -24,7 +24,7 @@ export const useListCourse = () => {
   return useQuery({
     queryKey: queryKeys[tags.rest.courses].list().queryKey,
     queryFn: async () => {
-      return axios.get(apiStore.getEndpoint('rest', endpoints.courses.list));
+      return axios.get(apiStore.getEndpoint('rest', endpoints.user.list));
     },
   });
 };

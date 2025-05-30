@@ -1,17 +1,17 @@
 import { Drawer } from '@src/components/ui';
-import AddCourseForm from '@src/section/Courses/components/AddCourseForm';
+import AddUserForm from '@src/section/User/components/AddUserForm';
 
 interface Props {
   visible: boolean;
   onClose?: () => void;
 }
 
-const AddCourseDrawer = ({ visible, onClose }: Props) => {
+const AddUserDrawer = ({ visible, onClose }: Props) => {
   return (
     <Drawer visible={visible} onClose={onClose}>
-      <AddCourseForm />
+      <AddUserForm />
     </Drawer>
   );
 };
 
-export default AddCourseDrawer;
+export default AddUserDrawer;

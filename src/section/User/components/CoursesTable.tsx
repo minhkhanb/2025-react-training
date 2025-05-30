@@ -24,7 +24,7 @@ import {
 import { Loader2 } from 'lucide-react';
 import { css } from '@emotion/react';
 import { useCourseStore } from '@src/stores';
-import { User } from '@src/section/Courses';
+import { User } from '@src/api/user';
 
 type Props = {
   data: User[];

@@ -20,10 +20,10 @@ const validationSchema = yup.object().shape({
   password: yup.string().min(6).max(100).required('Password is required'),
 });
 
-const AddCourseForm = () => {
-  const { mutateAsync: createCourseMutate, isPending } = useCreateUser();
+const AddUserForm = () => {
+  const { mutateAsync: createUserMutate, isPending } = useCreateUser();
 
-  const createCoursePayload = (values: UserFields): CreateUserRequest => {
+  const createUserPayload = (values: UserFields): CreateUserRequest => {
     const { name, email, password } = values;
 
     return {
@@ -34,8 +34,8 @@ const AddCourseForm = () => {
   };
 
   const onSubmit = async (values: UserFields) => {
-    const payload: CreateUserRequest = createCoursePayload(values);
-    await createCourseMutate({ payload });
+    const payload: CreateUserRequest = createUserPayload(values);
+    await createUserMutate({ payload });
   };
 
   return (
@@ -70,11 +70,11 @@ const AddCourseForm = () => {
       </div>
       <div className="flex gap-2 justify-end">
         <Form.SubmitButton submitting={isPending} className="w-full sm:w-auto">
-          Add Course
+          Add
         </Form.SubmitButton>
       </div>
     </MainForm>
   );
 };
 
-export default AddCourseForm;
+export default AddUserForm;

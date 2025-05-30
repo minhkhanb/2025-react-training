@@ -1,4 +1,4 @@
-import Courses from '@src/section/Courses';
+import Courses from '../../section/User';
 import { fetchUsersDataWithSorting } from '@src/server/actions/courses';
 import { Suspense } from 'react';
 import { Loader2 } from 'lucide-react';

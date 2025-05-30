@@ -1,7 +1,7 @@
 'use server';
 
 import { SortingState } from '@tanstack/table-core';
-import { fetchCourseApi } from '@src/section/Courses/makeData';
+import { fetchCourseApi } from '@src/section/User/makeData';
 
 type CoursesDataWithSortingParams = {
   filters: {

@@ -5,7 +5,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { SortingState } from '@tanstack/table-core';
 import { fetchUsersDataWithSorting } from '@src/server/actions/courses';
 import { Loader2 } from 'lucide-react';
-import CoursesTable from '@src/section/Courses/components/CoursesTable';
+import CoursesTable from '@src/section/User/components/CoursesTable';
 import { Button } from '@src/components/ui';
 import Link from 'next/link';
 
@@ -123,7 +123,7 @@ function Courses({ data }: Props) {
       <div className="prose mt-10">
         <div className="not-prose relative isolate scroll-mt-16">
           <div className="flex justify-end">
-            <Button as={Link} href="/courses/add">
+            <Button as={Link} href="/users/add">
               Add User
             </Button>
           </div>

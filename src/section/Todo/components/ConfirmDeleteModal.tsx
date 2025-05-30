@@ -2,6 +2,7 @@ import ConfirmDialog from '@src/components/common/ConfirmDialog';
 import { toastManager } from '@src/modules/toast';
 import { useTodo } from '@src/context/todoContext';
 import { Todo } from '@src/types/todo';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 export const ConfirmDeleteModal = ({
   data,
@@ -14,6 +15,23 @@ export const ConfirmDeleteModal = ({
 }) => {
   const { removeTodo } = useTodo();
 
+  const queryClient = useQueryClient();
+
+  const { mutate: removeTodoMutation } = useMutation({
+    mutationFn: () => {
+      // Fake function using context API
+      return new Promise<void>(resolve => {
+        removeTodo(data.id);
+        resolve();
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['todos'] });
+      toastManager.addToast('Success', 'Deleted todo', 'success');
+      onClose();
+    },
+  });
+
   return (
     <ConfirmDialog
       isOpen={isOpen}
@@ -22,8 +40,7 @@ export const ConfirmDeleteModal = ({
       description="Are you sure you want to delete this todo?"
       confirmText="Delete"
       onConfirm={() => {
-        removeTodo(data.id);
-        toastManager.addToast('Success', `Deleted ${data.title}`, 'success');
+        removeTodoMutation();
       }}
     />
   );

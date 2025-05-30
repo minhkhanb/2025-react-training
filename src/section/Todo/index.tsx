@@ -9,6 +9,7 @@ import { Checkbox } from '@src/components/shadcn/ui/checkbox';
 import { cn } from '@src/lib/utils';
 import { useTodo } from '@src/context/todoContext';
 import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { EditTodoModal, ConfirmDeleteModal, TodoAction, HeaderSection } from './components';
 
 const typeStyles = {
@@ -21,7 +22,14 @@ const typeStyles = {
 };
 
 export default function TodoListSection() {
-  const { todos } = useTodo();
+  const { fetchTodos } = useTodo();
+
+  const { isPending, isError, data, error } = useQuery({
+    queryKey: ['todos'],
+    // Fake function using context API
+    queryFn: () => fetchTodos(),
+  });
+
   const [openEditModal, setOpenEditModal] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [selectedTodo, setSelectedTodo] = useState<Todo | null>(null);
@@ -106,6 +114,9 @@ export default function TodoListSection() {
     },
   ];
 
+  if (isPending) return <div>Loading...</div>;
+  if (isError) return <div>Error: {error.message}</div>;
+
   return (
     <div className="p-4">
       <div className="flex items-center mb-4">
@@ -118,9 +129,9 @@ export default function TodoListSection() {
       </div>
       <DataTable
         columns={columns}
-        data={todos}
+        data={data}
         pageSize={3}
-        pageCount={Math.ceil(todos.length / 3)}
+        pageCount={Math.ceil(data.length / 3)}
       />
       {selectedTodo && (
         <>

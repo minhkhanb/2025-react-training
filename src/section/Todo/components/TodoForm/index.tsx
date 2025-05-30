@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useMemo } from 'react';
+import { useMemo } from 'react';
 import { TodoFormProps, TodoFormValues, TodoValue } from '@/section/Todo/types/ITodoList';
 import MyButton from '@/components/ui/MyButton';
 import Form from '@/components/Form';
@@ -10,9 +10,15 @@ import { useRouter } from 'next/navigation';
 import { OnSubmitArgs } from '@/components/Form/types/IForm';
 // import Dropdown from '@/components/ui/Dropdown';
 import PrioritySelect from '../PrioritySelect';
+import { useUpdateTodo } from '../../hooks/useUpdateTodo';
+import { useAddTodo } from '../../hooks/useAddTodo';
 
-function TodoForm({ onSubmitAction, todoToUpdate }: TodoFormProps) {
+function TodoForm({ todoToUpdate }: TodoFormProps) {
   const router = useRouter();
+
+  const updateMutation = useUpdateTodo();
+
+  const addMutation = useAddTodo();
 
   const onSubmit = (...args: OnSubmitArgs<TodoFormValues>): void => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -22,13 +28,22 @@ function TodoForm({ onSubmitAction, todoToUpdate }: TodoFormProps) {
     fixedDate.setHours(12);
 
     if (todoToUpdate) {
-      onSubmitAction({
-        ...todoToUpdate,
-        title: values.title,
-        description: values.description || '',
-        dueDate: fixedDate,
-        priority: values.priority,
-      });
+      updateMutation.mutate(
+        {
+          todo: {
+            ...todoToUpdate,
+            title: values.title,
+            description: values.description || '',
+            dueDate: fixedDate,
+            priority: values.priority,
+          },
+        },
+        {
+          onSuccess: () => {
+            router.push('/todo-list');
+          },
+        }
+      );
     } else {
       const todoData: TodoValue = {
         id: Date.now().toString(),
@@ -39,10 +54,12 @@ function TodoForm({ onSubmitAction, todoToUpdate }: TodoFormProps) {
         status: 'todo',
       };
 
-      onSubmitAction(todoData);
+      addMutation.mutate(todoData, {
+        onSuccess: () => {
+          router.push('/todo-list');
+        },
+      });
     }
-
-    router.back();
   };
 
   const schema = yup.object({
@@ -61,17 +78,21 @@ function TodoForm({ onSubmitAction, todoToUpdate }: TodoFormProps) {
       .required('Priority is required'),
   });
 
-  const defaultValues = useMemo(
-    () => ({
-      title: todoToUpdate?.title || '',
-      description: todoToUpdate?.description || '',
-      dueDate: todoToUpdate?.dueDate
-        ? new Date(todoToUpdate.dueDate).toISOString().split('T')[0]
-        : new Date().toISOString().split('T')[0],
-      priority: todoToUpdate?.priority || 'low',
-    }),
-    [todoToUpdate]
-  );
+  const defaultValues = useMemo<TodoFormValues>(() => {
+    return todoToUpdate
+      ? {
+          title: todoToUpdate.title,
+          description: todoToUpdate.description || '',
+          dueDate: new Date(todoToUpdate.dueDate).toISOString().split('T')[0],
+          priority: todoToUpdate.priority as 'low' | 'medium' | 'high',
+        }
+      : {
+          title: '',
+          description: '',
+          dueDate: new Date().toISOString().split('T')[0],
+          priority: '',
+        };
+  }, [todoToUpdate]);
 
   return (
     <div className="rounded-t-xl border border-gray-200 bg-gradient-to-r from-blue-50 to-indigo-50 shadow-sm">
@@ -91,34 +112,31 @@ function TodoForm({ onSubmitAction, todoToUpdate }: TodoFormProps) {
           <div className="space-y-4">
             <Form.FormField
               name={'title'}
-              child={
-                <Input
-                  label="Todo Title"
-                  placeholder="Enter your task title..."
-                  className="px-4 py-3 text-sm placeholder-gray-400"
-                />
-              }
+              child={Input}
+              childProps={{
+                label: 'Todo Title',
+                placeholder: 'Enter your task title...',
+                className: 'px-4 py-3 text-sm placeholder-gray-400',
+              }}
             />
             <Form.FormField
               name={'description'}
-              child={
-                <Input
-                  label="Todo Description"
-                  placeholder="Enter your task description..."
-                  className="px-4 py-3 text-sm placeholder-gray-400"
-                />
-              }
+              child={Input}
+              childProps={{
+                label: 'Todo Description',
+                placeholder: 'Enter your task description...',
+                className: 'px-4 py-3 text-sm placeholder-gray-400',
+              }}
             />
 
             <Form.FormField
               name={'dueDate'}
-              child={
-                <Input
-                  label="Todo Due Date"
-                  type="date"
-                  className="px-4 py-3 text-sm placeholder-gray-400"
-                />
-              }
+              child={Input}
+              childProps={{
+                label: 'Todo Due Date',
+                type: 'date',
+                className: 'px-4 py-3 text-sm placeholder-gray-400',
+              }}
             />
 
             <Form.FormField
@@ -134,13 +152,17 @@ function TodoForm({ onSubmitAction, todoToUpdate }: TodoFormProps) {
                 //   ]}
                 //   name={'priority'}
                 // />
-                <PrioritySelect />
+                PrioritySelect
               }
             />
 
             <div className="flex items-center justify-between pt-2">
               <div className="flex space-x-3">
                 <MyButton
+                  loading={
+                    (updateMutation.isPending || addMutation.isPending) &&
+                    (!addMutation.isSuccess || !updateMutation.isSuccess)
+                  }
                   label={todoToUpdate ? 'Update Task' : 'Add Task'}
                   className="rounded-lg bg-blue-600 px-6 py-2.5 font-medium text-white shadow-sm transition-colors duration-200 hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none"
                 />
@@ -165,4 +187,4 @@ function TodoForm({ onSubmitAction, todoToUpdate }: TodoFormProps) {
   );
 }
 
-export default memo(TodoForm);
+export default TodoForm;

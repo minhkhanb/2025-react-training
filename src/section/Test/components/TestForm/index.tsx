@@ -53,36 +53,39 @@ export default function TestForm() {
     >
       <Form.FormField
         name={'firstName'}
-        child={
-          <Input
-            label="firstName"
-            placeholder="Enter your first Name"
-            onChange={e => {
-              return console.log(e.target.value);
-            }}
-          />
-        }
+        child={Input}
+        childProps={{
+          label: 'firstName',
+          placeholder: 'Enter your first Name',
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          onChange: (e: { target: { value: any } }) => {
+            return console.log(e.target.value);
+          },
+        }}
       />
 
       <Form.FormField
         name={'lastName'}
-        child={<Input label="lastName" placeholder="Enter your last Name" />}
+        child={Input}
+        childProps={{
+          label: 'lastName',
+          placeholder: 'Enter your last Name',
+        }}
       />
 
       <Form.FormField
         name={'iceCreamType'}
-        child={
-          <Dropdown
-            name="iceCreamType"
-            label="Ice cream type"
-            placeholder="Choose Ice cream type"
-            options={[
-              { label: 'Straw berry', value: 'strawBerry' },
-              { label: 'Chocolate', value: 'chocolate' },
-              { label: 'Blue berry', value: 'blueBerry', disabled: true },
-            ]}
-          />
-        }
+        child={Dropdown}
+        childProps={{
+          name: 'iceCreamType',
+          label: 'Ice cream type',
+          placeholder: 'Choose Ice cream type',
+          options: [
+            { label: 'Straw berry', value: 'strawBerry' },
+            { label: 'Chocolate', value: 'chocolate' },
+            { label: 'Blue berry', value: 'blueBerry', disabled: true },
+          ],
+        }}
       />
 
       {/* <Form.FormField name={'submit'} child={} /> */}

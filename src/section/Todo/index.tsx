@@ -38,14 +38,14 @@ export default function Todo() {
   return (
     <div className="flex min-h-screen justify-center bg-gray-50 p-6">
       <div className="w-full">
-        <div className="flex flex-col items-end justify-between p-6 md:flex-row md:items-center">
+        <div className="flex flex-col items-end justify-between py-6 md:flex-row md:items-center">
           <div className="w-full md:w-3/4">
             <h1 className="mb-5 text-start text-2xl font-bold text-gray-800">Todo Management</h1>
-            <h3 className="text-start text-sm font-bold text-gray-400">
+            <h2 className="text-start text-sm font-bold text-gray-400">
               Lorem ipsum dolor sit, amet consectetur adipisicing elit. Illo distinctio laboriosam
               inventore quibusdam eligendi iste nesciunt consequuntur sint facilis. Vel doloremque
               adipisci dignissimos, corrupti neque odit unde aperiam rem facere.
-            </h3>
+            </h2>
           </div>
 
           <Link

@@ -7,7 +7,7 @@ export interface TodoValue {
   title: string;
   description: string;
   dueDate: Date;
-  priority: 'low' | 'medium' | 'high';
+  priority: 'low' | 'medium' | 'high' | '';
   status: 'todo' | 'in-progress' | 'done';
 }
 
@@ -25,6 +25,8 @@ export interface PaginatedTodosResponse {
     total: number;
     totalFinish: number;
     totalPages: number;
+    sortType: number | undefined;
+    sortColumn: string;
   };
 }
 
@@ -34,7 +36,6 @@ export interface getTotalTodosAndTotalFinishTodosResponse {
 }
 
 export interface TodoFormProps {
-  onSubmitAction: (data: TodoValue) => void;
   todoToUpdate: TodoValue | null;
 }
 

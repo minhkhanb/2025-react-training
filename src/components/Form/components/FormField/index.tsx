@@ -1,8 +1,8 @@
-import React, { cloneElement } from 'react';
+import React from 'react';
 import { FormFieldProps } from '../../types/IForm';
 import { Controller, useFormContext } from 'react-hook-form';
 
-export default function FormField({ name, child }: FormFieldProps) {
+export default function FormField({ name, child: Comp, onChange, childProps }: FormFieldProps) {
   const { control } = useFormContext();
 
   return (
@@ -14,14 +14,17 @@ export default function FormField({ name, child }: FormFieldProps) {
 
         // console.log(fieldState, field);
 
-        return cloneElement(child, {
-          ...restField,
-          error: fieldState.error?.message,
-          onChange: (e: unknown) => {
-            rhfOnChange(e);
-            child.props.onChange?.(e);
-          },
-        });
+        return (
+          <Comp
+            error={fieldState.error?.message}
+            onChange={(e: unknown) => {
+              rhfOnChange(e);
+              onChange?.(e);
+            }}
+            {...childProps}
+            {...restField}
+          />
+        );
       }}
     />
   );

@@ -4,12 +4,13 @@ import { useApiStore } from '@src/stores';
 import { queryKeys } from '../queryKeys';
 import axios from 'axios';
 import { endpoints } from '@src/endpoints';
+import { config } from '@src/config/envConfig';
 
 export const useGetCourses = () => {
   return useQuery({
     queryKey: [tags.rest.courses],
     queryFn: async () => {
-      const response = await fetch('http://localhost:3002/api/v1/users/');
+      const response = await fetch(`${config.REST_API_URL}/users/`);
 
       console.log('PDebug response:', response);
 

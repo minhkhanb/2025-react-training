@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 import { RegionData, ServiceType } from '@src/stores/api/types';
+import { config } from '@src/config/envConfig';
 
 type ApiState = {
   regionConfig: RegionData | null;
@@ -18,8 +19,6 @@ const defaultInitState: ApiState = {
 };
 
 const isClient = typeof window !== 'undefined';
-
-const REST_DOMAIN = `//localhost:3002/api/v1`;
 
 const createApiStore = (initState: ApiState = defaultInitState) =>
   create<ApiStore>()(
@@ -40,7 +39,7 @@ const createApiStore = (initState: ApiState = defaultInitState) =>
                 const state = getState();
 
                 if (!state.regionConfig) {
-                  return REST_DOMAIN;
+                  return config.REST_API_URL;
                 }
 
                 if (service === 'rest') {

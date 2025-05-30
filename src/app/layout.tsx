@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import { ToastContainer } from '@src/components/providers/Toast';
+import ToastProvider from '@src/components/providers/Toast';
+import QueryProvider from '@src/components/providers/ReactQuery';
 
 export const metadata: Metadata = {
   title: 'My App',
@@ -14,8 +15,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        {children}
-        <ToastContainer />
+        <QueryProvider>
+          {children}
+          <ToastProvider />
+        </QueryProvider>
       </body>
     </html>
   );

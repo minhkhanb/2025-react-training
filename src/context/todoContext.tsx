@@ -5,16 +5,20 @@ import { Todo } from '@src/types/todo';
 import { todos as initialTodos } from '@src/data/todos';
 
 interface TodoContextType {
-  todos: Todo[];
   addTodo: (todo: Omit<Todo, 'id' | 'createdAt' | 'updatedAt'>) => void;
   updateTodo: (id: number, todo: Partial<Todo>) => void;
   removeTodo: (id: number) => void;
+  fetchTodos: () => Promise<Todo[]>;
 }
 
 const TodoContext = createContext<TodoContextType | undefined>(undefined);
 
 export function TodoProvider({ children }: { children: React.ReactNode }) {
   const [todos, setTodos] = useState<Todo[]>(initialTodos);
+
+  const fetchTodos = async () => {
+    return todos;
+  };
 
   const addTodo = (todo: Omit<Todo, 'id' | 'createdAt' | 'updatedAt'>) => {
     const newTodo: Todo = {
@@ -45,7 +49,7 @@ export function TodoProvider({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <TodoContext.Provider value={{ todos, addTodo, updateTodo, removeTodo }}>
+    <TodoContext.Provider value={{ fetchTodos, addTodo, updateTodo, removeTodo }}>
       {children}
     </TodoContext.Provider>
   );

@@ -4,7 +4,7 @@ import { toastManager, Toast } from '../../../modules/toast';
 import { useEffect, useState } from 'react';
 import { ToastItem } from './ToastItem';
 
-export const ToastContainer = () => {
+export default function ToastProvider() {
   const [toasts, setToasts] = useState<Toast[]>([]);
 
   useEffect(() => {
@@ -30,4 +30,4 @@ export const ToastContainer = () => {
       ))}
     </div>
   );
-};
+}

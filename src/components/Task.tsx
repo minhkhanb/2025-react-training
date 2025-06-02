@@ -11,6 +11,7 @@ interface Props {
 const Task = ({ task, onUpdateTask, onDeleteTask }: Props) => {
   const router = useRouter();
   const { handleUpdateTask } = useTask();
+  console.log(11);
 
   return (
     <div

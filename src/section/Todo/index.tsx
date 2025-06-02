@@ -6,20 +6,19 @@ import { Todo } from '@src/types/todo';
 import DataTable from '@src/components/common/DataTable';
 import { Trash2, Pencil } from 'lucide-react';
 import { Checkbox } from '@src/components/shadcn/ui/checkbox';
-import { cn } from '@src/lib/utils';
-import { useTodo } from '@src/context/todoContext';
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { EditTodoModal, ConfirmDeleteModal, TodoAction, HeaderSection } from './components';
-import { TYPE_STYLES } from './constants';
+import { getTodos } from '@src/app/api/todos/route';
+import { useSearchParams } from 'next/navigation';
 
 export default function TodoListSection() {
-  const { fetchTodos } = useTodo();
+  const searchParams = useSearchParams();
+  const currentPage = Number(searchParams.get('page')) || 1;
 
   const { isPending, isError, data, error } = useQuery({
     queryKey: ['todos'],
-    // Fake function using context API
-    queryFn: () => fetchTodos(),
+    queryFn: () => getTodos({ page: currentPage, limit: 10 }),
   });
 
   const [openEditModal, setOpenEditModal] = useState(false);
@@ -55,35 +54,9 @@ export default function TodoListSection() {
         />
       ),
     },
-    { accessorKey: 'id', header: 'ID', size: 50 },
-    { accessorKey: 'title', header: 'Title', size: 200 },
-    { accessorKey: 'description', header: 'Description', size: 300 },
-    {
-      accessorKey: 'status',
-      header: 'Status',
-      size: 120,
-      cell: ({ row }) => (
-        <p className={cn(TYPE_STYLES[row.original.status], 'p-1 text-center rounded-lg')}>
-          {row.original.status}
-        </p>
-      ),
-    },
-    {
-      accessorKey: 'priority',
-      header: 'Priority',
-      size: 120,
-      cell: ({ row }) => (
-        <p className={cn(TYPE_STYLES[row.original.priority], 'p-1 text-center rounded-lg')}>
-          {row.original.priority}
-        </p>
-      ),
-    },
-    {
-      accessorKey: 'dueDate',
-      header: 'Due Date',
-      size: 120,
-      cell: ({ row }) => <p className="text-center">{row.original.dueDate.toLocaleDateString()}</p>,
-    },
+    { accessorKey: 'id', header: 'ID', size: 60 },
+    { accessorKey: 'title', header: 'Title', size: 300 },
+    { accessorKey: 'completed', header: 'Completed', size: 100 },
     {
       id: 'actions',
       header: 'Actions',

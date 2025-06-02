@@ -39,3 +39,32 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+
+# Ignore component relate to Shadcn UI
+components/toast
+components/ui
+components/ui-custom
+section/Add/components/AddTaskDialog/index.tsx
+section/Add/components/AddTaskDialog/components/AddTaskForm.tsx
+section/Signin/components/SignInForm.tsx
+section/Signup/components/SignUpForm.tsx
+section/Todo/index.tsx
+section/Todo/components/DeleteConfirmation/index.tsx
+section/Todo/components/ListTasks/components/TableList.tsx
+section/Update/components/UpdateTaskDialog/index.tsx
+section/Update/components/UpdateTaskDialog/components/UpdateTaskForm.tsx
+
+# Ignore component relate to Tanstack Query
+api/todo/queries/useTaskQuery.ts
+api/todo/queries/useTasksQuery.ts
+components/providers/TaskProvider.tsx
+core/constants/pagination.ts
+section/Todo/index.tsx
+section/Todo/components/ListTasks/index.tsx
+section/Todo/components/ListTasks/components/TableList.tsx
+section/Update/index.tsx
+
+# Ignore component relate to Tanstack Table
+section/Todo/components/ListTasks/components/TableList.tsx
+components\ui-custom\table.tsx

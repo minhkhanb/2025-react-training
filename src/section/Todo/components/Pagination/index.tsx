@@ -29,7 +29,7 @@ const TodosPagination = ({
   onPageChange,
   isLoading,
 }: PaginationProps) => {
-  const TotalTodos = useTodosStore(state => state.todos.pagination.total);
+  const TotalTodos = useTodosStore(state => state.todos.pagination?.total ?? 0);
 
   const totalPages = useMemo(
     () => Math.ceil(TotalTodos / itemsPerPage),

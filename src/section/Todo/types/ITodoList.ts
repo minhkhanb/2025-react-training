@@ -18,7 +18,7 @@ export type TodoFormValues = Omit<TodoValue, 'id' | 'dueDate' | 'status'> & {
 export type TodoToDeleteValues = Omit<TodoValue, 'status' | 'dueDate' | 'priority' | 'description'>;
 
 export interface PaginatedTodosResponse {
-  data: TodoValue[];
+  data: TodoValue[] | null;
   pagination: {
     page: number;
     limit: number;
@@ -27,12 +27,16 @@ export interface PaginatedTodosResponse {
     totalPages: number;
     sortType: number | undefined;
     sortColumn: string;
-  };
+  } | null;
+  message: string[];
+  error: boolean;
 }
 
 export interface getTotalTodosAndTotalFinishTodosResponse {
-  totalTodos: number;
-  totalFinishTodos: number;
+  totalTodos: number | null;
+  totalFinishTodos: number | null;
+  message: string[];
+  error: boolean;
 }
 
 export interface TodoFormProps {

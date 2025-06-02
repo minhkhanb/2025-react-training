@@ -14,7 +14,7 @@ export const useUpdateTodo = () => {
       queryClient.setQueryData<PaginatedTodosResponse>(key, oldData => {
         if (!oldData) return oldData;
 
-        const updatedTodos = oldData.data.map(item =>
+        const updatedTodos = (oldData.data ?? []).map(item =>
           item.id === todo.id ? { ...item, ...todo } : item
         );
 

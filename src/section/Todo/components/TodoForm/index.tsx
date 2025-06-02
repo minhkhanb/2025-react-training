@@ -26,25 +26,33 @@ function TodoForm({ todoToUpdate }: TodoFormProps) {
 
   const handleUpdateTodo = async (data: { todo: TodoValue }) => {
     try {
-      await updateMutation.mutateAsync(data);
-      showToast('Todo updated successfully!', ToastType.SUCCESS);
-      router.push('/todo-list');
+      const res = await updateMutation.mutateAsync(data);
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-      showToast('Failed to update todo. Please try again.' + error, ToastType.ERROR);
+      if (res.error) {
+        showToast(res.message.join(', '), ToastType.ERROR);
+      } else {
+        showToast('Todo updated successfully', ToastType.SUCCESS);
+
+        router.push('/todo-list');
+      }
+    } catch (error) {
+      showToast('Network/server error occurred. ' + error, ToastType.ERROR);
     }
   };
 
   const handleAddTodo = async (todo: TodoValue) => {
     try {
-      await addMutation.mutateAsync(todo);
-      showToast('Todo added successfully!', ToastType.SUCCESS);
-      router.push('/todo-list');
+      const res = await addMutation.mutateAsync(todo);
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-      showToast('Failed to added todo. Please try again.' + error, ToastType.ERROR);
+      if (res.error) {
+        showToast(res.message.join(', '), ToastType.ERROR);
+      } else {
+        showToast('Todo created successfully', ToastType.SUCCESS);
+
+        router.push('/todo-list');
+      }
+    } catch (error) {
+      showToast('Network/server error occurred. ' + error, ToastType.ERROR);
     }
   };
 
@@ -82,7 +90,7 @@ function TodoForm({ todoToUpdate }: TodoFormProps) {
   };
 
   const schema = yup.object({
-    title: yup.string().required('Title is required'),
+    // title: yup.string().required('Title is required'),
 
     description: yup.string().nullable(),
 

@@ -30,13 +30,16 @@ export default function Todo() {
   const confirmDelete = useCallback(async () => {
     if (todoToDelete) {
       try {
-        await deleteMutation.mutateAsync({ id: todoToDelete.id });
-        showToast('Todo deleted successfully!', ToastType.SUCCESS);
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      } catch (error: any) {
-        showToast('Failed to delete todo. Please try again.' + error, ToastType.ERROR);
-      }
+        const res = await deleteMutation.mutateAsync({ id: todoToDelete.id });
 
+        if (res.error) {
+          showToast(res.message.join(', '), ToastType.ERROR);
+        } else {
+          showToast('Todo deleted successfully', ToastType.SUCCESS);
+        }
+      } catch (error) {
+        showToast('Network/server error occurred. ' + error, ToastType.ERROR);
+      }
       setConfirmVisible(false);
 
       setTodoToDelete(null);

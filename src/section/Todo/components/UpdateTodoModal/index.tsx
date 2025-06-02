@@ -14,7 +14,7 @@ export default function UpdateTodoModal({ id }: { id: string }) {
 
   useEffect(() => {
     if (data) {
-      setTodoToUpdate(data);
+      setTodoToUpdate(data.data);
     }
   }, [data, setTodoToUpdate]);
 

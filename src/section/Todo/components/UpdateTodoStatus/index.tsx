@@ -14,31 +14,25 @@ import {
 } from '@/components/ui/select';
 import { useToast } from '@/components/Toast/hooks/useToast';
 import { ToastType } from '@/components/Toast/types/IToast';
-import { useRouter } from 'next/navigation';
-import { error } from '../../types/common';
 
 function SelectTodoStatus({ original }: { original: TodoValue }) {
   const updateStatusMutation = useUpdateTodoStatus();
 
   const currentStatus = original.status;
 
-  const router = useRouter();
-
   const { showToast } = useToast();
 
   const handleUpdateStatusTodo = async (id: string, status: 'todo' | 'in-progress' | 'done') => {
     try {
-      await updateStatusMutation.mutateAsync({ id, status });
-      showToast('Todo status updated successfully!', ToastType.SUCCESS);
-      router.push('/todo-list');
-    } catch (error: unknown) {
-      if (error && typeof error === 'object') {
-        const err = error as error;
+      const res = await updateStatusMutation.mutateAsync({ id, status });
 
-        const message = err.response?.data?.message || err.message || 'Unknown Axios error';
-
-        showToast('Failed to update status todo. Please try again. ' + message, ToastType.ERROR);
+      if (res.error) {
+        showToast(res.message.join(', '), ToastType.ERROR);
+      } else {
+        showToast('Todo status updated successfully', ToastType.SUCCESS);
       }
+    } catch (error) {
+      showToast('Network/server error occurred. ' + error, ToastType.ERROR);
     }
   };
 

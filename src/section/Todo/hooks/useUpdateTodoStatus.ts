@@ -15,12 +15,36 @@ export const useUpdateTodoStatus = () => {
       queryClient.setQueryData<PaginatedTodosResponse>(key, oldData => {
         if (!oldData) return oldData;
 
-        const updatedTodos = oldData.data.map(item =>
-          item.id === id ? { ...item, status } : item
-        );
+        let flag = -1;
+
+        const updatedTodos = (oldData.data ?? []).map(item => {
+          if (item.id === id && item.status !== 'done' && status === 'done') {
+            flag = 1;
+          }
+
+          if (item.id === id && item.status !== 'done' && status !== 'done') {
+            flag = 0;
+          }
+
+          return item.id === id ? { ...item, status } : item;
+        });
+
+        const pagination = oldData.pagination ?? {
+          page: 1,
+          limit: 10,
+          total: 0,
+          totalPages: 1,
+          sortType: 0,
+          sortColumn: '',
+          totalFinish: 0,
+        };
 
         return {
           ...oldData,
+          pagination: {
+            ...pagination,
+            totalFinish: pagination.totalFinish + flag,
+          },
           data: updatedTodos,
         };
       });

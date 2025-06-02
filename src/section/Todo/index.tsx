@@ -9,7 +9,6 @@ import Link from 'next/link';
 import { PlusOutlined } from '@ant-design/icons';
 import { ToastType } from '@/components/Toast/types/IToast';
 import { useToast } from '@/components/Toast/hooks/useToast';
-import { error } from './types/common';
 
 export default function Todo() {
   const [todoToDelete, setTodoToDelete] = useState<TodoToDeleteValues | null>(null);
@@ -31,19 +30,16 @@ export default function Todo() {
   const confirmDelete = useCallback(async () => {
     if (todoToDelete) {
       try {
-        await deleteMutation.mutateAsync({ id: todoToDelete.id });
+        const res = await deleteMutation.mutateAsync({ id: todoToDelete.id });
 
-        showToast('Todo deleted successfully!', ToastType.SUCCESS);
-      } catch (error: unknown) {
-        if (error && typeof error === 'object') {
-          const err = error as error;
-
-          const message = err.response?.data?.message || err.message || 'Unknown Axios error';
-
-          showToast('Failed to delete todo. Please try again. ' + message, ToastType.ERROR);
+        if (res.error) {
+          showToast(res.message.join(', '), ToastType.ERROR);
+        } else {
+          showToast('Todo deleted successfully', ToastType.SUCCESS);
         }
+      } catch (error) {
+        showToast('Network/server error occurred. ' + error, ToastType.ERROR);
       }
-
       setConfirmVisible(false);
 
       setTodoToDelete(null);

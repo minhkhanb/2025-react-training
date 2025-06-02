@@ -111,13 +111,13 @@ function TodosTable({
 
   const todos = useTodosStore(state => state.todos.data);
 
-  const TotalTodos = useTodosStore(state => state.todos.pagination.total);
+  const TotalTodos = useTodosStore(state => state.todos.pagination?.total ?? 0);
 
   // const data = useMemo(() => todos, [todos]);
 
   const table = useReactTable({
     columns,
-    data: todos,
+    data: todos ?? [],
     pageCount: Math.ceil(TotalTodos / pagination.pageSize),
     state: { sorting, pagination },
     onPaginationChange: updater => {

@@ -14,7 +14,6 @@ import { useUpdateTodo } from '../../hooks/useUpdateTodo';
 import { useAddTodo } from '../../hooks/useAddTodo';
 import { ToastType } from '@/components/Toast/types/IToast';
 import { useToast } from '@/components/Toast/hooks/useToast';
-import { error } from '../../types/common';
 
 function TodoForm({ todoToUpdate }: TodoFormProps) {
   const router = useRouter();
@@ -27,39 +26,33 @@ function TodoForm({ todoToUpdate }: TodoFormProps) {
 
   const handleUpdateTodo = async (data: { todo: TodoValue }) => {
     try {
-      await updateMutation.mutateAsync(data);
+      const res = await updateMutation.mutateAsync(data);
 
-      showToast('Todo updated successfully!', ToastType.SUCCESS);
+      if (res.error) {
+        showToast(res.message.join(', '), ToastType.ERROR);
+      } else {
+        showToast('Todo updated successfully', ToastType.SUCCESS);
 
-      router.push('/todo-list');
-
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-      if (error && typeof error === 'object') {
-        const err = error as error;
-
-        const message = err.response?.data?.message || err.message || 'Unknown Axios error';
-
-        showToast('Failed to update todo. Please try again. ' + message, ToastType.ERROR);
+        router.push('/todo-list');
       }
+    } catch (error) {
+      showToast('Network/server error occurred. ' + error, ToastType.ERROR);
     }
   };
 
   const handleAddTodo = async (todo: TodoValue) => {
     try {
-      await addMutation.mutateAsync(todo);
+      const res = await addMutation.mutateAsync(todo);
 
-      showToast('Todo added successfully!', ToastType.SUCCESS);
+      if (res.error) {
+        showToast(res.message.join(', '), ToastType.ERROR);
+      } else {
+        showToast('Todo created successfully', ToastType.SUCCESS);
 
-      router.push('/todo-list');
-    } catch (error: unknown) {
-      if (error && typeof error === 'object') {
-        const err = error as error;
-
-        const message = err.response?.data?.message || err.message || 'Unknown Axios error';
-
-        showToast('Failed to added todo. Please try again. ' + message, ToastType.ERROR);
+        router.push('/todo-list');
       }
+    } catch (error) {
+      showToast('Network/server error occurred. ' + error, ToastType.ERROR);
     }
   };
 
@@ -97,7 +90,7 @@ function TodoForm({ todoToUpdate }: TodoFormProps) {
   };
 
   const schema = yup.object({
-    title: yup.string().required('Title is required'),
+    // title: yup.string().required('Title is required'),
 
     description: yup.string().nullable(),
 

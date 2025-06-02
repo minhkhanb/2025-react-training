@@ -25,6 +25,8 @@ const todosStore = create<TodoValues & TodosStoreActions>()(
           sortType: undefined,
           sortColumn: '',
         },
+        message: [],
+        error: false,
       },
       setTodos: (todos: PaginatedTodosResponse) => set(() => ({ todos })),
       clearTodos: () =>
@@ -40,6 +42,8 @@ const todosStore = create<TodoValues & TodosStoreActions>()(
               sortType: undefined,
               sortColumn: '',
             },
+            message: [],
+            error: false,
           },
         })),
     }),

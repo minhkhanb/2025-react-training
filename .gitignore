@@ -42,29 +42,29 @@ next-env.d.ts
 
 
 # Ignore components related to Shadcn UI
-components/toast/
-components/ui/
-components/ui-custom/
+/components/toast/
+/components/ui/
+/components/ui-custom/
 
-section/Add/components/AddTaskDialog/index.tsx
-section/Add/components/AddTaskDialog/components/AddTaskForm.tsx
-section/Signin/components/SignInForm.tsx
-section/Signup/components/SignUpForm.tsx
-section/Todo/components/DeleteConfirmation/index.tsx
-section/Update/components/UpdateTaskDialog/index.tsx
-section/Update/components/UpdateTaskDialog/components/UpdateTaskForm.tsx
+/section/Add/components/AddTaskDialog/index.tsx
+/section/Add/components/AddTaskDialog/components/AddTaskForm.tsx
+/section/Signin/components/SignInForm.tsx
+/section/Signup/components/SignUpForm.tsx
+/section/Todo/components/DeleteConfirmation/index.tsx
+/section/Update/components/UpdateTaskDialog/index.tsx
+/section/Update/components/UpdateTaskDialog/components/UpdateTaskForm.tsx
 
 # Ignore components related to Tanstack Query
-api/todo/queries/useTaskQuery.ts
-api/todo/queries/useTasksQuery.ts
-components/providers/TaskProvider.tsx
-core/constants/pagination.ts
+/api/todo/queries/useTaskQuery.ts
+/api/todo/queries/useTasksQuery.ts
+/components/providers/TaskProvider.tsx
+/core/constants/pagination.ts
 
 # Ignore components related to Tanstack Table
-components/ui-custom/table.tsx
-section/Todo/components/ListTasks/components/TableList.tsx
+/components/ui-custom/table.tsx
+/section/Todo/components/ListTasks/components/TableList.tsx
 
 # Shared
-section/Todo/index.tsx
-section/Todo/components/ListTasks/index.tsx
-section/Update/index.tsx
+/section/Todo/index.tsx
+/section/Todo/components/ListTasks/index.tsx
+/section/Update/index.tsx

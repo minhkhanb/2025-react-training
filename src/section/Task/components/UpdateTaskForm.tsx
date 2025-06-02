@@ -1,6 +1,6 @@
 import { Task, useTask } from '@src/components/Providers/TaskProvider';
 import { FormValues, taskSchema } from '@src/validattions/TaskSchema';
-import { toast } from '@src/modules/toast';
+
 import { FormField } from '@src/components/FormField';
 import Input from '@src/components/ui/Input';
 import Form from '@src/components/ui/Form';
@@ -19,12 +19,6 @@ const UpdateTaskForm = ({ task }: { task: Task | undefined }) => {
       subtitle: data.subtitle,
     };
     handleUpdateTask(newTask);
-    toast({
-      title: 'Success',
-      message: 'Update Task Successfully',
-      type: 'success',
-      duration: 3000,
-    });
   };
 
   return (

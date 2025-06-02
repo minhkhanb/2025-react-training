@@ -3,7 +3,6 @@ import { useTask } from '@src/components/Providers/TaskProvider';
 import Form from '@src/components/ui/Form';
 import Input from '@src/components/ui/Input';
 import SubmitButton from '@src/components/ui/SubmitButton';
-import { toast } from '@src/modules/toast';
 import { FormValues, taskSchema } from '@src/validattions/TaskSchema';
 import { UseFormReturn } from 'react-hook-form';
 
@@ -13,7 +12,6 @@ const AddTaskForm = () => {
   const onSubmit = (data: FormValues, methods: UseFormReturn<FormValues>) => {
     handleAddTask({ title: data.title, subtitle: data.subtitle });
     methods.reset();
-    toast({ title: 'Success', message: 'Add Task Successfully', duration: 3000, type: 'success' });
   };
 
   return (

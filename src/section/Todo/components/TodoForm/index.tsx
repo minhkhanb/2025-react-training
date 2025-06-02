@@ -12,6 +12,8 @@ import { OnSubmitArgs } from '@/components/Form/types/IForm';
 import PrioritySelect from '../PrioritySelect';
 import { useUpdateTodo } from '../../hooks/useUpdateTodo';
 import { useAddTodo } from '../../hooks/useAddTodo';
+import { ToastType } from '@/components/Toast/types/IToast';
+import { useToast } from '@/components/Toast/hooks/useToast';
 
 function TodoForm({ todoToUpdate }: TodoFormProps) {
   const router = useRouter();
@@ -19,6 +21,32 @@ function TodoForm({ todoToUpdate }: TodoFormProps) {
   const updateMutation = useUpdateTodo();
 
   const addMutation = useAddTodo();
+
+  const { showToast } = useToast();
+
+  const handleUpdateTodo = async (data: { todo: TodoValue }) => {
+    try {
+      await updateMutation.mutateAsync(data);
+      showToast('Todo updated successfully!', ToastType.SUCCESS);
+      router.push('/todo-list');
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      showToast('Failed to update todo. Please try again.' + error, ToastType.ERROR);
+    }
+  };
+
+  const handleAddTodo = async (todo: TodoValue) => {
+    try {
+      await addMutation.mutateAsync(todo);
+      showToast('Todo added successfully!', ToastType.SUCCESS);
+      router.push('/todo-list');
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      showToast('Failed to added todo. Please try again.' + error, ToastType.ERROR);
+    }
+  };
 
   const onSubmit = (...args: OnSubmitArgs<TodoFormValues>): void => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -28,22 +56,17 @@ function TodoForm({ todoToUpdate }: TodoFormProps) {
     fixedDate.setHours(12);
 
     if (todoToUpdate) {
-      updateMutation.mutate(
-        {
-          todo: {
-            ...todoToUpdate,
-            title: values.title,
-            description: values.description || '',
-            dueDate: fixedDate,
-            priority: values.priority,
-          },
+      const data = {
+        todo: {
+          ...todoToUpdate,
+          title: values.title,
+          description: values.description || '',
+          dueDate: fixedDate,
+          priority: values.priority,
         },
-        {
-          onSuccess: () => {
-            router.push('/todo-list');
-          },
-        }
-      );
+      };
+
+      handleUpdateTodo(data);
     } else {
       const todoData: TodoValue = {
         id: Date.now().toString(),
@@ -54,11 +77,7 @@ function TodoForm({ todoToUpdate }: TodoFormProps) {
         status: 'todo',
       };
 
-      addMutation.mutate(todoData, {
-        onSuccess: () => {
-          router.push('/todo-list');
-        },
-      });
+      handleAddTodo(todoData);
     }
   };
 

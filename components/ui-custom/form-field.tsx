@@ -9,21 +9,22 @@ import {
 } from "react-hook-form";
 import { Spinner } from "./spinner";
 import { ErrorMessage } from "@hookform/error-message";
+import { cn } from "@/lib/utils";
 
 type Props<T extends React.ElementType> = {
   component: T;
-  label: string;
   field: string;
   onChange?: (value: string) => void;
   isPending?: boolean;
+  className?: string;
 } & Omit<React.ComponentProps<T>, "name">;
 
 const FormField = <T extends React.ElementType>({
   component: Component,
-  label,
   field,
   onChange,
   isPending = false,
+  className = "",
   ...props
 }: Props<T>) => {
   const {
@@ -35,7 +36,6 @@ const FormField = <T extends React.ElementType>({
     e: any,
     field: ControllerRenderProps<FieldValues, string>
   ) => {
-    console.log(e);
     if (e.target) {
       field.onChange(e.target.value);
       onChange?.(e.target.value);
@@ -46,10 +46,9 @@ const FormField = <T extends React.ElementType>({
   };
 
   return (
-    <div className="grid grid-cols-4 items-center gap-x-4 gap-y-2">
-      <Label className="text-right">{label}</Label>
+    <div className={cn("flex flex-col w-full items-start gap-x-4 gap-y-2")}>
       {isPending ? (
-        <div className="col-span-3 flex items-center justify-center">
+        <div className="flex items-center justify-center">
           <Spinner className="w-10" />
         </div>
       ) : (
@@ -61,7 +60,7 @@ const FormField = <T extends React.ElementType>({
               {...field}
               {...(props as any)}
               onChange={(e: any) => handleChange(e, field)}
-              className="col-span-3 text-sm"
+              className={cn("text-sm", className)}
             />
           )}
         />
@@ -70,7 +69,7 @@ const FormField = <T extends React.ElementType>({
         errors={errors}
         name={field}
         render={({ message }) => (
-          <Label className="text-right col-start-2 col-span-3 font-thin text-sm text-red-400">
+          <Label className="text-right font-thin text-sm text-red-400">
             {message}
           </Label>
         )}

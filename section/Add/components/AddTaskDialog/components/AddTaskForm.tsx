@@ -4,8 +4,8 @@ import { FormProvider } from "@/components/providers/FormProvider";
 import ButtonCustomize from "@/components/ui-custom/button";
 import FormField from "@/components/ui-custom/form-field";
 import { SelectCustomize } from "@/components/ui-custom/select";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { taskSchema } from "@/core/validations/taskSchema";
 import React from "react";
 import { UseFormReturn } from "react-hook-form";
@@ -48,26 +48,40 @@ const AddTaskForm = ({ onClose }: Props) => {
       validationSchema={taskSchema}
     >
       <div className="grid gap-4 py-4">
-        <FormField
-          placeholder="Enter title"
-          label="Title"
-          field="title"
-          component={Input}
-        />
-        <FormField
-          placeholder="Enter subtitle"
-          label="Description"
-          field="subtitle"
-          component={Input}
-        />
-        <FormField
-          label="Priority"
-          field="level"
-          component={SelectCustomize}
-          options={options}
-          placeholder="Choose Priority"
-        />
-        <FormField label="Priority" field="level" component={Checkbox} />
+        <div className="grid grid-cols-4">
+          <Label className="text-right flex items-start py-3">Title</Label>
+          <div className="col-span-3">
+            <FormField
+              placeholder="Enter title"
+              field="title"
+              component={Input}
+            />
+          </div>
+        </div>
+        <div className="grid grid-cols-4">
+          <Label className="text-right flex items-start py-3">
+            Subcription
+          </Label>
+          <div className="col-span-3">
+            <FormField
+              placeholder="Enter subtitle"
+              field="subtitle"
+              component={Input}
+            />
+          </div>
+        </div>
+        <div className="grid grid-cols-4">
+          <Label className="text-right flex items-start py-3">Priority</Label>
+          <div className="col-span-3">
+            <FormField
+              field="level"
+              className="col-span-3"
+              component={SelectCustomize}
+              options={options}
+              placeholder="Choose Priority"
+            />
+          </div>
+        </div>
         <div className="grid grid-cols-3">
           <ButtonCustomize
             type="submit"

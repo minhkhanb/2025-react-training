@@ -2,15 +2,21 @@
 import { usePathname } from "next/navigation";
 import React from "react";
 import Layout from "../Layout";
+import AuthProvider from "../providers/AuthProvider";
 
 const LayoutWrapper = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();
 
-  const ignoreLayoutRoutes = ["/", "/auth/sign-in"];
+  const ignoreLayoutRoutes = ["/", "/sign-up"];
 
-  if (ignoreLayoutRoutes.includes(pathname)) return <>{children}</>;
+  if (ignoreLayoutRoutes.includes(pathname))
+    return <AuthProvider>{children}</AuthProvider>;
 
-  return <Layout>{children}</Layout>;
+  return (
+    <AuthProvider>
+      <Layout>{children}</Layout>
+    </AuthProvider>
+  );
 };
 
 export default LayoutWrapper;

@@ -18,11 +18,7 @@ const ButtonCustomize = ({
   ...props
 }: Props) => {
   return (
-    <Button
-      type={type}
-      className={cn(`bg-red-500 hover:bg-red-400`, className)}
-      {...props}
-    >
+    <Button type={type} className={cn(className)} {...props}>
       {isPending ? <Spinner className="text-white w-8" /> : children}
     </Button>
   );

@@ -10,6 +10,7 @@ import ButtonCustomize from "@/components/ui-custom/button";
 import { FormProvider } from "@/components/providers/FormProvider";
 import { Task } from "@/components/providers/TaskProvider";
 import useUpdateTaskMutation from "@/api/todo/mutations/useUpdateTaskMutation";
+import { Label } from "@/components/ui/label";
 
 interface Props {
   currentTask: Task;
@@ -57,32 +58,43 @@ const UpdateTaskForm = ({ currentTask, onClose }: Props) => {
       validationSchema={taskSchema}
     >
       <div className="grid gap-4 py-4">
-        <FormField
-          placeholder="Enter title"
-          label="Title"
-          field="title"
-          component={Input}
-        />
-        <FormField
-          placeholder="Enter subtitle"
-          label="Description"
-          field="subtitle"
-          component={Input}
-        />
-        <FormField
-          label="Priority"
-          field="level"
-          component={SelectCustomize}
-          options={options}
-          placeholder="Choose Priority"
-        />
+        <div className="grid grid-cols-4">
+          <Label className="text-right flex items-start py-3">Title</Label>
+          <FormField
+            className="col-span-3 flex flex-col justify-start"
+            placeholder="Enter title"
+            field="title"
+            component={Input}
+          />
+        </div>
+        <div className="grid grid-cols-4">
+          <Label className="text-right flex items-start py-3">
+            Subcription
+          </Label>
+          <FormField
+            className="col-span-3"
+            placeholder="Enter subtitle"
+            field="subtitle"
+            component={Input}
+          />
+        </div>
+        <div className="grid grid-cols-4">
+          <Label className="text-right flex items-start py-3">Priority</Label>
+          <FormField
+            field="level"
+            className="col-span-3"
+            component={SelectCustomize}
+            options={options}
+            placeholder="Choose Priority"
+          />
+        </div>
         <div className="grid grid-cols-3">
           <ButtonCustomize
             type="submit"
-            className="col-start-3 col-span-1 bg-blue-500 hover:bg-blue-400"
+            className="col-start-3 col-span-1 bg-green-500 hover:bg-green-400"
             isPending={isPending}
           >
-            Update Task
+            Create Task
           </ButtonCustomize>
         </div>
       </div>

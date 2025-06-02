@@ -14,6 +14,7 @@ import { useUpdateTodo } from '../../hooks/useUpdateTodo';
 import { useAddTodo } from '../../hooks/useAddTodo';
 import { ToastType } from '@/components/Toast/types/IToast';
 import { useToast } from '@/components/Toast/hooks/useToast';
+import { error } from '../../types/common';
 
 function TodoForm({ todoToUpdate }: TodoFormProps) {
   const router = useRouter();
@@ -27,24 +28,38 @@ function TodoForm({ todoToUpdate }: TodoFormProps) {
   const handleUpdateTodo = async (data: { todo: TodoValue }) => {
     try {
       await updateMutation.mutateAsync(data);
+
       showToast('Todo updated successfully!', ToastType.SUCCESS);
+
       router.push('/todo-list');
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      showToast('Failed to update todo. Please try again.' + error, ToastType.ERROR);
+      if (error && typeof error === 'object') {
+        const err = error as error;
+
+        const message = err.response?.data?.message || err.message || 'Unknown Axios error';
+
+        showToast('Failed to update todo. Please try again. ' + message, ToastType.ERROR);
+      }
     }
   };
 
   const handleAddTodo = async (todo: TodoValue) => {
     try {
       await addMutation.mutateAsync(todo);
-      showToast('Todo added successfully!', ToastType.SUCCESS);
-      router.push('/todo-list');
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-      showToast('Failed to added todo. Please try again.' + error, ToastType.ERROR);
+      showToast('Todo added successfully!', ToastType.SUCCESS);
+
+      router.push('/todo-list');
+    } catch (error: unknown) {
+      if (error && typeof error === 'object') {
+        const err = error as error;
+
+        const message = err.response?.data?.message || err.message || 'Unknown Axios error';
+
+        showToast('Failed to added todo. Please try again. ' + message, ToastType.ERROR);
+      }
     }
   };
 

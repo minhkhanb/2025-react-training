@@ -11,52 +11,32 @@ export const getAllTodo = async (
   sortType: string,
   sortColumn: string
 ) => {
-  try {
-    const res = await api.get<PaginatedTodosResponse>(
-      `api/todos?page=${page}&limit=${totalPerPage}&sortType=${sortType}&sortColumn=${sortColumn}`
-    );
+  const res = await api.get<PaginatedTodosResponse>(
+    `api/todos?page=${page}&limit=${totalPerPage}&sortType=${sortType}&sortColumn=${sortColumn}`
+  );
 
-    return res.data;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (error: any) {
-    throw new Error(error.response?.data?.message || error.message || 'Unknown Axios error');
-  }
+  return res.data;
 };
 
 export const getTotalTodosAndTotalFinishTodos = async () => {
-  try {
-    const res = await api.get<getTotalTodosAndTotalFinishTodosResponse>(`api/todos/total`);
+  const res = await api.get<getTotalTodosAndTotalFinishTodosResponse>(`api/todos/total`);
 
-    return res.data;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (error: any) {
-    throw new Error(error.response?.data?.message || error.message || 'Unknown Axios error');
-  }
+  return res.data;
 };
 
 export const getTodoById = async (id: string) => {
-  try {
-    const res = await api.get<TodoValue>(`api/todos/${id}`);
+  const res = await api.get<TodoValue>(`api/todos/${id}`);
 
-    return res.data;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (error: any) {
-    throw new Error(error.response?.data?.message || error.message || 'Unknown Axios error');
-  }
+  return res.data;
 };
 
 export const createTodo = async (newTodo: TodoValue) => {
-  try {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { id, ...newObj } = newTodo;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { id, ...newObj } = newTodo;
 
-    const res = await api.post<TodoValue>('/api/todos', newObj);
+  const res = await api.post<TodoValue>('/api/todos', newObj);
 
-    return res.data;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (error: any) {
-    throw new Error(error.response?.data?.message || error.message || 'Unknown Axios error');
-  }
+  return res.data;
 };
 
 export const updateStatusTodo = async ({
@@ -66,36 +46,21 @@ export const updateStatusTodo = async ({
   id: string;
   status: 'todo' | 'in-progress' | 'done';
 }) => {
-  try {
-    const res = await api.patch<TodoValue>(`/api/todos/${id}/status`, { status });
+  const res = await api.patch<TodoValue>(`/api/todos/${id}/status`, { status });
 
-    return res.data;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (error: any) {
-    throw new Error(error.response?.data?.message || error.message || 'Unknown Axios error');
-  }
+  return res.data;
 };
 
 export const updateTodo = async ({ todo }: { todo: TodoValue }) => {
-  try {
-    const { id, ...newObj } = todo;
+  const { id, ...newObj } = todo;
 
-    const res = await api.put<TodoValue>(`/api/todos/${id}`, { ...newObj });
+  const res = await api.put<TodoValue>(`/api/todos/${id}`, { ...newObj });
 
-    return res.data;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (error: any) {
-    throw new Error(error.response?.data?.message || error.message || 'Unknown Axios error');
-  }
+  return res.data;
 };
 
 export const deleteTodo = async ({ id }: { id: string }) => {
-  try {
-    const res = await api.delete<TodoValue>(`/api/todos/${id}`);
+  const res = await api.delete<TodoValue>(`/api/todos/${id}`);
 
-    return res.data;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (error: any) {
-    throw new Error(error.response?.data?.message || error.message || 'Unknown Axios error');
-  }
+  return res.data;
 };

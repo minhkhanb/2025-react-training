@@ -11,13 +11,16 @@ import {
 } from '@/components/ui/select';
 import React from 'react';
 import { getTriggerBg } from '../../utils/getTriggerBg';
+import { WarningOutlined } from '@ant-design/icons';
 
 export default function PrioritySelect({
   value,
   onChange,
+  error,
 }: {
   value?: string;
   onChange?: (value: string) => void;
+  error: string;
 }) {
   return (
     <Select
@@ -60,6 +63,12 @@ export default function PrioritySelect({
           </SelectItem>
         </SelectGroup>
       </SelectContent>
+      {error && (
+        <p className="flex items-center text-xs font-medium text-red-500">
+          <WarningOutlined className="pr-1" />
+          {error}
+        </p>
+      )}
     </Select>
   );
 }

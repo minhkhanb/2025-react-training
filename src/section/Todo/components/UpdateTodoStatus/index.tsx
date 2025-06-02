@@ -15,6 +15,7 @@ import {
 import { useToast } from '@/components/Toast/hooks/useToast';
 import { ToastType } from '@/components/Toast/types/IToast';
 import { useRouter } from 'next/navigation';
+import { error } from '../../types/common';
 
 function SelectTodoStatus({ original }: { original: TodoValue }) {
   const updateStatusMutation = useUpdateTodoStatus();
@@ -30,10 +31,14 @@ function SelectTodoStatus({ original }: { original: TodoValue }) {
       await updateStatusMutation.mutateAsync({ id, status });
       showToast('Todo status updated successfully!', ToastType.SUCCESS);
       router.push('/todo-list');
+    } catch (error: unknown) {
+      if (error && typeof error === 'object') {
+        const err = error as error;
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-      showToast('Failed to update status todo. Please try again.' + error, ToastType.ERROR);
+        const message = err.response?.data?.message || err.message || 'Unknown Axios error';
+
+        showToast('Failed to update status todo. Please try again. ' + message, ToastType.ERROR);
+      }
     }
   };
 

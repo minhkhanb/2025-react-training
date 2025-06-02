@@ -1,5 +1,5 @@
 import { Task, TaskFilter } from '@src/components/Providers/TaskProvider';
-import { callApi } from '@src/config/axios/handler';
+import { callApi } from '@src/core/config/axios/handler';
 
 export interface Pagination {
   page: number;

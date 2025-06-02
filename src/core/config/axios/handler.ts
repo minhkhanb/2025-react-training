@@ -1,12 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { toast } from '@src/modules/toast';
 import axiosInstance from './setup';
 
 export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH' | 'OPTIONS' | 'HEAD';
-
-export interface ResponseData<T> {
-  message: string | undefined;
-  data: T;
-}
 
 export const callApi = async <T>({
   method,
@@ -16,11 +12,11 @@ export const callApi = async <T>({
   method: HttpMethod;
   endpoint: string;
   data?: any;
-}): Promise<ResponseData<T>> => {
+}): Promise<T | undefined> => {
   try {
     const isFormData = typeof FormData !== 'undefined' && data instanceof FormData;
 
-    const response = await axiosInstance.request<ResponseData<T>>({
+    const response = await axiosInstance.request<T>({
       method,
       url: endpoint,
       data,
@@ -29,6 +25,8 @@ export const callApi = async <T>({
 
     return response.data;
   } catch (error: unknown) {
-    throw error;
+    const message =
+      error instanceof Error ? error.message : 'An error occurred while calling the API.';
+    toast({ title: 'Error', message, duration: 3000, type: 'error' });
   }
 };

@@ -6,8 +6,8 @@ export type Pagination = {
 export type error = { response?: { data?: { message?: string } }; message?: string };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type ApiResponse<T = any> = {
+export interface ApiResponse<T = any> {
   data: T | null;
   message: string[];
   error: boolean;
-};
+}

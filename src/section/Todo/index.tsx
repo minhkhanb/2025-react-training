@@ -3,12 +3,13 @@
 import React, { useCallback, useState } from 'react';
 import TodoList from './components/TodoList';
 import ConfirmModal from '@/components/ConfirmModal';
-import { TodoToDeleteValues } from './types/ITodoList';
+import { TodoToDeleteValues, TodoValue } from './types/ITodoList';
 import { useDeleteTodo } from './hooks/useDeleteTodo';
 import Link from 'next/link';
 import { PlusOutlined } from '@ant-design/icons';
 import { ToastType } from '@/components/Toast/types/IToast';
 import { useToast } from '@/components/Toast/hooks/useToast';
+import { isApiError } from './utils/isApiError';
 
 export default function Todo() {
   const [todoToDelete, setTodoToDelete] = useState<TodoToDeleteValues | null>(null);
@@ -30,16 +31,17 @@ export default function Todo() {
   const confirmDelete = useCallback(async () => {
     if (todoToDelete) {
       try {
-        const res = await deleteMutation.mutateAsync({ id: todoToDelete.id });
+        await deleteMutation.mutateAsync({ id: todoToDelete.id });
 
-        if (res.error) {
-          showToast(res.message.join(', '), ToastType.ERROR);
-        } else {
-          showToast('Todo deleted successfully', ToastType.SUCCESS);
-        }
+        showToast('Todo status updated successfully', ToastType.SUCCESS);
       } catch (error) {
-        showToast('Network/server error occurred. ' + error, ToastType.ERROR);
+        if (isApiError<TodoValue>(error)) {
+          showToast('Server error: ' + error.message.join(', '), ToastType.ERROR);
+        } else {
+          showToast('Unexpected error occurred.', ToastType.ERROR);
+        }
       }
+
       setConfirmVisible(false);
 
       setTodoToDelete(null);

@@ -14,6 +14,7 @@ import { useUpdateTodo } from '../../hooks/useUpdateTodo';
 import { useAddTodo } from '../../hooks/useAddTodo';
 import { ToastType } from '@/components/Toast/types/IToast';
 import { useToast } from '@/components/Toast/hooks/useToast';
+import { isApiError } from '../../utils/isApiError';
 
 function TodoForm({ todoToUpdate }: TodoFormProps) {
   const router = useRouter();
@@ -26,33 +27,33 @@ function TodoForm({ todoToUpdate }: TodoFormProps) {
 
   const handleUpdateTodo = async (data: { todo: TodoValue }) => {
     try {
-      const res = await updateMutation.mutateAsync(data);
+      await updateMutation.mutateAsync(data);
 
-      if (res.error) {
-        showToast(res.message.join(', '), ToastType.ERROR);
-      } else {
-        showToast('Todo updated successfully', ToastType.SUCCESS);
+      showToast('Todo updated successfully', ToastType.SUCCESS);
 
-        router.push('/todo-list');
-      }
+      router.push('/todo-list');
     } catch (error) {
-      showToast('Network/server error occurred. ' + error, ToastType.ERROR);
+      if (isApiError<TodoValue>(error)) {
+        showToast('Server error: ' + error.message.join(', '), ToastType.ERROR);
+      } else {
+        showToast('Unexpected error occurred.', ToastType.ERROR);
+      }
     }
   };
 
   const handleAddTodo = async (todo: TodoValue) => {
     try {
-      const res = await addMutation.mutateAsync(todo);
+      await addMutation.mutateAsync(todo);
 
-      if (res.error) {
-        showToast(res.message.join(', '), ToastType.ERROR);
-      } else {
-        showToast('Todo created successfully', ToastType.SUCCESS);
+      showToast('Todo created successfully', ToastType.SUCCESS);
 
-        router.push('/todo-list');
-      }
+      router.push('/todo-list');
     } catch (error) {
-      showToast('Network/server error occurred. ' + error, ToastType.ERROR);
+      if (isApiError<TodoValue>(error)) {
+        showToast('Server error: ' + error.message.join(', '), ToastType.ERROR);
+      } else {
+        showToast('Unexpected error occurred.', ToastType.ERROR);
+      }
     }
   };
 

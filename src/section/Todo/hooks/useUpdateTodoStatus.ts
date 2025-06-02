@@ -12,10 +12,10 @@ export const useUpdateTodoStatus = () => {
     mutationFn: updateStatusTodo,
 
     onSuccess: (_, { id, status }) => {
+      let flag = -1;
+
       queryClient.setQueryData<PaginatedTodosResponse>(key, oldData => {
         if (!oldData) return oldData;
-
-        let flag = -1;
 
         const updatedTodos = (oldData.data ?? []).map(item => {
           if (item.id === id && item.status !== 'done' && status === 'done') {
@@ -47,6 +47,36 @@ export const useUpdateTodoStatus = () => {
           },
           data: updatedTodos,
         };
+      });
+
+      const queries = queryClient.getQueryCache().findAll({ queryKey: ['todos'] });
+
+      queries.forEach(query => {
+        const qKey = query.queryKey;
+
+        if (JSON.stringify(qKey) === JSON.stringify(key)) return;
+
+        queryClient.setQueryData<PaginatedTodosResponse>(qKey, oldData => {
+          if (!oldData) return oldData;
+
+          const pagination = oldData.pagination ?? {
+            page: 1,
+            limit: 10,
+            total: 0,
+            totalPages: 1,
+            sortType: 0,
+            sortColumn: '',
+            totalFinish: 0,
+          };
+
+          return {
+            ...oldData,
+            pagination: {
+              ...pagination,
+              totalFinish: pagination.totalFinish + flag,
+            },
+          };
+        });
       });
     },
   });

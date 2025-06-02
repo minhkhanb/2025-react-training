@@ -42,15 +42,15 @@ export const ToastItem = ({ toast, removeToast }: ToastItemProps) => {
       )}
       onAnimationEnd={() => isExiting && removeToast(toast.id)}
     >
-      <div className="flex items-center space-x-3">
+      <div className="mb-3 flex max-w-[90%] items-center space-x-3">
         <div className="flex-shrink-0">
           <ToastIcon type={toast.type} />
         </div>
-        <p className="text-sm font-medium">{toast.message}</p>
+        <p className="text-justify text-sm font-medium">{toast.message}</p>
       </div>
       <button
         onClick={() => setIsExiting(true)}
-        className="hover:bg-opacity-20 ml-4 cursor-pointer rounded-full p-1 transition-all duration-200 hover:scale-105 hover:opacity-70"
+        className="hover:bg-opacity-20 ml-4 max-w-[10%] cursor-pointer rounded-full p-1 transition-all duration-200 hover:scale-105 hover:opacity-70"
       >
         <CloseCircleOutlined />
       </button>

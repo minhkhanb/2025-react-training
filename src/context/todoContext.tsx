@@ -2,7 +2,6 @@
 
 import { createContext, useContext, useState } from 'react';
 import { Todo } from '@src/types/todo';
-import { todos as initialTodos } from '@src/data/todos';
 
 interface TodoContextType {
   addTodo: (todo: Omit<Todo, 'id' | 'createdAt' | 'updatedAt'>) => void;
@@ -14,7 +13,7 @@ interface TodoContextType {
 const TodoContext = createContext<TodoContextType | undefined>(undefined);
 
 export function TodoProvider({ children }: { children: React.ReactNode }) {
-  const [todos, setTodos] = useState<Todo[]>(initialTodos);
+  const [todos, setTodos] = useState<Todo[]>([]);
 
   const fetchTodos = async () => {
     return todos;

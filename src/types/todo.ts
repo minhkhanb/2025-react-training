@@ -1,10 +1,9 @@
 export type Todo = {
   id: number;
   title: string;
-  description: string;
-  status: 'pending' | 'in-progress' | 'completed';
-  priority: 'low' | 'medium' | 'high';
-  dueDate: Date;
+  completed: boolean;
   createdAt: Date;
   updatedAt: Date;
 };
+
+export type TodoFormValues = Omit<Todo, 'id' | 'createdAt' | 'updatedAt'>;

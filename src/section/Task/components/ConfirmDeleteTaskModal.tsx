@@ -1,6 +1,5 @@
 import ConfirmModal from '@src/components/common/ConfirmModal';
 import { Task, useTask } from '@src/components/Providers/TaskProvider';
-import { toast } from '@src/modules/toast';
 
 interface Props {
   visible: boolean;
@@ -15,12 +14,6 @@ const ConfirmDeleteTaskModal = ({ visible, onClose, task }: Props) => {
 
   const handleDeleteTask = () => {
     handleRemoveTask(task.id);
-    toast({
-      title: 'Success',
-      message: 'Delete Task Successfully',
-      type: 'success',
-      duration: 3000,
-    });
     onClose();
   };
 

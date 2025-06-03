@@ -1,7 +1,7 @@
 import { AxiosRequestConfig, AxiosResponse } from 'axios';
 import axiosInstance from './api';
 import { ObjectToFormData, FormDataParams } from './utils/formDataComplier';
-import { ApiErrorResponse } from './interceptors/error.interceptor';
+import { ApiErrorResponse } from './utils/errorResponse';
 import { compileParamToUrl } from './utils/urlParser';
 import { METHODS, MethodType } from './constants';
 

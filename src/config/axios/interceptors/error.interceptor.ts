@@ -1,49 +1,49 @@
-import { AxiosError, AxiosInterceptorManager, AxiosResponse } from 'axios';
+import {
+  AxiosError,
+  AxiosInterceptorManager,
+  AxiosResponse,
+  AxiosInstance,
+  InternalAxiosRequestConfig,
+} from 'axios';
+import { createErrorResponse } from '../utils/errorResponse';
+import { handleTokenRefresh } from '../utils/jwtRefresh';
+import { shouldRetry, handleRetryLogic } from '../utils/retryHandler';
 
-export interface ApiErrorResponse {
-  status: number;
-  message: string;
+interface RetryableRequestConfig extends InternalAxiosRequestConfig {
+  _retry?: boolean;
+  _retryCount?: number;
 }
 
-const createErrorResponse = (error: AxiosError): ApiErrorResponse => {
-  if (!error.response) {
-    return {
-      status: 0,
-      message: 'Network error. Please check your connection.',
-    };
-  }
-
-  const status = error.response?.status || 500;
-  const data = error.response?.data as { message?: string } | undefined;
-
-  return {
-    status,
-    message: data?.message || getDefaultErrorMessage(status),
-  };
-};
-
-const getDefaultErrorMessage = (status: number): string => {
-  const messages: Record<number, string> = {
-    400: 'Bad Request',
-    401: 'Unauthorized',
-    403: 'Forbidden',
-    404: 'Not Found',
-    422: 'Unprocessable Entity',
-    500: 'Internal Server Error',
-    502: 'Bad Gateway',
-    503: 'Service Unavailable',
-  };
-
-  return messages[status] || 'An error occurred';
-};
-
-export const errorInterceptor = (response: AxiosInterceptorManager<AxiosResponse>) => {
+export const errorInterceptor = (
+  response: AxiosInterceptorManager<AxiosResponse>,
+  axiosInstance: AxiosInstance
+) => {
   response.use(
     (data: AxiosResponse) => data,
-    (error: AxiosError) => {
-      const errorResponse = createErrorResponse(error);
+    async (error: AxiosError) => {
+      const originalRequest = error.config as RetryableRequestConfig;
 
-      return Promise.reject(errorResponse);
+      if (!originalRequest) {
+        return Promise.reject(createErrorResponse(error));
+      }
+
+      if (error.response?.status === 401 && !originalRequest._retry) {
+        try {
+          return await handleTokenRefresh(originalRequest, axiosInstance);
+        } catch (_refreshError) {
+          return Promise.reject(createErrorResponse(error));
+        }
+      }
+
+      if (shouldRetry(error)) {
+        return handleRetryLogic(error, originalRequest, axiosInstance);
+      }
+
+      if (error.response?.status === 403) {
+        console.warn('Access forbidden - insufficient permissions', error.response.data);
+      }
+
+      return Promise.reject(createErrorResponse(error));
     }
   );
 };

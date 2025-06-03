@@ -1,6 +1,6 @@
 import axios, { AxiosInstance } from 'axios';
 import { errorInterceptor } from './interceptors/error.interceptor';
-import { setupJWTInterceptors } from './interceptors/jwt.interceptor';
+import { jwtRequestInterceptor } from './interceptors/jwt.interceptor';
 
 const axiosInstance: AxiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BACKEND_URL,
@@ -11,7 +11,7 @@ const axiosInstance: AxiosInstance = axios.create({
   },
 });
 
-errorInterceptor(axiosInstance.interceptors.response);
-setupJWTInterceptors(axiosInstance);
+jwtRequestInterceptor(axiosInstance.interceptors.request);
+errorInterceptor(axiosInstance.interceptors.response, axiosInstance);
 
 export default axiosInstance;

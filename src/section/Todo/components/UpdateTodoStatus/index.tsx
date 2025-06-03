@@ -14,6 +14,7 @@ import {
 } from '@/components/ui/select';
 import { useToast } from '@/components/Toast/hooks/useToast';
 import { ToastType } from '@/components/Toast/types/IToast';
+import { isApiError } from '../../utils/isApiError';
 
 function SelectTodoStatus({ original }: { original: TodoValue }) {
   const updateStatusMutation = useUpdateTodoStatus();
@@ -24,15 +25,15 @@ function SelectTodoStatus({ original }: { original: TodoValue }) {
 
   const handleUpdateStatusTodo = async (id: string, status: 'todo' | 'in-progress' | 'done') => {
     try {
-      const res = await updateStatusMutation.mutateAsync({ id, status });
+      await updateStatusMutation.mutateAsync({ id, status });
 
-      if (res.error) {
-        showToast(res.message.join(', '), ToastType.ERROR);
-      } else {
-        showToast('Todo status updated successfully', ToastType.SUCCESS);
-      }
+      showToast('Todo status updated successfully', ToastType.SUCCESS);
     } catch (error) {
-      showToast('Network/server error occurred. ' + error, ToastType.ERROR);
+      if (isApiError<TodoValue>(error)) {
+        showToast('Server error: ' + error.message.join(', '), ToastType.ERROR);
+      } else {
+        showToast('Unexpected error occurred.', ToastType.ERROR);
+      }
     }
   };
 

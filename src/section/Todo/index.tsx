@@ -22,8 +22,6 @@ export default function TodoListSection() {
     queryFn: () => getTodos({ page: currentPage, limit }),
   });
 
-  console.log(data);
-
   const [openEditModal, setOpenEditModal] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [selectedTodo, setSelectedTodo] = useState<Todo | null>(null);

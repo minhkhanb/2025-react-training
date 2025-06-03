@@ -20,7 +20,7 @@ import {
 } from '@src/components/shadcn/ui/table';
 import { Search } from './Search';
 import { Pagination } from './Pagination';
-import { useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
 import Loading from '@src/components/common/Loading';
 
@@ -47,6 +47,22 @@ export default function DataTable<TData>({
   const [filtering, setFiltering] = useState<string>('');
   const searchParams = useSearchParams();
   const page = Number(searchParams.get('page')) || 1;
+
+  const router = useRouter();
+  const pathname = usePathname();
+
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (sorting.length > 0) {
+      params.set('sortBy', sorting[0].id);
+      params.set('sortOrder', sorting[0].desc ? 'DESC' : 'ASC');
+    } else {
+      params.delete('sortBy');
+      params.delete('sortOrder');
+    }
+
+    router.push(`${pathname}?${params.toString()}`);
+  }, [sorting, pathname, router, searchParams]);
 
   const table = useReactTable({
     data: data,

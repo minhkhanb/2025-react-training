@@ -17,9 +17,9 @@ export function Search({ value, onChange }: SearchProps) {
     (searchValue: string) => {
       const params = new URLSearchParams(searchParams.toString());
       if (searchValue.trim()) {
-        params.set('keyword', searchValue);
+        params.set('search', searchValue);
       } else {
-        params.delete('keyword');
+        params.delete('search');
       }
 
       params.delete('page');

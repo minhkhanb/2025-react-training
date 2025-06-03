@@ -1,5 +1,7 @@
-import Task from '@src/section/Task';
+import SignIn from "@/section/Signin";
 
-export default function Home() {
-  return <Task />;
-}
+const SignInPage = () => {
+  return <SignIn />;
+};
+
+export default SignInPage;

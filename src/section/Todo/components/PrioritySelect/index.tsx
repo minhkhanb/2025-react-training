@@ -20,11 +20,11 @@ export default function PrioritySelect({
 }: {
   value?: string;
   onChange?: (value: string) => void;
-  error: string;
+  error?: string;
 }) {
   return (
     <Select
-      value={value ?? 'low'}
+      value={value ?? ''}
       onValueChange={val => {
         if (val === 'low' || val === 'medium' || val === 'high') {
           onChange?.(val);

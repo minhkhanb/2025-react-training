@@ -4,7 +4,7 @@ import { useMemo } from 'react';
 import { TodoFormProps, TodoFormValues, TodoValue } from '@/section/Todo/types/ITodoList';
 import MyButton from '@/components/ui/MyButton';
 import Form from '@/components/Form';
-import * as yup from 'yup';
+// import * as yup from 'yup';
 import Input from '@/components/ui/Input';
 import { useRouter } from 'next/navigation';
 import { OnSubmitArgs } from '@/components/Form/types/IForm';
@@ -15,6 +15,8 @@ import { useAddTodo } from '../../hooks/useAddTodo';
 import { ToastType } from '@/components/Toast/types/IToast';
 import { useToast } from '@/components/Toast/hooks/useToast';
 import { isApiError } from '../../utils/isApiError';
+import { isPriority } from '../../utils/isPriority';
+import { todoSchema } from '../../schemas/todoSchema';
 
 function TodoForm({ todoToUpdate }: TodoFormProps) {
   const router = useRouter();
@@ -90,29 +92,31 @@ function TodoForm({ todoToUpdate }: TodoFormProps) {
     }
   };
 
-  const schema = yup.object({
-    // title: yup.string().required('Title is required'),
+  // const schema = yup.object({
+  //   // title: yup.string().required('Title is required'),
 
-    description: yup.string().nullable(),
+  //   description: yup.string().nullable(),
 
-    dueDate: yup
-      .date()
-      .min(new Date(), 'Due date must be in the future')
-      .required('Due date is required'),
+  //   dueDate: yup
+  //     .date()
+  //     .min(new Date(), 'Due date must be in the future')
+  //     .required('Due date is required'),
 
-    priority: yup
-      .string()
-      .oneOf(['low', 'medium', 'high'], 'Priority must be one of: low, medium, high')
-      .required('Priority is required'),
-  });
+  //   priority: yup
+  //     .string()
+  //     .oneOf(['low', 'medium', 'high'], 'Priority must be one of: low, medium, high')
+  //     .required('Priority is required'),
+  // });
 
   const defaultValues = useMemo<TodoFormValues>(() => {
+    const priority = todoToUpdate && isPriority(todoToUpdate.priority) ? todoToUpdate.priority : '';
+
     return todoToUpdate
       ? {
           title: todoToUpdate.title,
           description: todoToUpdate.description || '',
           dueDate: new Date(todoToUpdate.dueDate).toISOString().split('T')[0],
-          priority: todoToUpdate.priority as 'low' | 'medium' | 'high',
+          priority,
         }
       : {
           title: '',
@@ -128,7 +132,7 @@ function TodoForm({ todoToUpdate }: TodoFormProps) {
         <Form
           onSubmit={onSubmit}
           defaultValues={defaultValues}
-          validationSchema={schema}
+          validationSchema={todoSchema}
           className="space-y-4"
         >
           <div className="mb-4">

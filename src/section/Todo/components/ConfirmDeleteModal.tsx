@@ -9,14 +9,22 @@ export const ConfirmDeleteModal = ({
   isOpen,
   onClose,
 }: {
-  data: Todo;
+  data: Todo | string[];
   isOpen: boolean;
   onClose: () => void;
 }) => {
   const queryClient = useQueryClient();
 
-  const { mutate: removeTodoMutation } = useMutation({
-    mutationFn: () => deleteTodo(data.id),
+  console.log('data', data);
+
+  const { mutate: removeTodoMutation, isPending } = useMutation({
+    mutationFn: () => {
+      if (Array.isArray(data)) {
+        console.log('hehe', data);
+        return Promise.all(data.map(id => deleteTodo(id)));
+      }
+      return deleteTodo(data.id);
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['todos'] });
       toastManager.addToast('Success', 'Deleted todo', 'success');
@@ -29,8 +37,9 @@ export const ConfirmDeleteModal = ({
       isOpen={isOpen}
       onClose={onClose}
       title="Delete Todo"
-      description="Are you sure you want to delete this todo?"
+      description={`Are you sure you want to delete ${Array.isArray(data) ? data.length : 1} todo?`}
       confirmText="Delete"
+      loading={isPending}
       onConfirm={() => {
         removeTodoMutation();
       }}

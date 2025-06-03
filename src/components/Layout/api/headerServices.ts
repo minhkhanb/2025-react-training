@@ -11,7 +11,7 @@ const redirectLinkList: HeaderContent[] = [
   { link: '/docs', title: 'Feature' },
   { link: '/showcase', title: 'Product' },
   { link: '/todo-list', title: 'Testimonial' },
-  { link: '/todo-list', title: 'FAQ' },
+  { link: '/action-test', title: 'FAQ' },
 ];
 
 export const getHeaderContent = () => {

@@ -5,6 +5,7 @@ import { BarsOutlined, CloseOutlined } from '@ant-design/icons';
 import Link from 'next/link';
 import LogoHeader from './Icons/LogoHeader';
 import { HeaderContent } from '../../api/headerServices';
+import { useRouter } from 'next/navigation';
 
 const RedirectLink = function RedirectLink({ link, title }: HeaderContent) {
   return (
@@ -39,6 +40,8 @@ export const Header = function Header({
 
   const headerContent = use(headerContents);
 
+  const router = useRouter();
+
   return (
     <header className="sticky top-0 z-10 bg-white shadow">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -64,6 +67,9 @@ export const Header = function Header({
               aria-label="Login"
               type="button"
               className="h-10 w-20 cursor-pointer rounded-md font-medium text-[#4CAF4F] transition-all hover:bg-gray-100 hover:text-[#2c862f]"
+              onClick={() => {
+                router.push('/login');
+              }}
             >
               login
             </button>

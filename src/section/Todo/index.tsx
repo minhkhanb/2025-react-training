@@ -2,7 +2,7 @@
 
 import { ColumnDef } from '@tanstack/react-table';
 import { Button } from '@src/components/shadcn/ui/button';
-import { Todo } from '@src/types/todo';
+import { Todo, PaginatedResponse } from '@src/types/todo';
 import DataTable from '@src/components/common/DataTable';
 import { Trash2, Pencil } from 'lucide-react';
 import { Checkbox } from '@src/components/shadcn/ui/checkbox';
@@ -15,11 +15,14 @@ import { useSearchParams } from 'next/navigation';
 export default function TodoListSection() {
   const searchParams = useSearchParams();
   const currentPage = Number(searchParams.get('page')) || 1;
+  const limit = Number(searchParams.get('limit')) || 10;
 
-  const { isPending, isError, data, error } = useQuery({
-    queryKey: ['todos'],
-    queryFn: () => getTodos({ page: currentPage, limit: 10 }),
+  const { isPending, isError, data, error } = useQuery<PaginatedResponse<Todo>>({
+    queryKey: ['todos', currentPage, limit],
+    queryFn: () => getTodos({ page: currentPage, limit }),
   });
+
+  console.log(data);
 
   const [openEditModal, setOpenEditModal] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
@@ -79,7 +82,6 @@ export default function TodoListSection() {
     },
   ];
 
-  if (isPending) return <div>Loading...</div>;
   if (isError) return <div>Error: {error.message}</div>;
 
   return (
@@ -94,9 +96,10 @@ export default function TodoListSection() {
       </div>
       <DataTable
         columns={columns}
-        data={data}
-        pageSize={3}
-        pageCount={Math.ceil(data.length / 3)}
+        data={data?.data ?? []}
+        pageSize={limit}
+        pageCount={data ? Math.ceil(data.meta.total / limit) : 1}
+        isLoading={isPending}
       />
       {selectedTodo && (
         <>

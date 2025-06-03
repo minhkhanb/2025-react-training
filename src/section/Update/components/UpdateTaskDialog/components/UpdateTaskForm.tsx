@@ -1,16 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React from "react";
-import FormField from "@/components/ui-custom/form-field";
-import { Input } from "@/components/ui/input";
-import { SelectCustomize } from "@/components/ui-custom/select";
-import { taskSchema } from "@/core/validations/taskSchema";
-import { UseFormReturn } from "react-hook-form";
-import { toast } from "sonner";
-import ButtonCustomize from "@/components/ui-custom/button";
-import { FormProvider } from "@/components/providers/FormProvider";
-import { Task } from "@/components/providers/TaskProvider";
-import useUpdateTaskMutation from "@/api/todo/mutations/useUpdateTaskMutation";
-import { Label } from "@/components/ui/label";
+import React from 'react';
+import FormField from '@src/components/ui-custom/form-field';
+import { Input } from '@src/components/ui/input';
+import { SelectCustomize } from '@src/components/ui-custom/select';
+import { taskSchema } from '@src/core/validations/taskSchema';
+import { UseFormReturn } from 'react-hook-form';
+import { toast } from 'sonner';
+import ButtonCustomize from '@src/components/ui-custom/button';
+import { FormProvider } from '@src/components/providers/FormProvider';
+import { Task } from '@src/components/providers/TaskProvider';
+import useUpdateTaskMutation from '@src/api/todo/mutations/useUpdateTaskMutation';
+import { Label } from '@src/components/ui/label';
 
 interface Props {
   currentTask: Task;
@@ -19,20 +19,20 @@ interface Props {
 
 const UpdateTaskForm = ({ currentTask, onClose }: Props) => {
   const { mutateAsync, isPending } = useUpdateTaskMutation({
-    onSuccess: (data) => {
-      toast("Success", { description: data.message });
+    onSuccess: data => {
+      toast('Success', { description: data.message });
     },
-    onError: (error) => {
-      toast("Error", { description: error.message });
+    onError: error => {
+      toast('Error', { description: error.message });
     },
   });
 
   if (!currentTask) return;
 
   const options = [
-    { label: "Hard", value: "hard" },
-    { label: "Medium", value: "medium" },
-    { label: "Easy", value: "easy" },
+    { label: 'Hard', value: 'hard' },
+    { label: 'Medium', value: 'medium' },
+    { label: 'Easy', value: 'easy' },
   ];
 
   const onSubmit = async (value: any, fields: UseFormReturn) => {
@@ -68,9 +68,7 @@ const UpdateTaskForm = ({ currentTask, onClose }: Props) => {
           />
         </div>
         <div className="grid grid-cols-4">
-          <Label className="text-right flex items-start py-3">
-            Subcription
-          </Label>
+          <Label className="text-right flex items-start py-3">Subcription</Label>
           <FormField
             className="col-span-3"
             placeholder="Enter subtitle"

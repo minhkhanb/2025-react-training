@@ -1,14 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useState } from "react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "../ui/table";
-import { Skeleton } from "../ui/skeleton";
+import React, { useState } from 'react';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table';
+import { Skeleton } from '../ui/skeleton';
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -18,7 +11,7 @@ import {
   getSortedRowModel,
   SortingState,
   useReactTable,
-} from "@tanstack/react-table";
+} from '@tanstack/react-table';
 import {
   Pagination,
   PaginationContent,
@@ -26,10 +19,10 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from "../ui/pagination";
-import { Pagination as PaginationInterface } from "@/api/todo/queries/useTasksQuery";
-import { cn } from "@/lib/utils";
-import { Option, SelectCustomize } from "./select";
+} from '../ui/pagination';
+import { Pagination as PaginationInterface } from '@src/api/todo/queries/useTasksQuery';
+import { cn } from '@src/lib/utils';
+import { Option, SelectCustomize } from './select';
 
 export interface PaginationManagement extends PaginationInterface {
   setLimit: (limit: number) => void;
@@ -64,16 +57,16 @@ const TableCustomize = ({ columns, data, isLoading, pagination }: Props) => {
 
   const options: Option[] = [
     {
-      label: "6",
-      value: "6",
+      label: '6',
+      value: '6',
     },
     {
-      label: "8",
-      value: "8",
+      label: '8',
+      value: '8',
     },
     {
-      label: "10",
-      value: "10",
+      label: '10',
+      value: '10',
     },
   ];
 
@@ -84,17 +77,14 @@ const TableCustomize = ({ columns, data, isLoading, pagination }: Props) => {
       <div className="flex-1">
         <Table>
           <TableHeader className="bg-gray-100 top-0 z-10 sticky">
-            {table.getHeaderGroups().map((headerGroup) => (
+            {table.getHeaderGroups().map(headerGroup => (
               <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
+                {headerGroup.headers.map(header => (
                   <TableHead
                     key={header.id}
                     className={(header.column.columnDef.meta as any)?.className}
                   >
-                    {flexRender(
-                      header.column.columnDef.header,
-                      header.getContext()
-                    )}
+                    {flexRender(header.column.columnDef.header, header.getContext())}
                   </TableHead>
                 ))}
               </TableRow>
@@ -111,19 +101,14 @@ const TableCustomize = ({ columns, data, isLoading, pagination }: Props) => {
                     ))}
                   </TableRow>
                 ))
-              : table.getRowModel().rows.map((row) => (
+              : table.getRowModel().rows.map(row => (
                   <TableRow key={row.id}>
-                    {row.getVisibleCells().map((cell) => (
+                    {row.getVisibleCells().map(cell => (
                       <TableCell
                         key={cell.id}
-                        className={
-                          (cell.column.columnDef.meta as any)?.classNameCell
-                        }
+                        className={(cell.column.columnDef.meta as any)?.classNameCell}
                       >
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
                       </TableCell>
                     ))}
                   </TableRow>
@@ -136,8 +121,8 @@ const TableCustomize = ({ columns, data, isLoading, pagination }: Props) => {
           <SelectCustomize
             className="w-16"
             options={options}
-            value={limit + ""}
-            onChange={(value) => setLimit(Number(value))}
+            value={limit + ''}
+            onChange={value => setLimit(Number(value))}
           />
           <PaginationContent>
             <PaginationItem>
@@ -148,25 +133,22 @@ const TableCustomize = ({ columns, data, isLoading, pagination }: Props) => {
                   }
                 }}
                 className={cn(
-                  "text-black cursor-pointer",
-                  !pagination?.hasPreviousPage &&
-                    "text-gray-300 hover:text-gray-300 cursor-auto"
+                  'text-black cursor-pointer',
+                  !pagination?.hasPreviousPage && 'text-gray-300 hover:text-gray-300 cursor-auto'
                 )}
               />
             </PaginationItem>
-            {Array.from({ length: pagination?.totalPages || 0 }).map(
-              (_, index) => (
-                <PaginationItem key={index}>
-                  <PaginationLink
-                    className="cursor-pointer"
-                    onClick={() => setPage(index + 1)}
-                    isActive={page === index + 1}
-                  >
-                    {index + 1}
-                  </PaginationLink>
-                </PaginationItem>
-              )
-            )}
+            {Array.from({ length: pagination?.totalPages || 0 }).map((_, index) => (
+              <PaginationItem key={index}>
+                <PaginationLink
+                  className="cursor-pointer"
+                  onClick={() => setPage(index + 1)}
+                  isActive={page === index + 1}
+                >
+                  {index + 1}
+                </PaginationLink>
+              </PaginationItem>
+            ))}
             <PaginationItem>
               <PaginationNext
                 onClick={() => {
@@ -175,9 +157,8 @@ const TableCustomize = ({ columns, data, isLoading, pagination }: Props) => {
                   }
                 }}
                 className={cn(
-                  "text-black cursor-pointer",
-                  !pagination?.hasNextPage &&
-                    "text-gray-300 hover:text-gray-300 cursor-auto"
+                  'text-black cursor-pointer',
+                  !pagination?.hasNextPage && 'text-gray-300 hover:text-gray-300 cursor-auto'
                 )}
               />
             </PaginationItem>

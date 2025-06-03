@@ -1,5 +1,4 @@
-import AvatarCustom from "@/components/ui-custom/avatar";
-import React from "react";
+import React from 'react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -7,9 +6,10 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { LogOut } from "lucide-react";
-import { menuUserItems } from "@/core/constants/common";
+} from '@src/components/ui/dropdown-menu';
+import { LogOut } from 'lucide-react';
+import AvatarCustomize from '@src/components/ui-custom/avatar';
+import { menuUserItems } from '@src/core/constants/common';
 
 const UserMenu = () => {
   return (
@@ -17,10 +17,7 @@ const UserMenu = () => {
       <DropdownMenuTrigger>
         <div className="w-full py-2 px-4 flex items-center justify-between bg-white rounded-md">
           <div className="flex items-center gap-3">
-            <AvatarCustom
-              src="https://github.com/shadcn.png"
-              className="rounded-sm"
-            />
+            <AvatarCustomize src="https://github.com/shadcn.png" className="rounded-sm" />
             <div className="flex flex-col items-start">
               <p className="text-sm font-semibold">Emir&apos;s Space</p>
               <p className="text-xs">qizhy@example.com</p>
@@ -45,10 +42,7 @@ const UserMenu = () => {
       <DropdownMenuContent side="right" className="w-[200px]">
         <DropdownMenuLabel>
           <div className="flex items-center gap-3">
-            <AvatarCustom
-              src="https://github.com/shadcn.png"
-              className="rounded-sm"
-            />
+            <AvatarCustomize src="https://github.com/shadcn.png" className="rounded-sm" />
             <div className="flex flex-col items-start">
               <p className="text-sm font-semibold">Emir&apos;s Space</p>
               <p className="text-xs">qizhy@example.com</p>
@@ -60,15 +54,13 @@ const UserMenu = () => {
           <DropdownMenuItem key={item.title + index} className="mt-1">
             <a href={item.url} className="flex items-center gap-2">
               <item.icon className="transition-all duration-500" />
-              <span className="transition-all duration-500 text-sm">
-                {item.title}
-              </span>
+              <span className="transition-all duration-500 text-sm">{item.title}</span>
             </a>
           </DropdownMenuItem>
         ))}
         <DropdownMenuSeparator />
         <DropdownMenuItem>
-          <a href={"#"} className="flex items-center gap-2">
+          <a href={'#'} className="flex items-center gap-2">
             <LogOut />
             <span className="transition-all duration-500">Log out</span>
           </a>

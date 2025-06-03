@@ -1,13 +1,13 @@
-import React from "react";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { Header } from "./components/Header";
+import React from 'react';
+import { Header } from './components/Header';
 import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
+} from '@src/components/ui/breadcrumb';
+import { SidebarProvider, SidebarTrigger } from '../ui/sidebar';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (

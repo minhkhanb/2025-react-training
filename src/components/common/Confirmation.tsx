@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Dialog,
   DialogContent,
@@ -6,7 +6,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
+} from '@src/components/ui/dialog';
 
 interface Props {
   visible: boolean;
@@ -16,17 +16,11 @@ interface Props {
   controls: () => React.ReactNode;
 }
 
-const Confirmation = ({
-  visible,
-  onClose,
-  title,
-  subtitle,
-  controls,
-}: Props) => {
+const Confirmation = ({ visible, onClose, title, subtitle, controls }: Props) => {
   return (
     <Dialog
       open={visible}
-      onOpenChange={(open) => {
+      onOpenChange={open => {
         if (!open) onClose();
       }}
     >

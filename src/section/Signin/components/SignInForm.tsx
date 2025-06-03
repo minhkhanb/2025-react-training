@@ -1,35 +1,29 @@
-"use client";
+'use client';
 
-import { useLoginMutation } from "@/api/auth/mutations/useLoginMutation";
-import { useAuth } from "@/components/providers/AuthProvider";
-import { FormProvider } from "@/components/providers/FormProvider";
-import ButtonCustomize from "@/components/ui-custom/button";
-import FormField from "@/components/ui-custom/form-field";
-import { Spinner } from "@/components/ui-custom/spinner";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { queryClient } from "@/core/instances/query";
-import { SignInFormValues, signInSchema } from "@/core/validations/authSchema";
-import { QueryClientProvider } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
-import React from "react";
-import { toast } from "sonner";
+import { useLoginMutation } from '@src/api/auth/mutations/useLoginMutation';
+import { useAuth } from '@src/components/providers/AuthProvider';
+import { FormProvider } from '@src/components/providers/FormProvider';
+import ButtonCustomize from '@src/components/ui-custom/button';
+import FormField from '@src/components/ui-custom/form-field';
+import { Spinner } from '@src/components/ui-custom/spinner';
+import { Input } from '@src/components/ui/input';
+import { Label } from '@src/components/ui/label';
+import { queryClient } from '@src/core/instances/query';
+import { SignInFormValues, signInSchema } from '@src/core/validations/authSchema';
+import { QueryClientProvider } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
+import React from 'react';
+import { toast } from 'sonner';
 
 const SignInFormContent = () => {
   const { setUser } = useAuth();
 
   const { mutateAsync, isPending } = useLoginMutation({
-    onError: (error) => toast("Error", { description: error.message }),
-    onSuccess: (data) => {
-      toast("Error", { description: data.message });
-      globalThis.localStorage.setItem(
-        "accessToken",
-        data.data.tokens.accessToken
-      );
-      globalThis.localStorage.setItem(
-        "refreshToken",
-        data.data.tokens.refreshToken
-      );
+    onError: error => toast('Error', { description: error.message }),
+    onSuccess: data => {
+      toast('Error', { description: data.message });
+      globalThis.localStorage.setItem('accessToken', data.data.tokens.accessToken);
+      globalThis.localStorage.setItem('refreshToken', data.data.tokens.refreshToken);
       setUser(data.data.user);
     },
   });
@@ -38,7 +32,7 @@ const SignInFormContent = () => {
 
   const onSubmit = async (value: SignInFormValues) => {
     await mutateAsync(value);
-    router.push("/todo");
+    router.push('/todo');
   };
 
   return (
@@ -48,16 +42,14 @@ const SignInFormContent = () => {
       <FormProvider
         validationSchema={signInSchema}
         defaultValues={{
-          email: "",
-          password: "",
+          email: '',
+          password: '',
         }}
         mode="onChange"
         onSubmit={onSubmit}
       >
         <div className="flex flex-col w-xs">
-          <Label className="text-right flex items-start text-xs text-gray-500">
-            Email address
-          </Label>
+          <Label className="text-right flex items-start text-xs text-gray-500">Email address</Label>
           <FormField
             field="email"
             className="shadow-none border-b-1 focus-visible:ring-0 p-0 border-gray-300 border-t-0 border-l-0 rounded-none border-r-0"
@@ -66,9 +58,7 @@ const SignInFormContent = () => {
           />
         </div>
         <div className="flex flex-col mt-4">
-          <Label className="text-right flex items-start text-xs text-gray-500">
-            Password
-          </Label>
+          <Label className="text-right flex items-start text-xs text-gray-500">Password</Label>
           <FormField
             field="password"
             type="password"
@@ -86,16 +76,13 @@ const SignInFormContent = () => {
           </ButtonCustomize>
         </div>
         <div className="flex justify-center mt-2">
-          <ButtonCustomize
-            type="submit"
-            className="font-semibold rounded-full w-40 cursor-pointer"
-          >
-            {isPending ? <Spinner /> : "Login"}
+          <ButtonCustomize type="submit" className="font-semibold rounded-full w-40 cursor-pointer">
+            {isPending ? <Spinner /> : 'Login'}
           </ButtonCustomize>
         </div>
       </FormProvider>
       <ButtonCustomize
-        onClick={() => router.push("/sign-up")}
+        onClick={() => router.push('/sign-up')}
         type="button"
         className="text-xs bg-0 border-0 hover:bg-0 shadow-none text-gray-500 cursor-pointer"
       >

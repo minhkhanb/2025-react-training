@@ -1,7 +1,7 @@
-import { useMutation } from "@tanstack/react-query";
-import { HandlersResponse } from "./useSignUpMutation";
-import { callApi } from "@/core/config/axios/handler";
-import { IUser } from "../interface";
+import { useMutation } from '@tanstack/react-query';
+import { HandlersResponse } from './useSignUpMutation';
+import { callApi } from '@src/core/config/axios/handler';
+import { IUser } from '../interface';
 
 interface LoginInput {
   email: string;
@@ -16,15 +16,12 @@ interface LoginResponse {
   user: IUser;
 }
 
-export function useLoginMutation({
-  onError,
-  onSuccess,
-}: HandlersResponse<LoginResponse>) {
+export function useLoginMutation({ onError, onSuccess }: HandlersResponse<LoginResponse>) {
   const { mutateAsync, isPending } = useMutation({
     mutationFn: (data: LoginInput) =>
       callApi<LoginResponse>({
-        endpoint: "/auths/login",
-        method: "POST",
+        endpoint: '/auths/login',
+        method: 'POST',
         data,
       }),
     onError,

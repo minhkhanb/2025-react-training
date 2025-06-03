@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-"use client";
+'use client';
 
-import { QueryClientProvider } from "@tanstack/react-query";
-import { useCallback, useEffect, useState } from "react";
-import { useParams, usePathname, useRouter } from "next/navigation";
-import { queryClient } from "@/core/instances/query";
-import UpdateTaskDialog from "./components/UpdateTaskDialog";
-import { toast } from "sonner";
-import useTaskQuery from "@/api/todo/queries/useTaskQuery";
+import { QueryClientProvider } from '@tanstack/react-query';
+import { useCallback, useEffect, useState } from 'react';
+import { useParams, usePathname, useRouter } from 'next/navigation';
+import { queryClient } from '@src/core/instances/query';
+import UpdateTaskDialog from './components/UpdateTaskDialog';
+import { toast } from 'sonner';
+import useTaskQuery from '@src/api/todo/queries/useTaskQuery';
 
 const UpdateContent = () => {
   const [visible, setVisible] = useState(false);
@@ -16,7 +16,7 @@ const UpdateContent = () => {
   const pathname = usePathname();
 
   useEffect(() => {
-    if (pathname.includes("/todo/update")) {
+    if (pathname.includes('/todo/update')) {
       setVisible(true);
     } else {
       setVisible(false);
@@ -24,8 +24,8 @@ const UpdateContent = () => {
   }, [pathname]);
 
   const handleTaskError = useCallback((error: Error) => {
-    toast("Error", { description: error.message });
-    router.push("/todo");
+    toast('Error', { description: error.message });
+    router.push('/todo');
   }, []);
 
   const { data, error, isError } = useTaskQuery({
@@ -45,13 +45,7 @@ const UpdateContent = () => {
     router.back();
   };
 
-  return (
-    <UpdateTaskDialog
-      visible={visible}
-      onClose={onClose}
-      currentTask={data.data}
-    />
-  );
+  return <UpdateTaskDialog visible={visible} onClose={onClose} currentTask={data.data} />;
 };
 
 const Update = () => {

@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React from "react";
-import DialogCustomize from "@/components/ui-custom/dialog";
-import { Task } from "@/components/providers/TaskProvider";
-import UpdateTaskForm from "./components/UpdateTaskForm";
+import React from 'react';
+import DialogCustomize from '@src/components/ui-custom/dialog';
+import { Task } from '@src/components/providers/TaskProvider';
+import UpdateTaskForm from './components/UpdateTaskForm';
 
 interface Props {
   currentTask: Task;

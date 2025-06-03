@@ -1,15 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import useAddTaskMutation from "@/api/todo/mutations/useAddTaskMutation";
-import { FormProvider } from "@/components/providers/FormProvider";
-import ButtonCustomize from "@/components/ui-custom/button";
-import FormField from "@/components/ui-custom/form-field";
-import { SelectCustomize } from "@/components/ui-custom/select";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { taskSchema } from "@/core/validations/taskSchema";
-import React from "react";
-import { UseFormReturn } from "react-hook-form";
-import { toast } from "sonner";
+import useAddTaskMutation from '@src/api/todo/mutations/useAddTaskMutation';
+import { FormProvider } from '@src/components/providers/FormProvider';
+import ButtonCustomize from '@src/components/ui-custom/button';
+import FormField from '@src/components/ui-custom/form-field';
+import { SelectCustomize } from '@src/components/ui-custom/select';
+import { Input } from '@src/components/ui/input';
+import { Label } from '@src/components/ui/label';
+import { taskSchema } from '@src/core/validations/taskSchema';
+import React from 'react';
+import { UseFormReturn } from 'react-hook-form';
+import { toast } from 'sonner';
 
 interface Props {
   onClose: () => void;
@@ -17,18 +17,18 @@ interface Props {
 
 const AddTaskForm = ({ onClose }: Props) => {
   const { mutateAsync, isPending } = useAddTaskMutation({
-    onSuccess: (data) => {
-      toast("Success", { description: data.message });
+    onSuccess: data => {
+      toast('Success', { description: data.message });
     },
-    onError: (error) => {
-      toast("Error", { description: error.message });
+    onError: error => {
+      toast('Error', { description: error.message });
     },
   });
 
   const options = [
-    { label: "Hard", value: "hard" },
-    { label: "Medium", value: "medium" },
-    { label: "Easy", value: "easy" },
+    { label: 'Hard', value: 'hard' },
+    { label: 'Medium', value: 'medium' },
+    { label: 'Easy', value: 'easy' },
   ];
 
   const onSubmit = async (value: any, fields: UseFormReturn) => {
@@ -40,9 +40,9 @@ const AddTaskForm = ({ onClose }: Props) => {
     <FormProvider
       onSubmit={onSubmit}
       defaultValues={{
-        title: "",
-        subtitle: "",
-        level: "",
+        title: '',
+        subtitle: '',
+        level: '',
       }}
       mode="onChange"
       validationSchema={taskSchema}
@@ -51,23 +51,13 @@ const AddTaskForm = ({ onClose }: Props) => {
         <div className="grid grid-cols-4">
           <Label className="text-right flex items-start py-3">Title</Label>
           <div className="col-span-3">
-            <FormField
-              placeholder="Enter title"
-              field="title"
-              component={Input}
-            />
+            <FormField placeholder="Enter title" field="title" component={Input} />
           </div>
         </div>
         <div className="grid grid-cols-4">
-          <Label className="text-right flex items-start py-3">
-            Subcription
-          </Label>
+          <Label className="text-right flex items-start py-3">Subcription</Label>
           <div className="col-span-3">
-            <FormField
-              placeholder="Enter subtitle"
-              field="subtitle"
-              component={Input}
-            />
+            <FormField placeholder="Enter subtitle" field="subtitle" component={Input} />
           </div>
         </div>
         <div className="grid grid-cols-4">

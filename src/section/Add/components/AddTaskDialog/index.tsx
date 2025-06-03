@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React from "react";
-import DialogCustomize from "@/components/ui-custom/dialog";
-import AddTaskForm from "./components/AddTaskForm";
+import React from 'react';
+import DialogCustomize from '@src/components/ui-custom/dialog';
+import AddTaskForm from './components/AddTaskForm';
 
 interface Props {
   visible: boolean;

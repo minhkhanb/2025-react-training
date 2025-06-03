@@ -1,4 +1,4 @@
-import SignUp from "@/section/Signup";
+import SignUp from '@src/section/Signup';
 
 const SignUpPage = () => {
   return <SignUp />;

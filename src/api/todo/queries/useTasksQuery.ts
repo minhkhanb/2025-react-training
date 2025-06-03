@@ -1,6 +1,6 @@
-import { Task, TaskFilter } from "@/components/providers/TaskProvider";
-import { callApi, ResponseData } from "@/core/config/axios/handler";
-import { useQuery } from "@tanstack/react-query";
+import { Task, TaskFilter } from '@src/components/providers/TaskProvider';
+import { callApi, ResponseData } from '@src/core/config/axios/handler';
+import { useQuery } from '@tanstack/react-query';
 
 interface TaskQueryInput {
   onError: (error: Error) => void;
@@ -25,15 +25,15 @@ export interface PaginatedData<T> {
 
 const useTasksQuery = ({ onError, limit, page, filter }: TaskQueryInput) => {
   return useQuery<ResponseData<PaginatedData<Task[]>>>({
-    queryKey: ["tasks", { limit, page, filter }],
+    queryKey: ['tasks', { limit, page, filter }],
     queryFn: async () => {
       const res = await callApi<PaginatedData<Task[]>>({
         endpoint: `tasks?page=${page}&filter=${filter}&limit=${limit}`,
-        method: "GET",
+        method: 'GET',
       });
       return res;
     },
-    throwOnError: (error) => {
+    throwOnError: error => {
       onError(error);
       return false;
     },

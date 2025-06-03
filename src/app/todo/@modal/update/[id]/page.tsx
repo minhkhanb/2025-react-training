@@ -1,6 +1,6 @@
-"use server";
-import Update from "@/section/Update";
-import React from "react";
+'use server';
+import Update from '@src/section/Update';
+import React from 'react';
 
 const UpdateToDo = async () => {
   return <Update />;

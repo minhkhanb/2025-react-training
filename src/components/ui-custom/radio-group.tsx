@@ -1,7 +1,7 @@
-import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import React from "react";
-import { Option } from "./select";
+import { Label } from '@src/components/ui/label';
+import { RadioGroup, RadioGroupItem } from '@src/components/ui/radio-group';
+import React from 'react';
+import { Option } from './select';
 
 interface Props {
   options: Option[];
@@ -9,11 +9,7 @@ interface Props {
   defaultValue?: string;
 }
 
-const RadioGroupCustomize = ({
-  options,
-  onChange,
-  defaultValue = "",
-}: Props) => {
+const RadioGroupCustomize = ({ options, onChange, defaultValue = '' }: Props) => {
   return (
     <RadioGroup onValueChange={onChange} defaultValue={defaultValue}>
       {options.map((option, index) => (

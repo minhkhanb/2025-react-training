@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import { Toaster } from '@/components/ui/sonner';
+import { Toaster } from '@src/components/ui/sonner';
 import React from 'react';
 import LayoutWrapper from '@src/components/LayoutWrapper';
 

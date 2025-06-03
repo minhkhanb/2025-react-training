@@ -1,20 +1,20 @@
-import React, { useEffect, useState } from "react";
-import TableList from "./components/TableList";
-import { Task, useTaskStore } from "@/components/providers/TaskProvider";
-import { defaultPagination } from "@/core/constants/pagination";
-import { toast } from "sonner";
-import useTasksQuery, { Pagination } from "@/api/todo/queries/useTasksQuery";
+import React, { useEffect, useState } from 'react';
+import TableList from './components/TableList';
+import { Task, useTaskStore } from '@src/components/providers/TaskProvider';
+import { defaultPagination } from '@src/core/constants/pagination';
+import { toast } from 'sonner';
+import useTasksQuery, { Pagination } from '@src/api/todo/queries/useTasksQuery';
 
 interface Props {
   onConfirmDeleteTask: (task: Task) => void;
 }
 
 const ListTasks = ({ onConfirmDeleteTask }: Props) => {
-  const limit = useTaskStore((state) => state.limit);
+  const limit = useTaskStore(state => state.limit);
 
-  const filter = useTaskStore((state) => state.filter);
+  const filter = useTaskStore(state => state.filter);
 
-  const page = useTaskStore((state) => state.page);
+  const page = useTaskStore(state => state.page);
 
   const [pagination, setPagination] = useState<Pagination>(defaultPagination);
 
@@ -22,8 +22,8 @@ const ListTasks = ({ onConfirmDeleteTask }: Props) => {
     filter,
     limit,
     page,
-    onError: (error) => {
-      toast("Error", { description: error.message });
+    onError: error => {
+      toast('Error', { description: error.message });
     },
   });
 

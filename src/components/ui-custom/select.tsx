@@ -4,8 +4,8 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { cn } from "@/lib/utils";
+} from '@src/components/ui/select';
+import { cn } from '@src/lib/utils';
 
 export interface Option {
   label: string;
@@ -24,12 +24,12 @@ export const SelectCustomize = ({
   options,
   onChange,
   value,
-  placeholder = "",
-  className = "",
+  placeholder = '',
+  className = '',
 }: Props) => {
   return (
     <Select onValueChange={onChange} value={value}>
-      <SelectTrigger className={cn("col-span-3 text-sm w-full", className)}>
+      <SelectTrigger className={cn('col-span-3 text-sm w-full', className)}>
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
       <SelectContent>

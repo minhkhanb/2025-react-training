@@ -14,6 +14,7 @@ import { z } from 'zod';
 import { FormItem, FormLabel, FormControl, FormMessage } from '@src/components/shadcn/ui/form';
 import { Button } from '@src/components/shadcn/ui/button';
 import { cn } from '@src/lib/utils';
+import { Loader2 } from 'lucide-react';
 
 interface MainFormProps<T extends FieldValues> {
   defaultValues: DefaultValues<T>;
@@ -154,7 +155,13 @@ function SubmitButton({
       variant={variant}
       className={cn('w-full', className)}
     >
-      {loading ? 'Submitting...' : children}
+      {loading ? (
+        <>
+          <Loader2 strokeWidth={1.5} className="animate-spin" />
+        </>
+      ) : (
+        children
+      )}
     </Button>
   );
 }

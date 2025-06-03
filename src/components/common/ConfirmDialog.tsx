@@ -8,11 +8,13 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@src/components/shadcn/ui/alert-dialog';
+import { Loader2 } from 'lucide-react';
 
 type ConfirmDialogProps = {
   isOpen: boolean;
   onClose: () => void;
   title: string;
+  loading?: boolean;
   description: string;
   confirmText?: string;
   cancelText?: string;
@@ -23,6 +25,7 @@ export default function ConfirmDialog({
   isOpen,
   onClose,
   title,
+  loading,
   description,
   confirmText = 'Continue',
   cancelText = 'Cancel',
@@ -37,7 +40,9 @@ export default function ConfirmDialog({
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>{cancelText}</AlertDialogCancel>
-          <AlertDialogAction onClick={onConfirm}>{confirmText}</AlertDialogAction>
+          <AlertDialogAction onClick={onConfirm}>
+            {loading ? <Loader2 strokeWidth={1.5} className="animate-spin" /> : confirmText}
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

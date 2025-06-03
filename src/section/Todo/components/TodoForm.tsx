@@ -18,9 +18,11 @@ const validationSchema = z.object({
 export const TodoForm = ({
   data,
   onSubmitAction,
+  loading,
 }: {
   data?: Todo;
   onSubmitAction: (values: Omit<Todo, 'id' | 'createdAt' | 'updatedAt'>) => void;
+  loading?: boolean;
 }) => {
   return (
     <MainForm
@@ -44,7 +46,7 @@ export const TodoForm = ({
           />
         </div>
 
-        <Form.SubmitButton>Save</Form.SubmitButton>
+        <Form.SubmitButton loading={loading}>Save</Form.SubmitButton>
       </div>
     </MainForm>
   );

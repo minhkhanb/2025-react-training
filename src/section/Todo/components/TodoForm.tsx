@@ -8,7 +8,7 @@ import { InputField } from '@src/components/ui';
 const validationSchema = z.object({
   title: z
     .string()
-    .min(1, 'Title is required')
+    .min(3, 'Title must be at least 3 characters')
     .max(100, 'Title must not exceed 100 characters')
     .regex(/^[a-zA-ZÀ-ỹ0-9\s]+$/, 'Title can only contain letters, numbers and spaces'),
 

@@ -3,12 +3,12 @@
 import { MainForm, Form } from '@src/components/common/Form';
 import * as z from 'zod';
 import { Todo } from '@src/types/todo';
-import { InputField } from '@src/components/ui';
+import { CheckBoxField, InputField } from '@src/components/ui';
 
 const validationSchema = z.object({
   title: z
     .string()
-    .min(1, 'Title is required')
+    .min(3, 'Title must be at least 3 characters')
     .max(100, 'Title must not exceed 100 characters')
     .regex(/^[a-zA-ZÀ-ỹ0-9\s]+$/, 'Title can only contain letters, numbers and spaces'),
 
@@ -18,9 +18,11 @@ const validationSchema = z.object({
 export const TodoForm = ({
   data,
   onSubmitAction,
+  loading,
 }: {
   data?: Todo;
   onSubmitAction: (values: Omit<Todo, 'id' | 'createdAt' | 'updatedAt'>) => void;
+  loading?: boolean;
 }) => {
   return (
     <MainForm
@@ -40,11 +42,17 @@ export const TodoForm = ({
             component={InputField}
             label="Title"
             placeholder="Enter todo title"
+            autoFocus={true}
             required
           />
         </div>
 
-        <Form.SubmitButton>Save</Form.SubmitButton>
+        {data && (
+          <div className="grid grid-cols-1 gap-4">
+            <Form.Field name="completed" component={CheckBoxField} placeholder="Completed" />
+          </div>
+        )}
+        <Form.SubmitButton loading={loading}>Save</Form.SubmitButton>
       </div>
     </MainForm>
   );

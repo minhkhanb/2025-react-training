@@ -10,7 +10,7 @@ type TodoFormValues = Omit<Todo, 'id' | 'createdAt' | 'updatedAt'>;
 export const AddTodoModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
   const queryClient = useQueryClient();
 
-  const { mutate: addTodoMutation } = useMutation({
+  const { mutate: addTodoMutation, isPending } = useMutation({
     mutationFn: (values: TodoFormValues) => createTodo(values),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['todos'] });
@@ -25,7 +25,7 @@ export const AddTodoModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: ()
         <DialogHeader>
           <DialogTitle>Add New Todo</DialogTitle>
         </DialogHeader>
-        <TodoForm onSubmitAction={addTodoMutation} />
+        <TodoForm onSubmitAction={addTodoMutation} loading={isPending} />
       </DialogContent>
     </Dialog>
   );

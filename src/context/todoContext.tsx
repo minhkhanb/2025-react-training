@@ -5,8 +5,8 @@ import { Todo } from '@src/types/todo';
 
 interface TodoContextType {
   addTodo: (todo: Omit<Todo, 'id' | 'createdAt' | 'updatedAt'>) => void;
-  updateTodo: (id: number, todo: Partial<Todo>) => void;
-  removeTodo: (id: number) => void;
+  updateTodo: (id: string, todo: Partial<Todo>) => void;
+  removeTodo: (id: string) => void;
   fetchTodos: () => Promise<Todo[]>;
 }
 
@@ -22,14 +22,14 @@ export function TodoProvider({ children }: { children: React.ReactNode }) {
   const addTodo = (todo: Omit<Todo, 'id' | 'createdAt' | 'updatedAt'>) => {
     const newTodo: Todo = {
       ...todo,
-      id: todos.length + 1,
+      id: (todos.length + 1).toString(),
       createdAt: new Date(),
       updatedAt: new Date(),
     };
     setTodos(prev => [...prev, newTodo]);
   };
 
-  const updateTodo = (id: number, updatedFields: Partial<Todo>) => {
+  const updateTodo = (id: string, updatedFields: Partial<Todo>) => {
     setTodos(prev =>
       prev.map(todo =>
         todo.id === id
@@ -43,7 +43,7 @@ export function TodoProvider({ children }: { children: React.ReactNode }) {
     );
   };
 
-  const removeTodo = (id: number) => {
+  const removeTodo = (id: string) => {
     setTodos(prev => prev.filter(todo => todo.id !== id));
   };
 

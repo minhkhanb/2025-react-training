@@ -1,6 +1,6 @@
 'use client';
 
-import { ColumnDef } from '@tanstack/react-table';
+import { ColumnDef, RowSelectionState } from '@tanstack/react-table';
 import { Button } from '@src/components/shadcn/ui/button';
 import { Todo, PaginatedResponse } from '@src/types/todo';
 import DataTable from '@src/components/common/DataTable';
@@ -15,7 +15,7 @@ import { useSearchParams } from 'next/navigation';
 export default function TodoListSection() {
   const searchParams = useSearchParams();
   const currentPage = Number(searchParams.get('page')) || 1;
-  const limit = Number(searchParams.get('limit')) || 10;
+  const limit = Number(searchParams.get('limit')) || 5;
 
   const { isPending, isError, data, error } = useQuery<PaginatedResponse<Todo>>({
     queryKey: ['todos', currentPage, limit],
@@ -25,6 +25,7 @@ export default function TodoListSection() {
   const [openEditModal, setOpenEditModal] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [selectedTodo, setSelectedTodo] = useState<Todo | null>(null);
+  const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
 
   const handleEditTodo = (todo: Todo) => {
     setSelectedTodo(todo);
@@ -36,6 +37,10 @@ export default function TodoListSection() {
     setOpenDeleteModal(true);
   };
 
+  const selectedIds = Object.keys(rowSelection)
+    .map(idx => data?.data[Number(idx)]?.id)
+    .filter(Boolean) as string[];
+
   const columns: ColumnDef<Todo>[] = [
     {
       id: 'select',
@@ -43,21 +48,39 @@ export default function TodoListSection() {
       header: ({ table }) => (
         <Checkbox
           checked={table.getIsAllPageRowsSelected() || false}
-          onCheckedChange={value => table.toggleAllPageRowsSelected(!!value)}
+          onCheckedChange={value => {
+            table.toggleAllPageRowsSelected(!!value);
+          }}
           aria-label="Select all"
         />
       ),
       cell: ({ row }) => (
         <Checkbox
           checked={row.getIsSelected() || false}
-          onCheckedChange={value => row.toggleSelected(!!value)}
+          onCheckedChange={value => {
+            row.toggleSelected(!!value);
+          }}
           aria-label="Select row"
         />
       ),
     },
-    { accessorKey: 'id', header: 'ID', size: 60 },
-    { accessorKey: 'title', header: 'Title', size: 300 },
-    { accessorKey: 'completed', header: 'Completed', size: 100 },
+    { accessorKey: 'id', header: 'ID' },
+    { accessorKey: 'title', header: 'Title' },
+    {
+      accessorKey: 'completed',
+      header: 'Completed',
+      cell: ({ row }) => (
+        <span
+          className={
+            row.original.completed
+              ? 'inline-block px-2 py-1 text-xs font-semibold rounded bg-green-100 text-green-800'
+              : 'inline-block px-2 py-1 text-xs font-semibold rounded bg-gray-100 text-gray-800'
+          }
+        >
+          {row.original.completed ? 'True' : 'False'}
+        </span>
+      ),
+    },
     {
       id: 'actions',
       header: 'Actions',
@@ -88,8 +111,11 @@ export default function TodoListSection() {
         <div className="w-3/4 flex justify-start">
           <HeaderSection />
         </div>
-        <div className="w-1/4 flex justify-end">
-          <TodoAction />
+        <div className="w-1/4 flex justify-end gap-2">
+          <TodoAction
+            selectedIds={selectedIds}
+            setRowSelectionAction={val => setRowSelection(val as RowSelectionState)}
+          />
         </div>
       </div>
       <DataTable
@@ -98,6 +124,8 @@ export default function TodoListSection() {
         pageSize={limit}
         pageCount={data ? Math.ceil(data.meta.total / limit) : 1}
         isLoading={isPending}
+        rowSelection={rowSelection}
+        onRowSelectionChangeAction={setRowSelection}
       />
       {selectedTodo && (
         <>

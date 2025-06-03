@@ -14,6 +14,7 @@ import { z } from 'zod';
 import { FormItem, FormLabel, FormControl, FormMessage } from '@src/components/shadcn/ui/form';
 import { Button } from '@src/components/shadcn/ui/button';
 import { cn } from '@src/lib/utils';
+import { Loader2 } from 'lucide-react';
 
 interface MainFormProps<T extends FieldValues> {
   defaultValues: DefaultValues<T>;
@@ -65,6 +66,7 @@ export interface FieldComponentProps<T = string> {
   onChange: (value: T) => void;
   onBlur: () => void;
   name: string;
+  autoFocus?: boolean;
   error?: FieldError | boolean;
   className?: string;
   disabled?: boolean;
@@ -81,6 +83,7 @@ interface FieldProps<T extends FieldValues, C = string> {
   disabled?: boolean;
   placeholder?: string;
   options?: OptionType[];
+  autoFocus?: boolean;
 }
 
 function Field<T extends FieldValues, C = string>({
@@ -92,6 +95,7 @@ function Field<T extends FieldValues, C = string>({
   disabled,
   placeholder,
   options,
+  autoFocus,
   ...rest
 }: FieldProps<T, C>) {
   return (
@@ -113,6 +117,7 @@ function Field<T extends FieldValues, C = string>({
               <Component
                 {...field}
                 error={fieldState.error}
+                autoFocus={autoFocus}
                 {...rest}
                 disabled={disabled}
                 placeholder={placeholder}
@@ -154,7 +159,13 @@ function SubmitButton({
       variant={variant}
       className={cn('w-full', className)}
     >
-      {loading ? 'Submitting...' : children}
+      {loading ? (
+        <>
+          <Loader2 strokeWidth={1.5} className="animate-spin" />
+        </>
+      ) : (
+        children
+      )}
     </Button>
   );
 }

@@ -20,7 +20,7 @@ import {
 } from '@src/components/shadcn/ui/table';
 import { Search } from './Search';
 import { Pagination } from './Pagination';
-import { useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
 import Loading from '@src/components/common/Loading';
 
@@ -30,18 +30,39 @@ export default function DataTable<TData>({
   data,
   pageCount,
   isLoading,
+  rowSelection,
+  onRowSelectionChangeAction,
 }: {
   columns: ColumnDef<TData>[];
   pageSize?: number;
   data: TData[];
   pageCount: number;
   isLoading?: boolean;
+  rowSelection: RowSelectionState;
+  onRowSelectionChangeAction: (
+    updater: RowSelectionState | ((old: RowSelectionState) => RowSelectionState)
+  ) => void;
 }) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [filtering, setFiltering] = useState<string>('');
-  const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
   const searchParams = useSearchParams();
   const page = Number(searchParams.get('page')) || 1;
+
+  const router = useRouter();
+  const pathname = usePathname();
+
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (sorting.length > 0) {
+      params.set('sortBy', sorting[0].id);
+      params.set('sortOrder', sorting[0].desc ? 'DESC' : 'ASC');
+    } else {
+      params.delete('sortBy');
+      params.delete('sortOrder');
+    }
+
+    router.push(`${pathname}?${params.toString()}`);
+  }, [sorting, pathname, router, searchParams]);
 
   const table = useReactTable({
     data: data,
@@ -53,7 +74,7 @@ export default function DataTable<TData>({
     },
     onSortingChange: setSorting,
     onGlobalFilterChange: setFiltering,
-    onRowSelectionChange: setRowSelection,
+    onRowSelectionChange: onRowSelectionChangeAction,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
@@ -75,7 +96,6 @@ export default function DataTable<TData>({
   return (
     <div className="space-y-4">
       <Search value={filtering} onChange={setFiltering} />
-
       {isLoading ? (
         <div className="min-h-[200px] flex items-center justify-center">
           <Loading />
@@ -106,7 +126,7 @@ export default function DataTable<TData>({
             {table.getRowModel().rows.length === 0 ? (
               <TableRow>
                 <TableCell colSpan={columns.length} className="text-center text-gray-500">
-                  Không có dữ liệu
+                  No data available
                 </TableCell>
               </TableRow>
             ) : (
@@ -123,13 +143,6 @@ export default function DataTable<TData>({
           </TableBody>
         </Table>
       )}
-
-      <div className="flex justify-end">
-        <p className="text-sm text-gray-600">
-          Đã chọn <strong>{Object.keys(rowSelection).length}</strong> hàng
-        </p>
-      </div>
-
       <Pagination pageCount={pageCount} />
     </div>
   );

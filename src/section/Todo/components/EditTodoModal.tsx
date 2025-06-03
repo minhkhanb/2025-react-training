@@ -18,7 +18,7 @@ export const EditTodoModal = ({
 }) => {
   const queryClient = useQueryClient();
 
-  const { mutate: updateTodoMutation } = useMutation({
+  const { mutate: updateTodoMutation, isPending } = useMutation({
     mutationFn: (values: TodoFormValues) => updateTodo(data.id, values),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['todos'] });
@@ -33,7 +33,7 @@ export const EditTodoModal = ({
         <DialogHeader>
           <DialogTitle>Edit Todo</DialogTitle>
         </DialogHeader>
-        <TodoForm onSubmitAction={updateTodoMutation} data={data} />
+        <TodoForm onSubmitAction={updateTodoMutation} data={data} loading={isPending} />
       </DialogContent>
     </Dialog>
   );

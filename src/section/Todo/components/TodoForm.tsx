@@ -3,7 +3,7 @@
 import { MainForm, Form } from '@src/components/common/Form';
 import * as z from 'zod';
 import { Todo } from '@src/types/todo';
-import { InputField } from '@src/components/ui';
+import { CheckBoxField, InputField } from '@src/components/ui';
 
 const validationSchema = z.object({
   title: z
@@ -42,10 +42,16 @@ export const TodoForm = ({
             component={InputField}
             label="Title"
             placeholder="Enter todo title"
+            autoFocus={true}
             required
           />
         </div>
 
+        {data && (
+          <div className="grid grid-cols-1 gap-4">
+            <Form.Field name="completed" component={CheckBoxField} placeholder="Completed" />
+          </div>
+        )}
         <Form.SubmitButton loading={loading}>Save</Form.SubmitButton>
       </div>
     </MainForm>

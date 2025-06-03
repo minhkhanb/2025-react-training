@@ -66,6 +66,7 @@ export interface FieldComponentProps<T = string> {
   onChange: (value: T) => void;
   onBlur: () => void;
   name: string;
+  autoFocus?: boolean;
   error?: FieldError | boolean;
   className?: string;
   disabled?: boolean;
@@ -82,6 +83,7 @@ interface FieldProps<T extends FieldValues, C = string> {
   disabled?: boolean;
   placeholder?: string;
   options?: OptionType[];
+  autoFocus?: boolean;
 }
 
 function Field<T extends FieldValues, C = string>({
@@ -93,6 +95,7 @@ function Field<T extends FieldValues, C = string>({
   disabled,
   placeholder,
   options,
+  autoFocus,
   ...rest
 }: FieldProps<T, C>) {
   return (
@@ -114,6 +117,7 @@ function Field<T extends FieldValues, C = string>({
               <Component
                 {...field}
                 error={fieldState.error}
+                autoFocus={autoFocus}
                 {...rest}
                 disabled={disabled}
                 placeholder={placeholder}

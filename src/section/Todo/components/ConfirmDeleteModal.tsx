@@ -15,12 +15,9 @@ export const ConfirmDeleteModal = ({
 }) => {
   const queryClient = useQueryClient();
 
-  console.log('data', data);
-
   const { mutate: removeTodoMutation, isPending } = useMutation({
     mutationFn: () => {
       if (Array.isArray(data)) {
-        console.log('hehe', data);
         return Promise.all(data.map(id => deleteTodo(id)));
       }
       return deleteTodo(data.id);

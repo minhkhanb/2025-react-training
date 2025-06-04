@@ -1,4 +1,4 @@
-import api from '@/config/axios/setup';
+import { get, patch, post, put, remove } from '@/config/axios';
 import {
   getTotalTodosAndTotalFinishTodosResponse,
   PaginatedTodosResponse,
@@ -12,7 +12,7 @@ export const getAllTodo = async (
   sortType: string,
   sortColumn: string
 ): Promise<PaginatedTodosResponse> => {
-  const res = await api.get<PaginatedTodosResponse>(
+  const res = await get<PaginatedTodosResponse>(
     `api/todos?page=${page}&limit=${totalPerPage}&sortType=${sortType}&sortColumn=${sortColumn}`
   );
 
@@ -21,13 +21,13 @@ export const getAllTodo = async (
 
 export const getTotalTodosAndTotalFinishTodos =
   async (): Promise<getTotalTodosAndTotalFinishTodosResponse> => {
-    const res = await api.get<getTotalTodosAndTotalFinishTodosResponse>(`api/todos/total`);
+    const res = await get<getTotalTodosAndTotalFinishTodosResponse>(`api/todos/total`);
 
     return res.data;
   };
 
 export const getTodoById = async (id: string): Promise<ApiResponse<TodoValue>> => {
-  const res = await api.get<ApiResponse<TodoValue>>(`api/todos/${id}`);
+  const res = await get<ApiResponse<TodoValue>>(`api/todos/${id}`);
 
   return res.data;
 };
@@ -36,7 +36,7 @@ export const createTodo = async (newTodo: TodoValue): Promise<ApiResponse<TodoVa
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { id, ...newObj } = newTodo;
 
-  const res = await api.post<ApiResponse<TodoValue>>('/api/todos', newObj);
+  const res = await post<ApiResponse<TodoValue>, Omit<TodoValue, 'id'>>('/api/todos', newObj);
 
   return res.data;
 };
@@ -48,7 +48,12 @@ export const updateStatusTodo = async ({
   id: string;
   status: 'todo' | 'in-progress' | 'done';
 }): Promise<ApiResponse<TodoValue>> => {
-  const res = await api.patch<ApiResponse<TodoValue>>(`/api/todos/${id}/status`, { status });
+  const res = await patch<ApiResponse<TodoValue>, { status: 'todo' | 'in-progress' | 'done' }>(
+    `/api/todos/${id}/status`,
+    {
+      status,
+    }
+  );
 
   return res.data;
 };
@@ -60,13 +65,15 @@ export const updateTodo = async ({
 }): Promise<ApiResponse<TodoValue>> => {
   const { id, ...newObj } = todo;
 
-  const res = await api.put<ApiResponse<TodoValue>>(`/api/todos/${id}`, { ...newObj });
+  const res = await put<ApiResponse<TodoValue>, Omit<TodoValue, 'id'>>(`/api/todos/${id}`, {
+    ...newObj,
+  });
 
   return res.data;
 };
 
 export const deleteTodo = async ({ id }: { id: string }): Promise<ApiResponse<TodoValue>> => {
-  const res = await api.delete<ApiResponse<TodoValue>>(`/api/todos/${id}`);
+  const res = await remove<ApiResponse<TodoValue>>(`/api/todos/${id}`);
 
   return res.data;
 };

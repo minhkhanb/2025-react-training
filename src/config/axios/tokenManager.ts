@@ -2,6 +2,7 @@ import { AxiosInstance } from 'axios';
 import api from './instance';
 
 import { InternalAxiosRequestConfig } from 'axios';
+import { useAuthStore } from '@/store/authStore';
 
 export interface CustomAxiosRequestConfig extends InternalAxiosRequestConfig {
   _retry?: boolean;
@@ -15,8 +16,8 @@ type Subscriber = {
 let isRefreshing = false;
 let subscribers: Subscriber[] = [];
 
-export const getAccessToken = () => localStorage.getItem('access_token');
-export const setAccessToken = (token: string) => localStorage.setItem('access_token', token);
+export const getAccessToken = () => useAuthStore.getState().accessToken;
+export const setAccessToken = (token: string) => useAuthStore.getState().setToken(token);
 
 const onRefreshed = (token: string) => {
   subscribers.forEach(({ resolve }) => resolve(token));

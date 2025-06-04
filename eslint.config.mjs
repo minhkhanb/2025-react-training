@@ -20,7 +20,13 @@ export default [
       prettier: prettierPlugin,
     },
     rules: {
-      'prettier/prettier': 'error',
+      'prettier/prettier': [
+        'error',
+        {
+          tabWidth: 2,
+          useTabs: false,
+        },
+      ],
       quotes: ['error', 'single', { avoidEscape: true }],
       '@typescript-eslint/no-unused-vars': [
         'error',

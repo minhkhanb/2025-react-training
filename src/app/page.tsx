@@ -1,5 +1,5 @@
 'use client';
-import { ToastButton } from '../components/providers/Toast';
+import ToastButton from '../components/providers/Toast/ToastButton';
 
 export default function Home() {
   return (

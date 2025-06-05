@@ -1,7 +1,7 @@
 'use client';
 
 import ToastButton from '../components/providers/Toast/ToastButton';
-import ValidationForm from '@/src/components/providers/Form/Field/ValidationForm';
+import FormContainer from '@/src/components/ui/Form/Field/FormContainer';
 import { ToastButtonTypes } from '../@types/toast.types';
 
 const toastList: ToastButtonTypes[] = [
@@ -31,7 +31,7 @@ export default function Home() {
           />
         ))}
       </div>
-      <ValidationForm />
+      <FormContainer />
     </>
   );
 }

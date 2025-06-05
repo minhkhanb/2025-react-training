@@ -7,6 +7,7 @@ export const formSchema = yup.object({
   role: yup.string().required('Role is required'),
   consent: yup
     .boolean()
+    .required('Consent is required')
     .oneOf([true], 'You must agree to the processing of your personal data'),
   phone: yup
     .string()

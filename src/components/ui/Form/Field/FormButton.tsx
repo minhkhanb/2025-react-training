@@ -19,6 +19,7 @@ const FormButton: React.FC<FormButtonProps> = ({
   } = useFormContext();
   return (
     <button
+      disabled={isSubmitting}
       type={type}
       className={`w-full cursor-pointer py-2 mt-4 font-bold text-white bg-blue-600 rounded hover:bg-blue-700 focus:outline-none ${className}`}
     >

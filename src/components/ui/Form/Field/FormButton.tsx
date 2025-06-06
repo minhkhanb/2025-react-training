@@ -17,6 +17,7 @@ const FormButton: React.FC<FormButtonProps> = ({
   const {
     formState: { isSubmitting },
   } = useFormContext();
+
   return (
     <button
       disabled={isSubmitting}

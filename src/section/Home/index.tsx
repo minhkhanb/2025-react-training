@@ -78,7 +78,6 @@ export default function Home() {
               <FormField
                 name="firstName"
                 label="First Name"
-                id="firstName"
                 placeholder="First Name"
                 component={Input}
               />
@@ -86,14 +85,12 @@ export default function Home() {
               <FormField
                 name="email"
                 label="Email"
-                id="email"
                 placeholder="example@gmail.com"
                 component={Input}
               />
 
               <FormField
                 name="message"
-                id="message"
                 label="Your Message"
                 placeholder="Type your message here..."
                 component={TextArea}
@@ -101,7 +98,6 @@ export default function Home() {
 
               <FormField
                 name="phone"
-                id="phone"
                 label="Phone (optional)"
                 placeholder="+84 (___) ___-____"
                 type="tel"
@@ -111,7 +107,6 @@ export default function Home() {
 
               <FormField
                 name="role"
-                id="role"
                 label="Select Role"
                 options={options}
                 component={Dropdown}
@@ -119,7 +114,6 @@ export default function Home() {
 
               <FormField
                 name="consent"
-                id="consent"
                 type="checkbox"
                 label="I agree to the processing of my personal data"
                 component={Checkbox}

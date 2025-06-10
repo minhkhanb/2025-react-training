@@ -2,7 +2,7 @@ import { AxiosRequestConfig, AxiosResponse } from 'axios';
 import axiosInstance from './api';
 import { ObjectToFormData, FormDataParams } from './utils/formDataComplier';
 import { ApiErrorResponse } from './utils/errorResponse';
-import { compileParamToUrl } from './utils/urlParser';
+import { compileParamToUrl, filterQueryParams } from './utils/urlParser';
 import { METHODS, MethodType } from './constants';
 
 interface RequestOptions {
@@ -27,7 +27,7 @@ export async function request<T, D = unknown>(config: {
     const requestConfig: AxiosRequestConfig = {
       method,
       url,
-      params: queryParams,
+      params: filterQueryParams(queryParams),
       headers,
       data: useFormData ? ObjectToFormData(data as FormDataParams) : data,
     };

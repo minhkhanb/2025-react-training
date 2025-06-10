@@ -9,7 +9,7 @@ import React, {
 } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { Toast, ToastContextProps } from '@/src/@types/toast.types';
-import ToastContainer from './Toast/ToastContainer';
+import ToastContainer from '@/src/section/Example/Toast/components/ToastContainer';
 interface ToastProviderProps {
   children: ReactNode;
 }

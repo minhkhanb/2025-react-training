@@ -16,10 +16,20 @@ export default function TodoListSection() {
   const searchParams = useSearchParams();
   const currentPage = Number(searchParams.get('page')) || 1;
   const limit = Number(searchParams.get('limit')) || 5;
+  const search = searchParams.get('search') || '';
+  const sortBy = searchParams.get('sortBy') || '';
+  const sortOrder = searchParams.get('sortOrder') || '';
 
   const { isPending, isError, data, error } = useQuery<PaginatedResponse<Todo>>({
-    queryKey: ['todos', currentPage, limit],
-    queryFn: () => getTodos({ page: currentPage, limit }),
+    queryKey: ['todos', currentPage, limit, search, sortBy, sortOrder],
+    queryFn: () =>
+      getTodos({
+        page: currentPage,
+        limit,
+        search,
+        sortBy,
+        sortOrder,
+      }),
   });
 
   const [openEditModal, setOpenEditModal] = useState(false);

@@ -10,3 +10,27 @@ export function compileParamToUrl(
     return encodeURIComponent(String(params[key]));
   });
 }
+
+export function filterQueryParams(params?: Record<string, string | number>) {
+  if (!params) return {};
+  const filtered: Record<string, string | number> = {};
+
+  Object.entries(params).forEach(([key, value]) => {
+    if (value === null || value === undefined) {
+      return;
+    }
+
+    if (typeof value === 'string') {
+      if (value === '') {
+        return;
+      }
+
+      filtered[key] = value;
+      return;
+    }
+
+    filtered[key] = value;
+  });
+
+  return filtered;
+}

@@ -1,8 +1,13 @@
 import { get, post, put, del } from '@src/config/axios';
 import { Todo, TodoFormValues, PaginatedResponse } from '@src/types/todo';
 
-export const getTodos = (params: { page: number; limit: number }) =>
-  get<PaginatedResponse<Todo>>('/todos', { queryParams: params });
+export const getTodos = (params: {
+  page: number;
+  limit: number;
+  search: string;
+  sortBy: string;
+  sortOrder: string;
+}) => get<PaginatedResponse<Todo>>('/todos', { queryParams: params });
 
 export const getTodoById = (id: string) => get<Todo>('/todos/:id', { pathParams: { id } });
 

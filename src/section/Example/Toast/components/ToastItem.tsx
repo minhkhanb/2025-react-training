@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { cn } from '@/src/utils/cn';
+import { cn } from '@/src/utils';
 
 interface ToastItemProps {
   onRemove: () => void;

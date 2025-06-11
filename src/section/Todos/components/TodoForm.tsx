@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Textarea } from '@/src/components/shadcn/ui/textarea';
 import { Button } from '@/src/components/shadcn/ui/button';
 import { Input } from '@/src/components/shadcn/ui/input';
@@ -8,35 +8,47 @@ import MainForm from '@/src/components/MainForm';
 import { TodoData, todoSchema } from '../schema';
 import { UseFormReturn } from 'react-hook-form';
 import FormInput from './FormInput';
+import { useRouter } from 'next/navigation';
 
 type FormProps = {
   buttonName: string;
-  title: string;
-  subTitle: string;
-  note: string;
+  defaultValuesProps?: TodoData;
   handleSubmit: (data: TodoData) => void;
+};
+
+const defaultValues: TodoData = {
+  title: '',
+  subTitle: '',
+  note: '',
 };
 
 const TodoForm: React.FC<FormProps> = ({
   buttonName,
-  title,
-  subTitle,
-  note,
+  defaultValuesProps,
   handleSubmit,
 }) => {
+  const router = useRouter();
+
+  const [formData, setFormData] = useState<TodoData>(
+    defaultValuesProps || defaultValues
+  );
+
   const onSubmit = <T extends TodoData>(data: T, methods: UseFormReturn<T>) => {
-    handleSubmit(data);
+    const { title, subTitle } = data;
+
+    if (title.trim() && subTitle.trim()) {
+      handleSubmit(data);
+      setFormData(defaultValues);
+      router.back();
+    }
+
     methods.reset();
   };
 
   return (
     <MainForm
       onSubmit={onSubmit}
-      defaultValues={{
-        title,
-        subTitle,
-        note,
-      }}
+      defaultValues={formData}
       validationSchema={todoSchema}
     >
       <div className="flex flex-col gap-1 mt-8">

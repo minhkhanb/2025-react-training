@@ -1,6 +1,5 @@
 'use client';
 
-import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { DoorClosed } from 'lucide-react';
 import TodoForm from './TodoForm';
@@ -11,24 +10,9 @@ const AddTodo = () => {
   const { addTodo } = useTodo();
   const router = useRouter();
 
-  const [state, setState] = useState({
-    title: '',
-    subTitle: '',
-    note: '',
-  });
-
-  const handleSubmit = (data: TodoData) => {
+  const handleAddTodo = (data: TodoData) => {
     const { title, subTitle, note = '' } = data;
-
-    if (title.trim() && subTitle.trim()) {
-      addTodo(title, subTitle, note!);
-      setState({
-        title: '',
-        subTitle: '',
-        note: '',
-      });
-      router.back();
-    }
+    addTodo(title, subTitle, note!);
   };
 
   return (
@@ -44,7 +28,7 @@ const AddTodo = () => {
         share.
       </p>
 
-      <TodoForm handleSubmit={handleSubmit} buttonName="Add Todo" {...state} />
+      <TodoForm handleSubmit={handleAddTodo} buttonName="Add Todo" />
     </div>
   );
 };

@@ -1,6 +1,5 @@
 'use client';
 
-import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { DoorClosed } from 'lucide-react';
 import { useTodo } from '@/src/components/providers/TodoProvider';
@@ -9,27 +8,13 @@ import { TodoData } from '../schema';
 
 const UpdateTodo = ({ id }: { id: string }) => {
   const { updateTodo, findTodo } = useTodo();
-  const { title, subTitle, note } = findTodo(id);
   const router = useRouter();
 
-  const [state, setState] = useState({
-    title,
-    subTitle,
-    note,
-  });
+  const defaultValues = findTodo(id);
 
-  const handleSubmit = (data: TodoData) => {
+  const handleUpdateTodo = (data: TodoData) => {
     const { title, subTitle, note = '' } = data;
-
-    if (title.trim() && subTitle.trim()) {
-      updateTodo(id, title, subTitle, note!);
-      setState({
-        title: '',
-        subTitle: '',
-        note: '',
-      });
-      router.back();
-    }
+    updateTodo(id, title, subTitle, note!);
   };
 
   return (
@@ -46,9 +31,9 @@ const UpdateTodo = ({ id }: { id: string }) => {
       </p>
 
       <TodoForm
-        handleSubmit={handleSubmit}
+        handleSubmit={handleUpdateTodo}
+        defaultValuesProps={defaultValues}
         buttonName="Update Todo"
-        {...state}
       />
     </div>
   );

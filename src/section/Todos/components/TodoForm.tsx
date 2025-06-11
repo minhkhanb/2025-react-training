@@ -1,20 +1,20 @@
 'use client';
 
 import React from 'react';
-import { Label } from '@/src/components/shadcn/ui/label';
 import { Textarea } from '@/src/components/shadcn/ui/textarea';
 import { Button } from '@/src/components/shadcn/ui/button';
 import { Input } from '@/src/components/shadcn/ui/input';
+import MainForm from '@/src/components/MainForm';
+import { TodoData, todoSchema } from '../schema';
+import { UseFormReturn } from 'react-hook-form';
+import FormInput from './FormInput';
 
 type FormProps = {
   buttonName: string;
   title: string;
   subTitle: string;
   note: string;
-  handleChange: (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => void;
-  handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  handleSubmit: (data: TodoData) => void;
 };
 
 const TodoForm: React.FC<FormProps> = ({
@@ -22,50 +22,47 @@ const TodoForm: React.FC<FormProps> = ({
   title,
   subTitle,
   note,
-  handleChange,
   handleSubmit,
 }) => {
+  const onSubmit = <T extends TodoData>(data: T, methods: UseFormReturn<T>) => {
+    handleSubmit(data);
+    methods.reset();
+  };
+
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-6 mt-8">
-      <div className="flex flex-col gap-2">
-        <Label htmlFor="title">Title</Label>
-        <Input
-          id="title"
+    <MainForm
+      onSubmit={onSubmit}
+      defaultValues={{
+        title,
+        subTitle,
+        note,
+      }}
+      validationSchema={todoSchema}
+    >
+      <div className="flex flex-col gap-1 mt-8">
+        <FormInput
           name="title"
-          placeholder="Enter title"
-          value={title}
-          onChange={handleChange}
-          required
+          label="Title"
+          placeholder="Enter Title"
+          component={Input}
         />
-      </div>
-
-      <div className="flex flex-col gap-2">
-        <Label htmlFor="subTitle">Sub Title</Label>
-        <Input
-          id="subTitle"
+        <FormInput
           name="subTitle"
-          placeholder="Enter subtitle"
-          value={subTitle}
-          onChange={handleChange}
-          required
+          label="SubTitle"
+          placeholder="Enter Sub Title"
+          component={Input}
         />
-      </div>
-
-      <div className="flex flex-col gap-2">
-        <Label htmlFor="note">Note</Label>
-        <Textarea
-          id="note"
+        <FormInput
           name="note"
-          placeholder="Enter note"
-          value={note}
-          onChange={handleChange}
+          label="Note"
+          placeholder="Enter Note"
+          component={Textarea}
         />
+        <Button type="submit" className="mt-4 w-full cursor-pointer">
+          {buttonName}
+        </Button>
       </div>
-
-      <Button type="submit" className="mt-4 w-full cursor-pointer">
-        {buttonName}
-      </Button>
-    </form>
+    </MainForm>
   );
 };
 

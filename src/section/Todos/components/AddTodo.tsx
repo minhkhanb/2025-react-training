@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { DoorClosed } from 'lucide-react';
 import TodoForm from './TodoForm';
 import { useTodo } from '@/src/components/providers/TodoProvider';
+import { TodoData } from '../schema';
 
 const AddTodo = () => {
   const { addTodo } = useTodo();
@@ -16,22 +17,11 @@ const AddTodo = () => {
     note: '',
   });
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setState(prev => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const { title, subTitle, note } = state;
+  const handleSubmit = (data: TodoData) => {
+    const { title, subTitle, note = '' } = data;
 
     if (title.trim() && subTitle.trim()) {
-      addTodo(title, subTitle, note);
+      addTodo(title, subTitle, note!);
       setState({
         title: '',
         subTitle: '',
@@ -54,12 +44,7 @@ const AddTodo = () => {
         share.
       </p>
 
-      <TodoForm
-        handleChange={handleChange}
-        handleSubmit={handleSubmit}
-        buttonName="Add Todo"
-        {...state}
-      />
+      <TodoForm handleSubmit={handleSubmit} buttonName="Add Todo" {...state} />
     </div>
   );
 };

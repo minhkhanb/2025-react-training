@@ -1,8 +1,8 @@
 'use client';
 
-import { cn } from '@/src/utils/cn';
+import { useToast } from '@/src/components/providers/ToastProvider';
+import { cn } from '@/src/utils';
 import { ToastButtonTypes } from '@/src/@types/toast.types';
-import { useToast } from '../ToastProvider';
 
 const ToastButton: React.FC<ToastButtonTypes> = ({
   type,

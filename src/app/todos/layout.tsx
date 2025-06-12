@@ -1,4 +1,4 @@
-import { TodoProviders } from '../providers';
+import { TodoProvider } from '@/src/components/providers/TodoProvider';
 
 const TodosLayout = ({
   children,
@@ -8,10 +8,10 @@ const TodosLayout = ({
   todo: React.ReactNode;
 }) => {
   return (
-    <TodoProviders>
+    <TodoProvider>
       {children}
       {todo}
-    </TodoProviders>
+    </TodoProvider>
   );
 };
 

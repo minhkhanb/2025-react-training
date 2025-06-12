@@ -3,16 +3,20 @@ import { FieldValues, Path } from 'react-hook-form';
 import { Label } from '@/src/components/shadcn/ui/label';
 import { FormField } from '@/src/components/ui/Form';
 
+type InputType = 'shadcnCheckbox' | 'shadcnSelect';
+
 type FormInputProps<TFieldValues extends FieldValues> = {
   name: Path<TFieldValues>;
   label: string;
-  placeholder: string;
+  input?: InputType;
+  placeholder?: string;
   component: ElementType;
 };
 
 const FormInput = <TFieldValues extends FieldValues>({
   name,
   label,
+  input,
   placeholder,
   component,
 }: FormInputProps<TFieldValues>) => {
@@ -21,7 +25,12 @@ const FormInput = <TFieldValues extends FieldValues>({
       <Label htmlFor={name as string} className="mb-1 block">
         {label}
       </Label>
-      <FormField name={name} placeholder={placeholder} component={component} />
+      <FormField
+        name={name}
+        input={input}
+        placeholder={placeholder}
+        component={component}
+      />
     </div>
   );
 };

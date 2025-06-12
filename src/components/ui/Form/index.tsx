@@ -2,6 +2,7 @@ import React, {
   ComponentPropsWithoutRef,
   createElement,
   ElementType,
+  useEffect,
 } from 'react';
 import {
   useForm,
@@ -35,6 +36,12 @@ const Form = <T extends FieldValues>({
     defaultValues,
     resolver: validationSchema ? yupResolver(validationSchema) : undefined,
   });
+
+  useEffect(() => {
+    if (defaultValues) {
+      methods.reset(defaultValues);
+    }
+  }, [defaultValues, methods]);
 
   return (
     <FormProvider {...methods}>
@@ -74,7 +81,14 @@ const FormField = <
           createElement(component, {
             ...rest,
             ...field,
-            ...(rest.type === 'checkbox' && { checked: field.value }),
+            ...(rest.type === 'checkbox' && {
+              checked: field.value,
+              onChange: field.onChange,
+            }),
+            ...(rest.input === 'shadcnCheckbox' && {
+              checked: field.value,
+              onCheckedChange: field.onChange,
+            }),
           })
         }
       />

@@ -81,7 +81,14 @@ const FormField = <
           createElement(component, {
             ...rest,
             ...field,
-            ...(rest.type === 'checkbox' && { checked: field.value }),
+            ...(rest.type === 'checkbox' && {
+              checked: field.value,
+              onChange: field.onChange,
+            }),
+            ...(rest.input === 'shadcnCheckbox' && {
+              checked: field.value,
+              onCheckedChange: field.onChange,
+            }),
           })
         }
       />

@@ -2,12 +2,11 @@
 
 import { FC, memo } from 'react';
 import * as yup from 'yup';
+import MainForm from '@/src/components/MainForm';
+import FormInput from './FormInput';
 import { Textarea } from '@/src/components/shadcn/ui/textarea';
 import { Button } from '@/src/components/shadcn/ui/button';
 import { Input } from '@/src/components/shadcn/ui/input';
-import MainForm from '@/src/components/MainForm';
-import { UseFormReturn } from 'react-hook-form';
-import FormInput from './FormInput';
 
 const todoSchema = yup.object({
   title: yup
@@ -34,14 +33,12 @@ const defaultValues: TodoData = {
 const TodoForm: FC<FormProps> = ({ defaultValuesProps, handleSubmit }) => {
   const mergedDefaultValues = defaultValuesProps ?? defaultValues;
 
-  const onSubmit = <T extends TodoData>(data: T, methods: UseFormReturn<T>) => {
+  const onSubmit = (data: TodoData) => {
     const { title, subTitle } = data;
 
     if (title.trim() && subTitle.trim()) {
       handleSubmit(data);
     }
-
-    methods.reset();
   };
 
   return (

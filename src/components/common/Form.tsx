@@ -72,6 +72,7 @@ export interface FieldComponentProps<T = string> {
   disabled?: boolean;
   placeholder?: string;
   options?: OptionType[];
+  type?: string;
 }
 
 interface FieldProps<T extends FieldValues, C = string> {
@@ -84,6 +85,7 @@ interface FieldProps<T extends FieldValues, C = string> {
   placeholder?: string;
   options?: OptionType[];
   autoFocus?: boolean;
+  type?: string;
 }
 
 function Field<T extends FieldValues, C = string>({

@@ -27,11 +27,19 @@ export const errorInterceptor = (
         return Promise.reject(createErrorResponse(error));
       }
 
-      if (error.response?.status === 401 && !originalRequest._retry) {
-        try {
-          return await handleTokenRefresh(originalRequest, axiosInstance);
-        } catch (_refreshError) {
+      const isLoginRequest = originalRequest.url?.includes('/auth/login');
+
+      if (error.response?.status === 401) {
+        if (isLoginRequest) {
           return Promise.reject(createErrorResponse(error));
+        }
+
+        if (!originalRequest._retry) {
+          try {
+            return await handleTokenRefresh(originalRequest, axiosInstance);
+          } catch (_refreshError) {
+            return Promise.reject(createErrorResponse(error));
+          }
         }
       }
 

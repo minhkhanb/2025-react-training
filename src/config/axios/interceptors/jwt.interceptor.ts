@@ -6,16 +6,10 @@ export const jwtRequestInterceptor = (
 ) => {
   request.use(
     (config: InternalAxiosRequestConfig) => {
-      const token = tokenManager.getAccessToken();
+      const csrfToken = tokenManager.getCsrfToken();
 
-      if (token) {
-        return {
-          ...config,
-          headers: {
-            ...config.headers,
-            Authorization: `Bearer ${token}`,
-          },
-        } as InternalAxiosRequestConfig;
+      if (csrfToken) {
+        config.headers.set('X-CSRF-Token', csrfToken);
       }
 
       return config;

@@ -1,25 +1,26 @@
-import { TOKEN_KEYS } from '../constants';
+import { TOKEN_KEYS } from '@src/config/axios/constants';
 
-export const tokenManager = {
-  getAccessToken: (): string | null => {
-    if (typeof window === 'undefined') return null;
-    return localStorage.getItem(TOKEN_KEYS.ACCESS_TOKEN);
-  },
+class TokenManager {
+  getAccessToken(): string | null {
+    return this.getCookie(TOKEN_KEYS.ACCESS_TOKEN);
+  }
 
-  getRefreshToken: (): string | null => {
-    if (typeof window === 'undefined') return null;
-    return localStorage.getItem(TOKEN_KEYS.REFRESH_TOKEN);
-  },
+  getRefreshToken(): string | null {
+    return this.getCookie(TOKEN_KEYS.REFRESH_TOKEN);
+  }
 
-  setTokens: (accessToken: string, refreshToken: string): void => {
-    if (typeof window === 'undefined') return;
-    localStorage.setItem(TOKEN_KEYS.ACCESS_TOKEN, accessToken);
-    localStorage.setItem(TOKEN_KEYS.REFRESH_TOKEN, refreshToken);
-  },
+  getCsrfToken(): string | null {
+    return this.getCookie(TOKEN_KEYS.CSRF_TOKEN);
+  }
 
-  removeTokens: (): void => {
-    if (typeof window === 'undefined') return;
-    localStorage.removeItem(TOKEN_KEYS.ACCESS_TOKEN);
-    localStorage.removeItem(TOKEN_KEYS.REFRESH_TOKEN);
-  },
-};
+  private getCookie(name: string): string | null {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) {
+      return parts.pop()?.split(';').shift() || null;
+    }
+    return null;
+  }
+}
+
+export const tokenManager = new TokenManager();

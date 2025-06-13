@@ -1,5 +1,7 @@
-import { Todo } from '@src/types/todo';
 import { create } from 'zustand';
+import { devtools, persist, createJSONStorage, StateStorage } from 'zustand/middleware';
+import { immer } from 'zustand/middleware/immer';
+import { Todo } from '@src/types/todo';
 
 type TodoStore = {
   todos: Todo[];
@@ -8,18 +10,53 @@ type TodoStore = {
   removeTodo: (id: string) => void;
 };
 
-export const useTodoStore = create<TodoStore>(set => ({
-  todos: [],
+const mockStorage: StateStorage = {
+  getItem: () => null,
+  setItem: () => {},
+  removeItem: () => {},
+};
 
-  addTodo: todo => {
-    set(state => ({ todos: [...state.todos, todo] }));
-  },
-
-  updateTodo: todo => {
-    set(state => ({ todos: state.todos.map(t => (t.id === todo.id ? todo : t)) }));
-  },
-
-  removeTodo: id => {
-    set(state => ({ todos: state.todos.filter(t => t.id !== id) }));
-  },
-}));
+export const useTodoStore = create<TodoStore>()(
+  devtools(
+    persist(
+      immer(set => ({
+        todos: [],
+        addTodo: todo =>
+          set(
+            state => {
+              state.todos.push(todo);
+            },
+            false,
+            { type: 'addTodo', todo }
+          ),
+        updateTodo: todo =>
+          set(
+            state => {
+              const index = state.todos.findIndex(t => t.id === todo.id);
+              if (index !== -1) state.todos[index] = todo;
+            },
+            false,
+            { type: 'updateTodo', todo }
+          ),
+        removeTodo: id =>
+          set(
+            state => {
+              state.todos = state.todos.filter(t => t.id !== id);
+            },
+            false,
+            { type: 'removeTodo', id }
+          ),
+      })),
+      {
+        name: 'todo-store',
+        storage: createJSONStorage(() =>
+          typeof window !== 'undefined' ? localStorage : mockStorage
+        ),
+      }
+    ),
+    {
+      name: 'todo-store',
+      enabled: process.env.NODE_ENV === 'development',
+    }
+  )
+);

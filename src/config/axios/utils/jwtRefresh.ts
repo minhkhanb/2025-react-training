@@ -26,29 +26,24 @@ function processQueue(error: unknown, token: string | null = null) {
 async function refreshAccessToken(axiosInstance: AxiosInstance) {
   const refreshToken = tokenManager.getRefreshToken();
   if (!refreshToken) throw new Error('No refresh token available');
+
   try {
-    const response = await axiosInstance.post(JWT_REFRESH_CONFIG.REFRESH_TOKEN_ENDPOINT, {
-      refreshToken,
-    });
-    const { accessToken, refreshToken: newRefreshToken } = response.data;
-    tokenManager.setTokens(accessToken, newRefreshToken);
-    return { accessToken, refreshToken: newRefreshToken };
+    await axiosInstance.post(JWT_REFRESH_CONFIG.REFRESH_TOKEN_ENDPOINT);
+    return true;
   } catch (error) {
-    tokenManager.removeTokens();
     throw error;
   }
 }
 
-function logout() {
-  tokenManager.removeTokens();
-  if (typeof window !== 'undefined') {
-    window.location.href = JWT_REFRESH_CONFIG.LOGIN_REDIRECT_PATH;
-  }
-}
-
-function setAuthHeader(config: RetryableRequestConfig, token: string) {
-  if (config.headers) {
-    config.headers.Authorization = `Bearer ${token}`;
+async function logout(axiosInstance: AxiosInstance) {
+  try {
+    await axiosInstance.post(JWT_REFRESH_CONFIG.LOGOUT_ENDPOINT);
+  } catch (error) {
+    console.error('Logout failed:', error);
+  } finally {
+    if (typeof window !== 'undefined') {
+      window.location.href = JWT_REFRESH_CONFIG.LOGIN_REDIRECT_PATH;
+    }
   }
 }
 
@@ -59,8 +54,7 @@ export async function handleTokenRefresh(
   if (isRefreshing) {
     return new Promise((resolve, reject) => {
       failedQueue.push({ resolve, reject });
-    }).then(token => {
-      setAuthHeader(originalRequest, token as string);
+    }).then(() => {
       return axiosInstance(originalRequest);
     });
   }
@@ -69,13 +63,12 @@ export async function handleTokenRefresh(
   isRefreshing = true;
 
   try {
-    const { accessToken } = await refreshAccessToken(axiosInstance);
-    setAuthHeader(originalRequest, accessToken);
-    processQueue(null, accessToken);
+    await refreshAccessToken(axiosInstance);
+    processQueue(null, null);
     return axiosInstance(originalRequest);
   } catch (refreshError) {
     processQueue(refreshError, null);
-    logout();
+    await logout(axiosInstance);
     throw refreshError;
   } finally {
     isRefreshing = false;

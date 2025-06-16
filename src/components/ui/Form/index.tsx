@@ -38,7 +38,7 @@ const Form = <T extends FieldValues>({
   });
 
   useEffect(() => {
-    if (defaultValues) {
+    if (defaultValues && !methods.formState.isDirty) {
       methods.reset(defaultValues);
     }
   }, [defaultValues, methods]);
@@ -81,14 +81,6 @@ const FormField = <
           createElement(component, {
             ...rest,
             ...field,
-            ...(rest.type === 'checkbox' && {
-              checked: field.value,
-              onChange: field.onChange,
-            }),
-            ...(rest.input === 'shadcnCheckbox' && {
-              checked: field.value,
-              onCheckedChange: field.onChange,
-            }),
           })
         }
       />

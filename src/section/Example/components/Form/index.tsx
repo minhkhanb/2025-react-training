@@ -86,7 +86,6 @@ const Form = () => {
 
             <FormField
               name="consent"
-              type="checkbox"
               label="I agree to the processing of my personal data"
               component={Checkbox}
             />

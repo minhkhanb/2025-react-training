@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import { ToastProviders } from './providers';
+import { QueryProvider } from '../components/providers/QueryProvider';
 import DashboardLayout from '../components/layouts/DashboardLayout';
 import './globals.css';
 
@@ -29,9 +30,11 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ToastProviders>
-          <DashboardLayout>{children}</DashboardLayout>
-        </ToastProviders>
+        <QueryProvider>
+          <ToastProviders>
+            <DashboardLayout>{children}</DashboardLayout>
+          </ToastProviders>
+        </QueryProvider>
       </body>
     </html>
   );

@@ -4,16 +4,18 @@ import React, { forwardRef } from 'react';
 
 interface CheckboxProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string;
+  value?: string;
   error?: string;
+  name: string;
 }
 
 const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
-  ({ label, error, id, ...rest }, ref) => {
+  ({ label, error, name, value, ...rest }, ref) => {
     return (
       <div className="flex flex-col items-start mt-4">
         <div className="flex items-center">
           <input
-            id={id}
+            checked={Boolean(value)}
             ref={ref}
             type="checkbox"
             {...rest}
@@ -22,8 +24,8 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
             }`}
           />
 
-          <label htmlFor={id} className="select-none text-gray-700">
-            {label}
+          <label htmlFor={name} className="select-none text-gray-700">
+            {label} {value}
             <span className="text-red-500 ml-1">*</span>
           </label>
         </div>
